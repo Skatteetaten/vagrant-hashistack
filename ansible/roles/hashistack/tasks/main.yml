@@ -1,0 +1,46 @@
+- name: Create HashiCorp gpg file
+  copy:
+    src: hashicorp.asc
+    dest: "/tmp/hashicorp.asc"
+    force: false
+  register: gpg_file
+
+- name: Install Hashicorp gpg file
+  command: "gpg --import {{ gpg_file.dest }}"
+  when: gpg_file.dest
+
+- name: Create /tmp/hashicorp/
+  file:
+    path: /tmp/hashicorp
+    state: directory
+  when: gpg_file.dest
+
+- name: "{{ software }} : {{ version }} - Download checksum"
+  get_url:
+    url: "https://releases.hashicorp.com/{{ software }}/{{ version }}/{{ software }}_{{ version }}_SHA256SUMS"
+    dest: "/tmp/hashicorp/{{ software }}_{{ version }}_SHA256SUMS"
+
+- name: "{{ software }} : {{ version }} - Download checksum signature"
+  get_url:
+    url: "https://releases.hashicorp.com/{{ software }}/{{ version }}/{{ software }}_{{ version }}_SHA256SUMS.sig"
+    dest: "/tmp/hashicorp/{{ software }}_{{ version }}_SHA256SUMS.sig"
+
+- name: "{{ software }} : {{ version }} - Verify checksum and signature"
+  command: "gpg --verify /tmp/hashicorp/{{ software }}_{{ version }}_SHA256SUMS.sig /tmp/hashicorp/{{ software }}_{{ version }}_SHA256SUMS"
+
+- name: "{{ software }} : {{ version }} - Download software"
+  get_url:
+    url: "https://releases.hashicorp.com/{{ software }}/{{ version }}/{{ software }}_{{ version }}_linux_amd64.zip"
+    dest: "/tmp/hashicorp/{{ software }}_{{ version }}_linux_amd64.zip"
+
+- name: "{{ software }} : {{ version }} - Verify software"
+  command: "sha256sum --ignore-missing -c {{ software }}_{{ version }}_SHA256SUMS"
+  args:
+    chdir: "/tmp/hashicorp"
+
+- name: "{{ software }} : {{ version }} - Install software"
+  unarchive:
+    dest: "{{ destination_dir }}"
+    mode: "a+x"
+    src: "/tmp/hashicorp/{{ software }}_{{ version }}_linux_amd64.zip"
+

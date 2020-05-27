@@ -1,0 +1,15 @@
+hashicorp:
+  daemons:
+    - consul
+    - nomad
+  tools:
+    terraform: 0.12.25
+    consul-template: 0.25.0
+    consul: 1.8.0-beta2
+    vault: 1.4.2
+    nomad: 0.11.2
+    packer: 1.5.6
+ansible:
+  galaxy:
+    roles:
+      - geerlingguy.docker
