@@ -1,7 +1,7 @@
 [Unit]
 Description=nomad agent
 Requires=network-online.target
-After=network-online.target
+After=network-online.target consul.service
 
 [Service]
 EnvironmentFile=-/etc/sysconfig/nomad

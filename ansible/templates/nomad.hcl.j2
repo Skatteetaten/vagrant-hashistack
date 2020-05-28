@@ -3,5 +3,15 @@ consul {
     token = "b6e29626-e23d-98b4-e19f-c71a96fbdef7"
     address = "127.0.0.1:8500"
 }
-#bind_addr = "{{ GetInterfaceIP \"docker0\" }}"
+
+advertise {
+    http = "{{ GetInterfaceIP \"eth1\" }}"
+    rpc  = "{{ GetInterfaceIP \"eth1\" }}"
+    serf  = "{{ GetInterfaceIP \"eth1\" }}"
+}
+
+client {
+    enabled = true
+    network_interface = "eth1"
+}
 {%- endraw %}

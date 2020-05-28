@@ -15,6 +15,7 @@ build {
   provisioner "shell" {
     inline = [
       "sudo apt-get update",
+      #"DEBIAN_FRONTEND=noninteractive sudo apt-get -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confold\" upgrade",
       "sudo apt-get install python3-distutils -y && curl -k -s https://bootstrap.pypa.io/get-pip.py | sudo python3",
       "sudo pip install ansible"
     ]

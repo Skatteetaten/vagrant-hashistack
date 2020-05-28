@@ -3,7 +3,7 @@ hashicorp:
     - consul
     - nomad
   tools:
-    terraform: 0.12.25
+    terraform: 0.12.26
     consul-template: 0.25.0
     consul: 1.8.0-beta2
     vault: 1.4.2

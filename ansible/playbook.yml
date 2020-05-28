@@ -2,11 +2,11 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Update apt-get repo and cache
-      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+#    - name: Update apt-get repo and cache
+#      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
 
-    - name: Upgrade all apt packages
-      apt: upgrade=dist force_apt_get=yes
+#    - name: Upgrade all apt packages
+#      apt: upgrade=dist force_apt_get=yes
 
     - name: Install unzip
       apt: pkg=unzip state=latest
@@ -33,8 +33,8 @@
       template: src={{item}}.hcl.j2 dest=/etc/{{item}}.d/config.hcl
       loop: "{{ hashicorp.daemons }}"
 
-    - name: "start"
-      systemd: state=started name={{item}} daemon_reload=yes
+    - name: "start on boot"
+      systemd: state=started enabled=yes name={{item}} daemon_reload=yes
       loop: "{{ hashicorp.daemons }}"
 
     - name: Install hashistack

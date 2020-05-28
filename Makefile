@@ -4,7 +4,7 @@ PACKER_VERSION = 1.5.6
 VIRTUALBOX_VERSION = 6.1.8
 VIRTUALBOX_FULLNAME = virtualbox-6.1_6.1.8-137981~Ubuntu~bionic_amd64.deb
 
-.ONESHELL .PHONY: stop_hashistack_virtualbox install_vagrant configure_vagrant install_packer install_virtualbox versions build
+.ONESHELL .PHONY: stop_hashistack_virtualbox install_vagrant configure_vagrant install_packer install_virtualbox versions build test
 .DEFAULT_GOAL := build
 
 install: install_virtualbox install_gpg install_vagrant configure_vagrant install_packer versions
@@ -55,4 +55,7 @@ install_packer:
 
 build:
 	#REMEMBER TO SET VAGRANT_CLOUD_TOKEN
-	(cd packer; packer build -force .)
+	(cd packer; rm -rf output-hashistack; packer build -force .)
+
+test:
+	$(MAKE) -C test test
