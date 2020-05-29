@@ -18,11 +18,12 @@ stop_hashistack_virtualbox:
 	VBoxManage controlvm "hashistack" acpipowerbutton | true
 	sleep 15 # Wait for daemon to complete
 
-install_virtualbox: stop_hashistack_virtualbox
+install_virtualbox:
 	curl -L -s https://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/SHA256SUMS -o /var/tmp/virtualbox_SHA256SUMS
 	curl -L -s https://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/${VIRTUALBOX_FULLNAME} -o /var/tmp/${VIRTUALBOX_FULLNAME}
 	(cd /var/tmp; sha256sum --ignore-missing -c virtualbox_SHA256SUMS)
 	sudo dpkg -i /var/tmp/${VIRTUALBOX_FULLNAME}
+	sudo apt --fix-broken install -y
 	rm /var/tmp/virtualbox_SHA256SUMS /var/tmp/${VIRTUALBOX_FULLNAME}
 
 install_gpg:
