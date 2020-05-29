@@ -1,12 +1,15 @@
 [Unit]
 Description=nomad agent
 Requires=network-online.target
-After=network-online.target consul.service
+Wants=network-online.target
+After=network-online.target sys-subsystem-net-devices-eth1.device consul.service
+BindsTo=sys-subsystem-net-devices-eth1.device
 
 [Service]
 EnvironmentFile=-/etc/sysconfig/nomad
 Environment=GOMAXPROCS=2
 Restart=on-failure
+ExecStartPre=/bin/sleep 10
 ExecStart=/usr/local/bin/nomad agent -dev-connect -config=/etc/nomad.d $OPTIONS
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT

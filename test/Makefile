@@ -11,8 +11,8 @@ clean:
 	vagrant destroy -f
 
 test_nomad_job:
-	nomad run countdash.hcl
+	vagrant ssh -c 'cd /vagrant; nomad run countdash.hcl'
 	sleep 10
-	nomad job status countdash
+	vagrant ssh -c 'nomad status countdash.'
 
 test: clean run test_nomad_job

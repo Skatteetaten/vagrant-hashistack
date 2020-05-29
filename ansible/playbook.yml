@@ -34,7 +34,7 @@
       loop: "{{ hashicorp.daemons }}"
 
     - name: "start on boot"
-      systemd: state=started enabled=yes name={{item}} daemon_reload=yes
+      systemd: enabled=yes name={{item}} daemon_reload=yes
       loop: "{{ hashicorp.daemons }}"
 
     - name: Install hashistack
