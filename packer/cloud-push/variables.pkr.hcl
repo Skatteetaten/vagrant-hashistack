@@ -1,3 +1,3 @@
 variable version {
-  default = "0.0.1-alpha7"
+  default = "0.0.1-alpha8"
 }
