@@ -54,11 +54,11 @@ install_packer:
 	rm /var/tmp/packer_SHA256SUMS /var/tmp/packer_SHA256SUMS.sig /var/tmp/packer_${PACKER_VERSION}_linux_amd64.zip
 
 build:
-	(cd packer; rm -rf output-hashistack; packer build -force -except=vagrant-cloud .)
+	(cd packer; rm -rf output-hashistack; packer build -force .)
 
 build_push:
 	#REMEMBER TO SET VAGRANT_CLOUD_TOKEN
-	(cd packer; rm -rf output-hashistack; packer build -force .)
+	(cd packer; rm -rf output-hashistack; packer build -force cloud-push)
 
 test:
 	$(MAKE) -C test test

@@ -9,7 +9,7 @@ BindsTo=sys-subsystem-net-devices-eth1.device
 EnvironmentFile=-/etc/sysconfig/nomad
 Environment=GOMAXPROCS=2
 Restart=on-failure
-ExecStartPre=/bin/sleep 10
+ExecStartPre=/bin/sleep 30
 ExecStart=/usr/local/bin/nomad agent -dev-connect -config=/etc/nomad.d $OPTIONS
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
