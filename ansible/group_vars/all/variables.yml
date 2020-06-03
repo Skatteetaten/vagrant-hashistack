@@ -13,3 +13,5 @@ ansible:
   galaxy:
     roles:
       - geerlingguy.docker
+docker_users:
+  - vagrant
