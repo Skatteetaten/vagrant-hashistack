@@ -2,8 +2,8 @@
 
 # v0.0.1 - First changelog
 
-#####Added:
+##### Added:
 - Include changelog
-#####Fixed:
+##### Fixed:
 - Add vagrant in docker group #2
     
