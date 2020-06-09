@@ -1,3 +1,3 @@
 variable version {
-  default = "0.0.2"
+  # Please set env variable: PKR_VAR_version
 }
