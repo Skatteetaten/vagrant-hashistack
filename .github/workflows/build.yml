@@ -12,6 +12,16 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      # Show versions
+      - name: Versions on runner
+        run: make versions
+
       # Runs make build
       - name: Run make build
         run: make build
+
+      - name: Make box avaiable as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: hashistack.box
+          path: packer/output-hashistack/package.box
