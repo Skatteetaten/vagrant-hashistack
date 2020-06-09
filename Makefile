@@ -1,8 +1,5 @@
-branch = $(shell git rev-parse --abbrev-ref HEAD)
-VAGRANT_VERSION = 2.2.9
-PACKER_VERSION = 1.5.6
-VIRTUALBOX_VERSION = 6.1.8
-VIRTUALBOX_FULLNAME = virtualbox-6.1_6.1.8-137981~Ubuntu~bionic_amd64.deb
+include .env
+export
 
 .ONESHELL .PHONY: stop_hashistack_virtualbox install_vagrant configure_vagrant install_packer install_virtualbox versions build test
 .DEFAULT_GOAL := build
