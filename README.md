@@ -1,3 +1,4 @@
+![Build vagrantbox](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Build%20vagrantbox/badge.svg)
 # vagrant-hashistack
 ### WARNING: Under heavy development. Do not use.
 ### TL;DR
