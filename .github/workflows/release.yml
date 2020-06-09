@@ -1,0 +1,19 @@
+name: Publish vagrantbox
+
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    # Macos includes virtualbox and vagrant.
+    runs-on: macos-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs make build
+      - name: Run make build_push and release vagrant box
+        env:
+          VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
+        run: make build_push
