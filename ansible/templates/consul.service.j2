@@ -1,7 +1,7 @@
 [Unit]
 Description=consul agent
-Requires=network-online.target
-After=network-online.target
+Requisite=network-online.target sys-subsystem-net-devices-eth1.device
+After=network-online.target sys-subsystem-net-devices-eth1.device
 
 [Service]
 EnvironmentFile=-/etc/sysconfig/consul
