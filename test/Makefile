@@ -1,22 +1,15 @@
 include .env
 export
 
-.ONESHELL .PHONY: test clean add_local_box test_nomad_job run
-.DEFAULT_GOAL := run
+.ONESHELL .PHONY: test clean up
+.DEFAULT_GOAL := test
 
-add_local_box:
-	vagrant box add ../packer/output-hashistack/package.box --name local/hashistack --force
-
-run: add_local_box
-	vagrant up
+up:
+	vagrant up --provision
 
 clean:
 	vagrant destroy -f
+	vagrant box remove local/hashistack --force || true
+	rm -f terraform.tfstate terraform.tfstate.backup
 
-test_nomad_job:
-	sleep 30
-	vagrant ssh -c 'cd /vagrant; nomad run countdash.hcl'
-	sleep 10
-	vagrant ssh -c 'nomad status countdash.'
-
-test: clean run test_nomad_job
+test: clean up clean
