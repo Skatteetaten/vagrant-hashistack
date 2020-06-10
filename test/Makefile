@@ -1,3 +1,6 @@
+include .env
+export
+
 .ONESHELL .PHONY: test clean add_local_box test_nomad_job run
 .DEFAULT_GOAL := run
 
