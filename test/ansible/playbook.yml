@@ -14,6 +14,7 @@
     - name: Terraform
       terraform:
         project_path: ../terraform
+        force_init: true
         state: present
       register: terraform
 
