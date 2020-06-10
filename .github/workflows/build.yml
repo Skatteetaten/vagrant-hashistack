@@ -1,4 +1,4 @@
-name: Build vagrantbox
+name: Build
 
 on:
   pull_request:
@@ -21,7 +21,27 @@ jobs:
         run: make build
 
       - name: Make box avaiable as artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
-          name: hashistack.box
+          name: vagrantbox
           path: packer/output-hashistack/package.box
+  test:
+    needs: build
+    # Macos includes virtualbox and vagrant.
+    runs-on: macos-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: vagrantbox
+          path: packer/output-hashistack
+
+      - name: Display structure of downloaded files
+        run: ls -R packer/output-hashistack
+
+      # Runs make test
+      - name: Run make test
+        run: make test

@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Wait for nomad to be available
+      uri:
+        url: http://127.0.0.1:4646/v1/jobs
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 3
+
+    - name: Terraform
+      terraform:
+        project_path: ../terraform
+        force_init: true
+        state: present
+      register: terraform
+
+    - name: Terraform stdout
+      debug:
+        msg: "{{terraform.stdout}}"

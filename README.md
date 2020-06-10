@@ -1,4 +1,4 @@
-![Build vagrantbox](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Build%20vagrantbox/badge.svg) ![Publish vagrantbox](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Publish%20vagrantbox/badge.svg)
+![Build](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Build/badge.svg) ![Test](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Test/badge.svg) ![Publish](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Publish/badge.svg)
 # vagrant-hashistack
 ### WARNING: Under heavy development. Do not use.
 ### TL;DR
@@ -7,9 +7,9 @@ This vagrant box aims to make it dead simple to start a hashistack in a "product
 ## Build & Test
 `make install` will download and install all prerequisites (virtualbox, vagrant) You may want to reboot now!
 
-`make build` will build a vagrant box based on hashicorp/bionic64 and push it to [fredrikhgrelland/hashistack](https://app.vagrantup.com/fredrikhgrelland/boxes/hashistack)
+`make build` will build a vagrant box based on hashicorp/bionic64 
 
-`make build_push` will build and push to vagrant cloud. Requires environment variable VAGRANT_CLOUD_TOKEN to be set.
+`make build_push` will build and push it to [fredrikhgrelland/hashistack](https://app.vagrantup.com/fredrikhgrelland/boxes/hashistack). Requires environment variable VAGRANT_CLOUD_TOKEN to be set.
 
 `make test` (dependent on a prior `make build`) will add the built box as local/hashistack, run it and start the [countdash](https://www.nomadproject.io/docs/integrations/consul-connect/) consul-connect example.
 

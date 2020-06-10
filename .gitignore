@@ -1,3 +1,5 @@
 .vagrant
 .idea
 packer/output-hashistack
+terraform.tfstate*
+.terraform

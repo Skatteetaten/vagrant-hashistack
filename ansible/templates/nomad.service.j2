@@ -1,9 +1,7 @@
 [Unit]
 Description=nomad agent
-Requires=network-online.target
-Wants=network-online.target
-After=network-online.target sys-subsystem-net-devices-eth1.device consul.service
-BindsTo=sys-subsystem-net-devices-eth1.device
+Requisite=consul.service
+After=consul.service
 
 [Service]
 EnvironmentFile=-/etc/sysconfig/nomad
