@@ -1,4 +1,4 @@
-![Build](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Build/badge.svg) ![Test](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Test/badge.svg) ![Publish](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Publish/badge.svg)
+![Build](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Build/badge.svg) ![Publish](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Publish/Release/badge.svg)
 # vagrant-hashistack
 ### WARNING: Under heavy development. Do not use.
 ### TL;DR
