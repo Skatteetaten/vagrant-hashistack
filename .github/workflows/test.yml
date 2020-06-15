@@ -16,11 +16,13 @@ jobs:
       - name: Versions on runner
         run: make versions
 
-      - uses: satak/webrequest-action@v1.2.3
-        with:
-          url: https://app.vagrantup.com/api/v1/box/fredrikhgrelland/hashistack
-          method: GET
+      - name: webhook
+        id: vagrant_cloud
+        uses: satak/webrequest-action@v1.2.3
+          with:
+            url: https://app.vagrantup.com/api/v1/box/fredrikhgrelland/hashistack
+            method: GET
 
       - name: Print current version of vagrantbox
         run: |
-          echo ${{fromJson(steps.webhook.outputs.output)}}
+          echo "${{fromJson(steps.vagrant_cloud.outputs.output).statusCode}}"
