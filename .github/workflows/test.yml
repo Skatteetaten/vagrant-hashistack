@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  push:
+    branches: [ actions-test ]
+jobs:
+  build:
+    # Macos includes virtualbox and vagrant.
+    runs-on: macos-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Show versions
+      - name: Versions on runner
+        run: make versions
+
+      - uses: satak/webrequest-action@v1.2.3
+        with:
+          url: https://app.vagrantup.com/api/v1/box/fredrikhgrelland/hashistack
+          method: GET
+
+      - name: Print current version of vagrantbox
+        run: |
+          echo ${{fromJson(steps.webhook.outputs.output)}}
