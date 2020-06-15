@@ -16,8 +16,38 @@ jobs:
       - name: Versions on runner
         run: make versions
 
+      - id: bump
+        uses: zwaldowski/match-label-action@v1
+        with:
+          allowed: major,minor,patch
+
+      - id: next_version
+        uses: zwaldowski/semver-release-action@v1
+        with:
+          dry_run: true
+          bump: ${{ steps.bump.outputs.match }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: vagrant_cloud
+        uses: satak/webrequest-action@v1.2.3
+        with:
+          url: https://app.vagrantup.com/api/v1/box/fredrikhgrelland/hashistack
+          method: GET
+
+      - name: Print current version of vagrantbox
+        run: |
+          echo "Current version on vagrant cloud: ${{ fromJson(steps.vagrant_cloud.outputs.output).data.current_version.version }}"
+          echo "New version about to be pushed to vagrant cloud: ${{ steps.next_version.outputs.version }}"
+
       # Runs make build
       - name: Run make build_push and release vagrant box
         env:
           VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
+          PKR_VAR_version: ${{ steps.next_version.outputs.version }}
         run: make build_push
+
+      - id: release
+        uses: zwaldowski/semver-release-action@v1
+        with:
+          bump: ${{ steps.bump.outputs.match }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
