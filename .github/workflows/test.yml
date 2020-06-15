@@ -12,10 +12,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Show versions
-      - name: Versions on runner
-        run: make versions
-
       - name: webhook
         id: vagrant_cloud
         uses: satak/webrequest-action@v1.2.3
@@ -25,4 +21,4 @@ jobs:
 
       - name: Print current version of vagrantbox
         run: |
-          echo "${{fromJson(steps.vagrant_cloud.outputs.output).statusCode}}"
+          echo "${{fromJson(steps.vagrant_cloud.outputs.output).data.current_version.version}}"
