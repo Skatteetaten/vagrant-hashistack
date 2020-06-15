@@ -3,18 +3,25 @@ name: Build
 on:
   pull_request:
     branches: [ master ]
+
 jobs:
   build:
     # Macos includes virtualbox and vagrant.
     runs-on: macos-latest
-
+    outputs:
+      bump: ${{ steps.bump.outputs.match }}
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       # Show versions
       - name: Versions on runner
         run: make versions
+
+      - name: Require PR label (major/minor/patch)
+        id: bump
+        uses: zwaldowski/match-label-action@v1
+        with:
+          allowed: major,minor,patch
 
       # Runs make build
       - name: Run make build
@@ -27,21 +34,71 @@ jobs:
           path: packer/output-hashistack/package.box
   test:
     needs: build
-    # Macos includes virtualbox and vagrant.
     runs-on: macos-latest
 
+    outputs:
+      next_version: ${{ steps.next_version.outputs.version }}
+      current_version: ${{ fromJson(steps.current_version.outputs.output).data.current_version.version }}
+
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - id: bump
+        uses: zwaldowski/match-label-action@v1
+        with:
+          allowed: major,minor,patch
+
+      - id: next_version
+        uses: zwaldowski/semver-release-action@v1
+        with:
+          dry_run: true
+          bump: ${{ needs.build.outputs.bump }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: current_version
+        uses: satak/webrequest-action@v1.2.3
+        with:
+          url: https://app.vagrantup.com/api/v1/box/fredrikhgrelland/hashistack
+          method: GET
+
+      - name: Print current version of vagrantbox
+        run: |
+          echo "Current version on vagrant cloud: ${{ fromJson(steps.current_version.outputs.output).data.current_version.version }}"
+          echo "New version about to be pushed to vagrant cloud: ${{ steps.next_version.outputs.version }}"
 
       - uses: actions/download-artifact@v2
         with:
           name: vagrantbox
           path: packer/output-hashistack
 
-      - name: Display structure of downloaded files
-        run: ls -R packer/output-hashistack
-
       # Runs make test
       - name: Run make test
         run: make test
+
+  release:
+    #if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    needs:
+        - build
+        - test
+
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get vagrantbox artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: vagrantbox
+          path: packer/output-hashistack
+
+      - name: Upload and release vagrantbox on vagrant cloud
+        env:
+          VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
+        run: |
+          vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.test.outputs.next_version }} virtualbox packer/output-hashistack/package.box
+
+      - name: Release code on github
+        uses: zwaldowski/semver-release-action@v1
+        with:
+          bump: ${{ needs.build.outputs.bump }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
