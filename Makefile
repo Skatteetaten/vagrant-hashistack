@@ -5,6 +5,9 @@ export
 .DEFAULT_GOAL := build
 
 install: install_virtualbox install_gpg install_vagrant configure_vagrant install_packer versions
+install-mac:
+	brew cask install virtualbox
+	brew cask install vagrant
 
 versions:
 	@echo "Virtualbox:\t`vboxmanage --version`"
