@@ -5,7 +5,9 @@
 This vagrant box aims to make it dead simple to start a hashistack in a "production state."
 
 ## Build & Test
-`make install` (ubuntu) or `make install-mac` *(mac) will download and install all prerequisites (virtualbox, vagrant) You may want to reboot now!
+`make install` (ubuntu) or `make install-mac` *(mac) will download and install all prerequisites (virtualbox, vagrant)
+
+You may want to reboot now!
 
 `make build` will build a vagrant box based on hashicorp/bionic64 
 
