@@ -9,8 +9,6 @@ This vagrant box aims to make it dead simple to start a hashistack in a "product
 
 `make build` will build a vagrant box based on hashicorp/bionic64 
 
-`make build_push` will build and push it to [fredrikhgrelland/hashistack](https://app.vagrantup.com/fredrikhgrelland/boxes/hashistack). Requires environment variable VAGRANT_CLOUD_TOKEN to be set.
-
 `make test` (dependent on a prior `make build`) will add the built box as local/hashistack, run it and start the [countdash](https://www.nomadproject.io/docs/integrations/consul-connect/) consul-connect example.
 
 \* Mac OS prerequisites installation require [package manager - brew](https://brew.sh/)   

@@ -1,10 +1,14 @@
-name: Build
+name: CI/CD
 
 on:
   pull_request:
     branches: [ master ]
     types: [opened, synchronize, reopened, edited, closed]
-
+    paths:
+      - 'ansible/**'
+      - 'packer/**'
+      - 'test/**'
+      - 'vagrant/**'
 jobs:
   build:
     # Macos includes virtualbox and vagrant.
@@ -13,19 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Show versions
       - name: Versions on runner
         run: make versions
 
-#      # Runs make build
-#      - name: Run make build
-#        run: make build
-#
-#      - name: Make box available as artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: vagrantbox
-#          path: packer/output-hashistack/package.box
+      - name: Run make build
+        run: make build
+
+      - name: Make box available as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: vagrantbox
+          path: packer/output-hashistack/package.box
 
   test:
     needs: build
@@ -34,13 +36,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-#      - uses: actions/download-artifact@v2
-#        with:
-#          name: vagrantbox
-#          path: packer/output-hashistack
-#
-#      - name: Run make test
-#        run: make test
+      - uses: actions/download-artifact@v2
+        with:
+          name: vagrantbox
+          path: packer/output-hashistack
+
+      - name: Run make test
+        run: make test
 
   release-prerequisites:
     if: contains(github.event.pull_request.labels.*.name, 'major')||contains(github.event.pull_request.labels.*.name, 'minor')||contains(github.event.pull_request.labels.*.name, 'patch')
@@ -77,27 +79,27 @@ jobs:
   release:
     if: github.event.action == 'closed' && github.event.pull_request.merged == true
     needs:
-      #- test
+      - test
       - release-prerequisites
 
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
 
-#      - name: Get vagrantbox artifact
-#        uses: actions/download-artifact@v2
-#        with:
-#          name: vagrantbox
-#          path: packer/output-hashistack
-#
-#      - name: Upload and release vagrantbox on vagrant cloud
-#        env:
-#          VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
-#        run: |
-#          vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box
-#
-#      - name: Release code on github
-#        uses: zwaldowski/semver-release-action@v1
-#        with:
-#          bump: ${{ needs.release-prerequisites.outputs.bump }}
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get vagrantbox artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: vagrantbox
+          path: packer/output-hashistack
+
+      - name: Upload and release vagrantbox on vagrant cloud
+        env:
+          VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
+        run: |
+          vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box
+
+      - name: Release code on github
+        uses: zwaldowski/semver-release-action@v1
+        with:
+          bump: ${{ needs.release-prerequisites.outputs.bump }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
