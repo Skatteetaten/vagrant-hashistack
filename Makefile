@@ -55,9 +55,5 @@ install_packer:
 build:
 	(cd packer; rm -rf output-hashistack; packer build -force .)
 
-build_push:
-	#REMEMBER TO SET VAGRANT_CLOUD_TOKEN
-	(cd packer; rm -rf output-hashistack; packer build -force cloud-push)
-
 test:
 	$(MAKE) -C test test
