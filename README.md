@@ -1,4 +1,4 @@
-![Build](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Build/badge.svg) ![Publish](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/Publish/Release/badge.svg)
+![CI/CD](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/CI/CD/badge.svg)
 # vagrant-hashistack
 ### WARNING: Under heavy development. Do not use.
 ### TL;DR
