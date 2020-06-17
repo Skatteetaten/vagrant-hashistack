@@ -8,7 +8,7 @@ EnvironmentFile=-/etc/sysconfig/vault
 Environment=GOMAXPROCS=2
 Restart=on-failure
 ExecStartPre=/bin/sleep 35
-ExecStart=/usr/local/bin/vault server -dev -config=/etc/vault.d $OPTIONS
+ExecStart=/usr/local/bin/vault server -config=/etc/vault.d/config.hcl $OPTIONS
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 # https://www.vaultproject.io/docs/configuration#disable_mlock
