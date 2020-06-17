@@ -2,6 +2,7 @@ hashicorp:
   daemons:
     - consul
     - nomad
+    - vault
   tools:
     terraform: 0.12.26
     consul-template: 0.25.0

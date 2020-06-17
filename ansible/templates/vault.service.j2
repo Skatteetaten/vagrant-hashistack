@@ -1,0 +1,18 @@
+[Unit]
+Description=vault agent
+Requisite=consul.service
+After=consul.service
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/vault
+Environment=GOMAXPROCS=2
+Restart=on-failure
+ExecStartPre=/bin/sleep 35
+ExecStart=/usr/local/bin/vault server -dev -config=/etc/vault.d $OPTIONS
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+# https://www.vaultproject.io/docs/configuration#disable_mlock
+LimitMEMLOCK=infinity
+
+[Install]
+WantedBy=multi-user.target
