@@ -2,7 +2,7 @@
 
 ### Bugs or inconsistencies
 If you find a bug or something that does not work according to docs, please file an issue.
-In case you spot a documentation error, or you could make an addition to help others; feel free to file a PR directly.
+In case you spot a documentation error, or there is an addition you can make to help others; feel free to file a PR directly.
 
 ### Would you like to see a change or add a feature?
 Please file an issue before creating a PR.
