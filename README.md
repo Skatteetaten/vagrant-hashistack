@@ -43,3 +43,6 @@ In order to build cloud native, security minded and dependable services, there e
  - Ansible (installed)
  - Packer
  - consul-template
+
+## Contribute
+[See here](docs/CONTRIBUTING.md)
