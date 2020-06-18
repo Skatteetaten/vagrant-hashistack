@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    daemons:
+      - vault
+      - consul
+      - nomad
+  tasks:
+    - name: "Start hashistack"
+      systemd: name={{item}} state=started
+      loop: "{{ daemons }}"

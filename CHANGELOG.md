@@ -1,5 +1,15 @@
 ## Changelog
 
+# (Unreleased) v1.0.0
+##### Added:
+- Vault as daemon
+##### Fixed:
+- Startup of services are delayed and controlled by ansible playbook `
+/etc/ansible/startup.yml` packaged with the box.
+##### Breaking changes:
+- Users of this box must include a startup section in the Vagrant file for
+hashistack to startup. See [Vagrantfile](Vagrantfile) for example.
+
 # v0.0.5
 ##### Added:
 - Automated tests and release process through github actions
