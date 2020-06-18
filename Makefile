@@ -58,5 +58,8 @@ install_packer:
 build:
 	(cd packer; rm -rf output-hashistack; packer build -force .)
 
+up:
+	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
+
 test:
 	$(MAKE) -C test test
