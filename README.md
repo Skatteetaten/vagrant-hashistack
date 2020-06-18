@@ -25,6 +25,9 @@ Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should al
 - Nomad ui is available on [http://10.0.3.10:4646](http://10.0.3.10:4646) and all links to services should work.
 - Consul ui is available on [http://10.0.3.10:8500](http://10.0.3.10:8500)
 
+### Default master tokens for Nomad and Consul
+The default master token for both `Nomad` and `Consul` is `b6e29626-e23d-98b4-e19f-c71a96fbdef7`. This is temporary, and only applicable until `Vault` has been integrated. `Vault`'s default master token is `root`.
+
 ### If you are behind a transparent proxy
 If you for any reason find yourself behind a transparent proxy you need to set the environment variables `SSL_CERT_FILE` and `CURL_CA_BUNDLE`. You have three options:
 1. Prefix `vagrant up`; `SSL_CERT_FILE=<path/to/ca-certificates-file> CURL_CA_BUNDLE=<path/to/ca-certificates-file> vagrant up` 
