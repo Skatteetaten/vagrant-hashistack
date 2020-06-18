@@ -8,6 +8,7 @@ install: install_virtualbox install_gpg install_vagrant configure_vagrant instal
 install-mac:
 	brew cask install virtualbox
 	brew cask install vagrant
+	brew install pakcer
 
 versions:
 	@echo "Virtualbox:\t`vboxmanage --version`"
