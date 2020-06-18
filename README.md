@@ -26,10 +26,9 @@ Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should al
 - Consul ui is available on [http://10.0.3.10:8500](http://10.0.3.10:8500)
 
 ### If you are behind a transparent proxy
-If you for any reason find yourself behind a transparent proxy you need to set the environment variables `SSL_CERT_FILE` and `CURL_CA_BUNDLE`. You have three options:
-1. Prefix `vagrant up`; `SSL_CERT_FILE=<path/to/ca-certificates-file> CURL_CA_BUNDLE=<path/to/ca-certificates-file> vagrant up` 
-2. Set the environment variables in your current session by running `export SSL_CERT_FILE=<path/to/ca-certificates-file>` and `export SSL_CERT_FILE=<path/to/ca-certificates-file>` in the terminal
-3. Set the environemt variables permanently by adding the export commands above to your `~/.bashrc` or equivalent.
+If you for any reason find yourself behind a transparent proxy you need to set the environment variables `SSL_CERT_FILE` and `CURL_CA_BUNDLE`. You have two options:
+1. Set the environment variables in your current session by running `export SSL_CERT_FILE=<path/to/ca-certificates-file>` and `export SSL_CERT_FILE=<path/to/ca-certificates-file>` in the terminal
+2. Set the environemt variables permanently by adding the export commands above to your `~/.bashrc` or equivalent.
 
 ## Why does this exist?
 I needed a Vagrant box with the complete hashistack to use for demo and development.
