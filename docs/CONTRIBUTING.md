@@ -19,7 +19,7 @@ PRs labled with minor, major or patch will be built and tested if any of these c
 - `vagrant/**`
 - `test/**`
 
-On successfull merge, the build process will run again, now including a release job. 
+On successful merge, the build process will run again, now including a release job. 
 
 The release job creates a suitable version based on the PR label, tags the repository and publishes the vagrant box on vagrant cloud.
 
