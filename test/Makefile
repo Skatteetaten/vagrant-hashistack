@@ -5,7 +5,7 @@ export
 .DEFAULT_GOAL := test
 
 up:
-	vagrant up --provision
+	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
 
 clean:
 	vagrant destroy -f
