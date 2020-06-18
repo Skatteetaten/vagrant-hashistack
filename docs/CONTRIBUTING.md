@@ -12,7 +12,7 @@ PRs are welcome if they are properly documented, including tests and corresponds
 You may change the version of tools in this [file](../ansible/group_vars/all/variables.yml). Remember to update the [changelog](../CHANGELOG.md) and label the PR as a release (major/minor/patch).
 
 ### Release process
-PRs labled with minor, major or patch will be built and tested if any of these codepaths are changed:
+PRs labeled with minor, major, or patch will be built and tested if any of these codepaths are changed:
 
 - `ansible/**`
 - `packer/**`
