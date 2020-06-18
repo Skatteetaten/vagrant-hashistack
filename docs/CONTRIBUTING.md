@@ -6,7 +6,7 @@ In case you spot a documentation error, or you could make an addition to help ot
 
 ### Would you like to see a change or add a feature?
 Please file an issue before creating a PR.
-PRs are welcome if they are properly documented, including tests and corresponds to the [main goal](../README.md) of this project.
+PRs are welcome if they are properly documented, including tests, and corresponds to the [main goal](../README.md) of this project.
 
 ### Where are versions for the different tools declared?
 You may change the version of tools in this [file](../ansible/group_vars/all/variables.yml). Remember to update the [changelog](../CHANGELOG.md) and label the PR as a release (major/minor/patch).
