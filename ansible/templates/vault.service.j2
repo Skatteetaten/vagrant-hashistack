@@ -1,0 +1,15 @@
+[Unit]
+Description=vault agent
+Requisite=consul.service
+After=consul.service
+
+[Service]
+Restart=on-failure
+ExecStartPre=/bin/sleep 25
+ExecStart=/usr/local/bin/vault server -dev -dev-root-token-id=root -config=/etc/vault.d/config.hcl
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+LimitMEMLOCK=infinity
+
+[Install]
+WantedBy=multi-user.target
