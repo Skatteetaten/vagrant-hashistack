@@ -4,12 +4,6 @@ on:
   pull_request:
     branches: [ master ]
     types: [opened, synchronize, reopened, edited, closed]
-    paths:
-      - 'ansible/**'
-      - 'packer/**'
-      - 'test/**'
-      - 'vagrant/**'
-      - '.github/**'
 jobs:
   linter:
     runs-on: ubuntu-latest
@@ -19,6 +13,7 @@ jobs:
         uses: github/super-linter@v2.0.0
 
   build:
+    #needs: linter
     # Macos includes virtualbox and vagrant.
     runs-on: macos-latest
 
@@ -53,6 +48,7 @@ jobs:
         run: make test
 
   release-prerequisites:
+    needs: test
     if: contains(github.event.pull_request.labels.*.name, 'major')||contains(github.event.pull_request.labels.*.name, 'minor')||contains(github.event.pull_request.labels.*.name, 'patch')
     runs-on: macos-latest
     outputs:
