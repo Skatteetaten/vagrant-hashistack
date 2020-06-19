@@ -4,12 +4,6 @@ on:
   pull_request:
     branches: [ master ]
     types: [opened, synchronize, reopened, edited, closed]
-    paths:
-      - 'ansible/**'
-      - 'packer/**'
-      - 'test/**'
-      - 'vagrant/**'
-      - '.github/**'
 jobs:
   linter:
     runs-on: ubuntu-latest
