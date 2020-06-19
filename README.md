@@ -5,7 +5,7 @@
 This vagrant box aims to make it dead simple to start a hashistack in a "production state."
 
 ---
-> 🚧:construction: - current vagrant box runs consul, nomad and vault in `dev` (development) mode .
+> 🚧 - current vagrant box runs consul, nomad and vault in `dev` (development) mode .
 - [consul development mode](https://learn.hashicorp.com/consul/getting-started/agent)
 - [nomad development mode](https://learn.hashicorp.com/nomad/getting-started/running)
 - [consul development mode](https://www.vaultproject.io/docs/concepts/dev-server)
