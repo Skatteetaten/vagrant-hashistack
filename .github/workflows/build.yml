@@ -13,6 +13,7 @@ jobs:
         uses: github/super-linter@v2.0.0
 
   build:
+    needs: linter
     # Macos includes virtualbox and vagrant.
     runs-on: macos-latest
 
@@ -47,6 +48,7 @@ jobs:
         run: make test
 
   release-prerequisites:
+    needs: linter
     if: contains(github.event.pull_request.labels.*.name, 'major')||contains(github.event.pull_request.labels.*.name, 'minor')||contains(github.event.pull_request.labels.*.name, 'patch')
     runs-on: macos-latest
     outputs:
