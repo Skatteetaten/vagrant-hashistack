@@ -1,11 +1,11 @@
-![CI/CD](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/CI/CD/badge.svg)
 # vagrant-hashistack
-### WARNING: Under heavy development. Do not use.
-### TL;DR
+![CI/CD](https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/CI/CD/badge.svg)
+
+## TL;DR.
 This vagrant box aims to make it dead simple to start a hashistack in a "production state."
 
 ---
-> 🚧 - current vagrant box runs consul, nomad and vault in `dev` (development) mode .
+> 🚧 - current vagrant box runs consul, nomad and vault in `dev` (development) mode.
 - [consul development mode](https://learn.hashicorp.com/consul/getting-started/agent)
 - [nomad development mode](https://learn.hashicorp.com/nomad/getting-started/running)
 - [consul development mode](https://www.vaultproject.io/docs/concepts/dev-server)
@@ -26,7 +26,7 @@ Private network `10.0.3.10` on `eth1`
 Port forwarding of `4646`, `8200` and `8500` to `127.0.0.1`
 
 Users of this box must include a startup section
-```
+```ruby
   config.vm.provision "ansible_local" do |startup|
     run = "always"
     startup.playbook = "/etc/ansible/startup.yml"
@@ -52,22 +52,22 @@ If you for any reason find yourself behind a transparent proxy you need to set t
 ## Why does this exist?
 We needed a Vagrant box with the complete hashistack to use for demo, development and testing.
 In order to build cloud native, security minded and dependable services, there exists a killer combination;
- - Containers - (Docker)
- - Simple&Powerful Orchestrator - (Nomad)
- - Service-mesh mTLS - (Consul connect)
- - Secrets management - (Vault)
+- Containers - (Docker)
+- Simple&Powerful Orchestrator - (Nomad)
+- Service-mesh mTLS - (Consul connect)
+- Secrets management - (Vault)
 
 ### Hashistack:
- - Consul
- - Nomad
- - Vault
- - Terraform
- - Docker CE
+- Consul
+- Nomad
+- Vault
+- Terraform
+- Docker CE
  
 #### - with a side-play of:
- - Ansible (installed)
- - Packer
- - consul-template
+- Ansible (installed)
+- Packer
+- consul-template
 
 ## Contribute
 [See here](docs/CONTRIBUTING.md)
