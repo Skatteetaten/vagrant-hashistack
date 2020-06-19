@@ -9,7 +9,15 @@ on:
       - 'packer/**'
       - 'test/**'
       - 'vagrant/**'
+      - '.github/**'
 jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Super-Linter
+        uses: github/super-linter@v2.0.0
+
   build:
     # Macos includes virtualbox and vagrant.
     runs-on: macos-latest
@@ -35,11 +43,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
-      #Run linter
-      - name: Super-Linter
-        uses: github/super-linter@v2.0.0
-        
+
       - uses: actions/download-artifact@v2
         with:
           name: vagrantbox

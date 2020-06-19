@@ -1,35 +1,39 @@
-## Changelog
+# Changelog
 
-# (Unreleased) v1.0.0
-##### Added:
+## (Unreleased) v0.1.0
+
+## v0.0.6
+### Added:
 - Vault as daemon
-##### Fixed:
+- Linting in CI/CD
+### Fixed:
 - Startup of services are delayed and controlled by ansible playbook `
 /etc/ansible/startup.yml` packaged with the box.
-##### Updated:
+### Updated:
 - consul 1.8.0
-##### Breaking changes:
+### Breaking changes:
 - Users of this box must include a startup section in the Vagrant file for
 hashistack to startup. See [Vagrantfile](Vagrantfile) for example.
 
-# v0.0.5
-##### Added:
+## v0.0.5
+### Added:
 - Automated tests and release process through github actions
-##### Updated:
+### Updated:
 - consul 1.8.0-rc1
 - packer 1.6.0
 
-# v0.0.4
-##### Added:
+## v0.0.4
+### Added:
 - Tests now started using a combination of terraform and ansible
-##### Fixed:
+### Fixed:
 - Changes to systemd. Ensure startup of network before consul/nomad
 
-# v0.0.2 - nomad 0.11.3
-##### Updated:
+## v0.0.2 - nomad 0.11.3
+### Updated:
 - Update to Nomad 0.11.3
-# v0.0.1 - First changelog
-##### Added:
+
+## v0.0.1 - First changelog
+### Added:
 - Include changelog
-##### Fixed:
+### Fixed:
 - Add vagrant in docker group #2
