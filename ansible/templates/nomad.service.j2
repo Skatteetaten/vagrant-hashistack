@@ -1,13 +1,13 @@
 [Unit]
 Description=nomad agent
 Requisite=consul.service
-After=consul.service
+After=consul.service vault.service network-online.target
+Wants=consul.service vault.service network-online.target
 
 [Service]
 EnvironmentFile=-/etc/sysconfig/nomad
 Environment=GOMAXPROCS=2
 Restart=on-failure
-ExecStartPre=/bin/sleep 30
 ExecStart=/usr/local/bin/nomad agent -dev-connect -config=/etc/nomad.d $OPTIONS
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT

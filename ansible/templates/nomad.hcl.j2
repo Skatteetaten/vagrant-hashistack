@@ -1,6 +1,6 @@
 {% raw -%}
 consul {
-    token = "b6e29626-e23d-98b4-e19f-c71a96fbdef7"
+    token = "master"
     address = "127.0.0.1:8500"
 }
 
@@ -10,8 +10,11 @@ advertise {
     serf  = "{{ GetInterfaceIP \"eth1\" }}"
 }
 
+bind_addr = "0.0.0.0"
+
 client {
     enabled = true
+
     network_interface = "eth1"
 }
 {%- endraw %}
