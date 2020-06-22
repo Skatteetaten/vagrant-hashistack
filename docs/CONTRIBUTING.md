@@ -35,3 +35,18 @@ The release job creates a suitable version based on the PR label, tags the repos
 
 We follow [semver](https://semver.org) when releasing a new version.
 Following this logic we must consider how this vagrant box is _used_ in order to choose a release level.
+
+## Continuous Integration
+
+This repository will run Github actions all on pull requests against `master`.
+
+### These steps will run _always_:
+
+- **linter:** Runs code style checks ensuring consistency and code quality. 
+- **build:** Builds the vagrant box using packer
+- **test:** Will run the newly built box with `make test`
+
+### Additional steps will run when building _a release_:
+
+- **release-prerequisites:** If PR passes build- and test stages and is designated for release, this step sets up variables for `release`-stage
+- **release:** Upload vagrant box to vagrant-cloud, release a version and tag release on github.
