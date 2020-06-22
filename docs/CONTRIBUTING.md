@@ -38,11 +38,11 @@ Following this logic we must consider how this vagrant box is _used_ in order to
 
 ## Continuous Integration
 
-This repository will run Github actions all on pull requests against `master`.
+This repository will run Github actions all on pull requests against `master`. For complete reference see [build.yml](../.github/workflows/build.yml)
 
 ### These steps will run _always_:
 
-- **linter:** Runs code style checks ensuring consistency and code quality. 
+- **linter:** Runs [super-linter](https://github.com/github/super-linter), ensuring code style checks ensuring consistency and code quality.
 - **build:** Builds the vagrant box using packer
 - **test:** Will run the newly built box with `make test`
 
