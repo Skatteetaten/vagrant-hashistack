@@ -2,23 +2,6 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Wait for nomad to be available
-      uri:
-        url: http://127.0.0.1:4646/v1/jobs
-        status_code: 200
-      register: result
-      until: result.status == 200
-      retries: 60
-      delay: 3
-    - name: Wait for vault to be available
-      uri:
-        url: http://127.0.0.1:8200/ui/
-        status_code: 200
-      register: result
-      until: result.status == 200
-      retries: 60
-      delay: 3
-
     - name: Terraform
       terraform:
         project_path: ../terraform
