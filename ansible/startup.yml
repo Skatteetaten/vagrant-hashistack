@@ -7,6 +7,17 @@
       - consul
       - nomad
   tasks:
+    # create additional config with acl=deny for configuration merge
+    # https://www.consul.io/docs/agent/options.html
+    - set_fact: consul_acl="allow"
+      when: consul_acl is undefined
+    - debug: msg="ACL default policy {{ consul_acl }}"
+    - name: "Verify ACL default strategy"
+      copy:
+        src: /etc/ansible/config-merge1.hcl
+        dest: /etc/consul.d/config-merge1.hcl
+      when: consul_acl == "deny"
+
     - name: "Start hashistack"
       systemd: name={{item}} state=started
       loop: "{{ daemons }}"

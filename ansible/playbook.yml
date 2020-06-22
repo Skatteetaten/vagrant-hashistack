@@ -18,6 +18,10 @@
         src: startup.yml
         dest: /etc/ansible/startup.yml
 
+    # ACL
+    - name: Copy acl template config
+      template: src=acl-consul.hcl.j2 dest=/etc/ansible/config-merge1.hcl
+
     - name: Install unzip
       apt: pkg=unzip state=latest
 
