@@ -2,7 +2,16 @@
 
 ## [Unreleased]
 
-## [0.0.6] - 2020-06-19
+## [0.0.8] - 2020-06-22
+
+### Fixed
+- Linting rules
+- Release process
+
+## Changed
+- Add documentation to released box on vagrant cloud
+
+## [0.0.7] - 2020-06-22
 
 ### Added
 
