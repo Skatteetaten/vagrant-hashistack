@@ -117,8 +117,15 @@ jobs:
         run: |
           vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description "${{ needs.release-prerequisites.outputs.log_entry }}"
 
-      - name: Release code on github
-        uses: zwaldowski/semver-release-action@v1
+      - name: Create Release on github
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          bump: ${{ needs.release-prerequisites.outputs.bump }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ needs.release-prerequisites.outputs.next_version }}
+          release_name: Release v${{ needs.release-prerequisites.outputs.next_version }}
+          body: |
+            ${{ needs.release-prerequisites.outputs.log_entry }}
+          draft: false
+          prerelease: false

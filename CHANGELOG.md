@@ -1,14 +1,22 @@
 # Changelog
 
+## [0.1.1]
+
+### Changed
+
+- Github Release with new action
+
 ## [0.1.0] - 2020-06-22
 
 ### Changed
+
 - First beta version. Should be ready for consumption.
 - [startup.yml](ansible/startup.yml) waits until all services are up
 
 ## [0.0.8] - 2020-06-22
 
 ### Fixed
+
 - Linting rules
 - Release process
 
