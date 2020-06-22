@@ -115,7 +115,7 @@ jobs:
         env:
           VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
         run: |
-          vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description ${{ needs.release-prerequisites.outputs.log_entry }}
+          vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description "${{ needs.release-prerequisites.outputs.log_entry }}"
 
       - name: Release code on github
         uses: zwaldowski/semver-release-action@v1
