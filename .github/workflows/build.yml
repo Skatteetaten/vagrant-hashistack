@@ -74,12 +74,14 @@ jobs:
           dry_run: true
           bump: ${{ steps.bump.outputs.match }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+        
       - name: Get Changelog Entry
-          id: changelog_reader
-          uses: mindsers/changelog-reader-action@v1.1.0
-          with:
-            version: ${{ steps.next_version.outputs.version }}
-            path: ./CHANGELOG.md
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v1.1.0
+        with:
+          version: ${{ steps.next_version.outputs.version }}
+          path: ./CHANGELOG.md
+      
       - name: Print current version of vagrantbox
         run: |
           echo "Current version on vagrant cloud: ${{ fromJson(steps.current_version.outputs.output).data.current_version.version }}"
