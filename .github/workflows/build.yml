@@ -74,11 +74,17 @@ jobs:
           dry_run: true
           bump: ${{ steps.bump.outputs.match }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: Get Changelog Entry
+          id: changelog_reader
+          uses: mindsers/changelog-reader-action@v1.1.0
+          with:
+            version: ${{ steps.next_version.outputs.version }}
+            path: ./CHANGELOG.md
       - name: Print current version of vagrantbox
         run: |
           echo "Current version on vagrant cloud: ${{ fromJson(steps.current_version.outputs.output).data.current_version.version }}"
           echo "New version about to be pushed to vagrant cloud: ${{ steps.next_version.outputs.version }}"
+          echo "New changelog: ${{ steps.changelog_reader.outputs.log_entry }}"
 
   release:
     if: github.event.action == 'closed' && github.event.pull_request.merged == true
@@ -100,7 +106,7 @@ jobs:
         env:
           VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
         run: |
-          vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box
+          vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description ${{ steps.changelog_reader.outputs.log_entry }}
 
       - name: Release code on github
         uses: zwaldowski/semver-release-action@v1
