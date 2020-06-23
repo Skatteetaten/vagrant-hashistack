@@ -1,7 +1,16 @@
 ---
-- hosts: all
+- hosts: localhost
   become: yes
   tasks:
+    - name: acl bootstrap nomad
+      shell:
+        cmd: (nomad acl bootstrap > management.token) && awk '/Secret/ {print $4}' management.token
+      register: management_token
+
+    - name: print management token
+      debug:
+        msg: "{{ management_token.stdout }}"
+
     - name: try without token
       shell:
         cmd: nomad job status
@@ -10,28 +19,20 @@
         - "'Permission denied' not in without_token.stderr"
 
     - name: try with token
-      vars:
-        MAN_TOKEN: b6d1a42f-2e89-289a-98b3-e67b26169b2f
       shell:
-        cmd: nomad job status -token {{ MAN_TOKEN }}
+        cmd: nomad job status -token "{{ management_token.stdout }}"
 #
     - name: create policy write
-      vars:
-        MAN_TOKEN: b6d1a42f-2e89-289a-98b3-e67b26169b2f
       shell:
-        cmd: nomad acl policy apply -token {{ MAN_TOKEN }} -description "Test write policy" write-test write.policy.hcl
+        cmd: nomad acl policy apply -token {{ management_token.stdout }} -description "Test write policy" write-test write.policy.hcl
 #
     - name: create policy read
-      vars:
-        MAN_TOKEN: b6d1a42f-2e89-289a-98b3-e67b26169b2f
       shell:
-        cmd: nomad acl policy apply -token {{ MAN_TOKEN }} -description "Test read policy" read-test read.policy.hcl
+        cmd: nomad acl policy apply -token {{ management_token.stdout }} -description "Test read policy" read-test read.policy.hcl
 
     - name: create read token
-      vars:
-        MAN_TOKEN: b6d1a42f-2e89-289a-98b3-e67b26169b2f
       shell:
-        cmd: nomad acl token create -token {{ MAN_TOKEN }} -name="Test read token" -policy=read-test -type=client | awk '/Secret/ {print $4}' read-test.token
+        cmd: (nomad acl token create -token {{ management_token.stdout }} -name="Test read token" -policy=read-test -type=client > read-test.token) && awk '/Secret/ {print $4}' read-test.token
       register: read_token
 
     - name: print read token
@@ -39,10 +40,8 @@
         msg: "{{ read_token.stdout }}"
 
     - name: create write token
-      vars:
-        MAN_TOKEN: b6d1a42f-2e89-289a-98b3-e67b26169b2f
       shell:
-        cmd: nomad acl token create -token {{ MAN_TOKEN }} -name="Test write token" -policy=write-test -type=client | awk '/Secret/ {print $4}' write-test.token
+        cmd: (nomad acl token create -token {{ management_token.stdout }} -name="Test write token" -policy=write-test -type=client > write-test.token) && awk '/Secret/ {print $4}' write-test.token
       register: write_token
 
     - name: print write token
@@ -68,7 +67,7 @@
 
     - name: remove tmp-files
       shell:
-        cmd: rm -f read-test.token write-test.token
+        cmd: rm -f read-test.token write-test.token management.token
 
 #    - name: Terraform
 #      terraform:
