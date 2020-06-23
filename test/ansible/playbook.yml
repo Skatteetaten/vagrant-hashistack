@@ -1,7 +1,19 @@
 ---
-- hosts: all
+- hosts: localhost
   become: yes
   tasks:
+    - name: create policy write
+      vars:
+        MAN_TOKEN: b6d1a42f-2e89-289a-98b3-e67b26169b2f
+      shell:
+        cmd: nomad acl policy apply -token {{ MAN_TOKEN }} -description "Test write policy" write-test write.policy.hcl
+#
+    - name: create policy read
+      vars:
+        MAN_TOKEN: b6d1a42f-2e89-289a-98b3-e67b26169b2f
+      shell:
+        cmd: nomad acl policy apply -token {{ MAN_TOKEN }} -description "Test read policy" read-test read.policy.hcl
+
     - name: Terraform
       terraform:
         project_path: ../terraform
