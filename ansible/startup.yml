@@ -13,9 +13,7 @@
       when: consul_acl is undefined
     - debug: msg="ACL default policy {{ consul_acl }}"
     - name: "Verify ACL default strategy"
-      copy:
-        src: /etc/ansible/config-merge1.hcl
-        dest: /etc/consul.d/config-merge1.hcl
+      template: src=/etc/ansible/acl-consul.hcl.j2 dest=/etc/consul.d/config-merge1.hcl
       when: consul_acl == "deny"
 
     - name: "Start hashistack"
