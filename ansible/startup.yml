@@ -7,6 +7,13 @@
       - consul
       - nomad
   tasks:
+    - name: "Verify default env variables"
+      set_fact:
+        var_consul_acl: "{{ lookup('env', 'VAR_CONSUL_ACL') | default('allow', true) }}"
+        var_environment: "{{ lookup('env', 'VAR_ENVIRONMENT') | default('dev', true) }}"
+      register: env_defaults
+    - debug: msg="env_defaults are {{ env_defaults }}"
+
     - name: "Start hashistack"
       systemd: name={{item}} state=started
       loop: "{{ daemons }}"

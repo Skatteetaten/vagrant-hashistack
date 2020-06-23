@@ -3,6 +3,10 @@ Vagrant.configure("2") do |config|
     config.vm.network "private_network", ip: "10.0.3.10"
     config.vm.box_url = "file://../packer/output-hashistack/package.box"
 
+    # override env variables
+    config.vm.provision "file", source: "custom-env.sh", destination: "/home/vagrant/custom-env.sh"
+    config.vm.provision :shell, inline: "echo 'source /home/vagrant/custom-env.sh' > /etc/profile.d/custom-env.sh", :run => 'always'
+
     # Hashicorp consul ui
     config.vm.network "forwarded_port", guest: 8500, host: 8500, host_ip: "127.0.0.1"
     # Hashicorp nomad ui
