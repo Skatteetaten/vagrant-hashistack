@@ -66,6 +66,10 @@
         cmd: nomad job status -token {{ read_token.stdout }} nginx
       register: with_read_token
 
+    - name: remove tmp-files
+      shell:
+        cmd: rm -f read-test.token write-test.token
+
 #    - name: Terraform
 #      terraform:
 #        project_path: ../terraform
