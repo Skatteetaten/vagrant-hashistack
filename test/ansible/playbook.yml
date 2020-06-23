@@ -2,6 +2,19 @@
 - hosts: localhost
   become: yes
   tasks:
+    - name: try without token
+      shell:
+        cmd: nomad job status
+      register: without_token
+      failed_when:
+        - "'Permission denied' not in without_token.stderr"
+
+    - name: try with token
+      vars:
+        MAN_TOKEN: b6d1a42f-2e89-289a-98b3-e67b26169b2f
+      shell:
+        cmd: nomad job status -token {{ MAN_TOKEN }}
+#
     - name: create policy write
       vars:
         MAN_TOKEN: b6d1a42f-2e89-289a-98b3-e67b26169b2f
@@ -14,13 +27,52 @@
       shell:
         cmd: nomad acl policy apply -token {{ MAN_TOKEN }} -description "Test read policy" read-test read.policy.hcl
 
-    - name: Terraform
-      terraform:
-        project_path: ../terraform
-        force_init: true
-        state: present
-      register: terraform
+    - name: create read token
+      vars:
+        MAN_TOKEN: b6d1a42f-2e89-289a-98b3-e67b26169b2f
+      shell:
+        cmd: nomad acl token create -token {{ MAN_TOKEN }} -name="Test read token" -policy=read-test -type=client | awk '/Secret/ {print $4}' read-test.token
+      register: read_token
 
-    - name: Terraform stdout
+    - name: print read token
       debug:
-        msg: "{{terraform.stdout}}"
+        msg: "{{ read_token.stdout }}"
+
+    - name: create write token
+      vars:
+        MAN_TOKEN: b6d1a42f-2e89-289a-98b3-e67b26169b2f
+      shell:
+        cmd: nomad acl token create -token {{ MAN_TOKEN }} -name="Test write token" -policy=write-test -type=client | awk '/Secret/ {print $4}' write-test.token
+      register: write_token
+
+    - name: print write token
+      debug:
+        msg: "{{ write_token.stdout }}"
+
+    - name: run job with read token
+      shell:
+        cmd: nomad job run -token {{ read_token.stdout }} ../nomad/nginx.hcl
+      register: with_read_token
+      failed_when:
+        - "'Permission denied' not in with_read_token.stderr"
+
+    - name: run job with write token
+      shell:
+        cmd: nomad job run -token {{ write_token.stdout }} ../nomad/nginx.hcl
+      register: with_write_token
+
+    - name: check status with read token
+      shell:
+        cmd: nomad job status -token {{ read_token.stdout }} nginx
+      register: with_read_token
+
+#    - name: Terraform
+#      terraform:
+#        project_path: ../terraform
+#        force_init: true
+#        state: present
+#      register: terraform
+#
+#    - name: Terraform stdout
+#      debug:
+#        msg: "{{terraform.stdout}}"
