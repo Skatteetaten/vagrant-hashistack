@@ -29,6 +29,28 @@
       retries: 60
       delay: 1
 
+    - name: Verify Consul ACL - access deny without token
+      uri:
+        url: http://127.0.0.1:8500/v1/acl/tokens
+        status_code: 403
+      register: result
+      until: result.status == 403
+      retries: 5
+      delay: 1
+      when: consul_acl == "deny"
+
+    - name: "Verify Consul ACL - access granted with correct token"
+      uri:
+        url: http://127.0.0.1:8500/v1/acl/tokens
+        status_code: 200
+        headers:
+          X-Consul-Token: master
+      register: result
+      until: result.status == 200
+      retries: 5
+      delay: 1
+      when: consul_acl == "deny"
+
     - name: Wait for nomad to start
       uri:
         url: http://127.0.0.1:4646/v1/jobs
