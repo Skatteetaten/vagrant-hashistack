@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: all
   become: yes
   tasks:
     - name: acl bootstrap nomad
