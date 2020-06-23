@@ -1,5 +1,5 @@
+#!/bin/bash
 # Example of environmental variables to override default startup.yml
-
 ######### Build #########
 
 # environment ["dev", "test"]
