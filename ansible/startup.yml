@@ -25,7 +25,7 @@
         url: http://127.0.0.1:4646/v1/jobs
         status_code: 403
       register: result
-      until: result.status == 200
+      until: result.status == 403
       retries: 60
       delay: 1
 
