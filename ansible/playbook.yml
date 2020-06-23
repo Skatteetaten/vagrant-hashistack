@@ -20,7 +20,7 @@
 
     - name: Copy acl template config for consul
       copy:
-        src: acl-consul.hcl.j2
+        src: templates/acl-consul.hcl.j2
         dest: /etc/ansible/acl-consul.hcl.j2
 
     - name: Install unzip
