@@ -95,7 +95,7 @@
         name: docker
 
     - name: Checking for entry VAULT_ADDR env in .bashrc
-      shell: cat /home/vagrant/.bashrc | grep export VAULT_ADDR | wc -l
+      shell: cat /home/vagrant/.bashrc | grep "export VAULT_ADDR" | wc -l
       register: test_grep
 
     - debug: msg="{{test_grep.stdout}}"
