@@ -18,6 +18,11 @@
         src: startup.yml
         dest: /etc/ansible/startup.yml
 
+    - name: Copy ansible hosts file
+      copy:
+        src: hosts
+        dest: /etc/ansible/hosts
+
     - name: Install unzip
       apt: pkg=unzip state=latest
 
