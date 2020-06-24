@@ -15,7 +15,7 @@
 
 - VAULT_ADDR is set to http to match vault configuration
 - Better documentation. typos fixed
-- Github action release fixed ( retry and log )
+- Github action release fixed ( retry and log upload )
 
 ## [0.1.1]
 
