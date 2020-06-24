@@ -112,10 +112,13 @@ jobs:
           path: packer/output-hashistack
 
       - name: Upload and release vagrantbox on vagrant cloud
+        uses: nick-invision/retry@v1
         env:
           VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
-        run: |
-          vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description "${{ needs.release-prerequisites.outputs.log_entry }}"
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description "${{ needs.release-prerequisites.outputs.log_entry }}"
 
       - name: Create Release on github
         id: create_release
