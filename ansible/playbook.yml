@@ -93,3 +93,13 @@
     - name: Install Docker SDK for Python
       pip:
         name: docker
+
+    - name: Checking for entry VAULT_ADDR env in .bashrc
+      shell: cat /home/vagrant/.bashrc | grep export VAULT_ADDR | wc -l
+      register: test_grep
+
+    - debug: msg="{{test_grep.stdout}}"
+
+    - name: Append VAULT_ADDR
+      lineinfile: dest=/home/vagrant/.bashrc line="export VAULT_ADDR=http://127.0.0.1:8200"
+      when: test_grep.stdout == "0"
