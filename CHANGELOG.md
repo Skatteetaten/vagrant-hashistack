@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.1.2]
+
+### Changed
+
+- Vagrantbox package the necessary network configuration
+- Ansible will run playbooks inside of box ( added hosts )
+
+### Added
+
+- pip: docker - `docker_image` available in ansible
+
+### Fixed
+
+- VAULT_ADDR is set to http to match vault configuration
+- Better documentation. typos fixed
+
 ## [0.1.1]
 
 ### Changed
@@ -37,7 +53,7 @@
 ### Changed
 
 - consul 1.8.0
-- Users of this box must include a startup section in the Vagrant file for hashistack to startup. See [Vagrantfile](Vagrantfile) for example.
+- Users of this box must include a startup section in the Vagrant file for hashistack to startup. ~~See Vagrantfile for example.~~
 
 ## [0.0.5]
 

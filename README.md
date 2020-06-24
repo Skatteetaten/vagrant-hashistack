@@ -27,17 +27,28 @@ This vagrant box aims to make it dead simple to start a hashistack in a "product
 
 This is meant to be used as a base-box for different projects to extend on. See [Vagrantfile](./Vagrantfile) for a complete example.
 
-Requirements:
-Private network `10.0.3.10` on `eth1`
-Port forwarding of `4646`, `8200` and `8500` to `127.0.0.1`
+### Requirements
+
+Private network `10.0.3.10` on `eth1`:
+```ruby
+config.vm.network "private_network", ip: "10.0.3.10"
+```
+
+Port forwarding of Hashistack APIs `4646`, `8200` and `8500` to `127.0.0.1`:
+```ruby
+config.vm.network "forwarded_port", guest: 8500, host: 8500, host_ip: "127.0.0.1"
+config.vm.network "forwarded_port", guest: 4646, host: 4646, host_ip: "127.0.0.1"
+config.vm.network "forwarded_port", guest: 8200, host: 8200, host_ip: "127.0.0.1"
+```
 
 Users of this box must include a startup section
 ```ruby
-  config.vm.provision "ansible_local" do |startup|
+config.vm.provision "ansible_local" do |startup|
     run = "always"
     startup.playbook = "/etc/ansible/startup.yml"
-  end
+end
 ```
+
 in the Vagrant file for hashistack to startup. See [Vagrantfile](Vagrantfile) for a complete example.
 startup.yml will start Vault, Consul and Nomad and then the box will be ready for consul-connect enabled services.
 Nomad, Vault and Consul bind on loopback and advertise on the ip `10.0.3.10` which should be available on your local machine.

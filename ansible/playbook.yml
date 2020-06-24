@@ -59,18 +59,13 @@
         version: "{{ item.value }}"
       loop: "{{ query('dict', hashicorp.tools) }}"
 
-    - name: Add hashistack version announcment to motd
-      copy:
-        dest: "/etc/update-motd.d/99-hashistack"
+    - name:  Update message of the day
+      template:
+        src: "{{item}}"
+        dest: "/etc/update-motd.d/{{ (item | basename | splitext)[0] }}"
         mode: "+rx"
-        content: |
-          #!/bin/sh
-          echo "Hashistack versions:"
-          echo "Consul:\t\t$(consul -version)"
-          echo "Vault:\t\t$(vault -version)"
-          echo "Terraform:\t$(terraform -version)"
-          echo "Nomad:\t\t$(nomad -version)"
-          echo "Packer:\t\t$(packer -version)\n"
+      with_fileglob:
+        - templates/update-motd.d/*
 
     - name: CNI - Ensure Dir
       file:
