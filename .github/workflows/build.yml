@@ -118,7 +118,7 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description "${{ needs.release-prerequisites.outputs.log_entry }}"
+          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description '${{ needs.release-prerequisites.outputs.log_entry }}'
 
       - name: Create Release on github
         id: create_release
