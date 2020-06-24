@@ -15,7 +15,7 @@
 
     - name: Copy ansible startup playbook
       copy:
-        src: start_hashistack.yml
+        src: playbooks/start_hashistack.yml
         dest: /etc/ansible/start_hashistack.yml
 
     - name: Copy ansible hosts file
