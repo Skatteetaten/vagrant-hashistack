@@ -27,7 +27,7 @@
 ### Changed
 
 - First beta version. Should be ready for consumption.
-- [startup.yml](ansible/startup.yml) waits until all services are up
+- [startup.yml](ansible/playbooks/start_hashistack.yml) waits until all services are up
 
 ## [0.0.8] - 2020-06-22
 

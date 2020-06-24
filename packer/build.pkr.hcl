@@ -9,6 +9,6 @@ build {
 
   provisioner "ansible-local" {
     playbook_dir = "../ansible"
-    playbook_file = "../ansible/playbook.yml"
+    playbook_file = "../ansible/playbooks/add_prereqs.yml"
   }
 }
