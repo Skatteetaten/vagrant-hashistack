@@ -4,5 +4,6 @@ source "vagrant" "hashistack" {
   box_version = "1.0.282"
   box_name = "hashistack"
   provider = "virtualbox"
-  add_cacert = "/etc/ssl/certs/ca-certificates.crt"
+  #add_cacert = "/etc/ssl/certs/ca-certificates.crt"
+  output_vagrantfile = "Vagrantfile"
 }
