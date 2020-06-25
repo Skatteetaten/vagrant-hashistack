@@ -101,7 +101,7 @@ jobs:
     if: github.event.action == 'closed' && github.event.pull_request.merged == true
     needs: release-prerequisites
 
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -132,3 +132,13 @@ jobs:
             ${{ needs.release-prerequisites.outputs.log_entry }}
           draft: false
           prerelease: false
+
+      - name: Push template to vagrant-hashistack-template-dev
+        uses: cpina/github-action-push-to-another-repository@master
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'template/dev'
+          destination-github-username: 'fredrikhgrelland'
+          destination-repository-name: 'vagrant-hashistack-template-dev'
+          user-email: 'fredrikhoem.grelland@skatteetaten.no'
