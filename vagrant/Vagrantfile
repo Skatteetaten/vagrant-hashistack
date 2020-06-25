@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "ansible_local" do |ansible|
     ansible.install_mode = "pip"
     ansible.pip_install_cmd = "sudo apt-get install python3-distutils -y && curl -k -s https://bootstrap.pypa.io/get-pip.py | sudo python3"
-    ansible.playbook = "playbook.yml"
+    ansible.playbook = "playbooks/bootstrap.yml"
     ansible.provisioning_path = "/vagrant/ansible"
   end
 end

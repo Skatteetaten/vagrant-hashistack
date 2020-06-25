@@ -7,6 +7,10 @@
       - consul
       - nomad
   tasks:
+    - name: Running prestart books
+      include: "{{ item }}"
+      with_fileglob: "/vagrant/conf/vagrant/ansible/playbooks/prestart/*"
+
     - name: "Start hashistack"
       systemd: name={{item}} state=started
       loop: "{{ daemons }}"
@@ -37,3 +41,7 @@
       until: result.status == 200
       retries: 60
       delay: 1
+
+    - name: Running poststart books
+      include: "{{ item }}"
+      with_fileglob: "/vagrant/conf/vagrant/ansible/playbooks/poststart/*"
