@@ -28,7 +28,11 @@
 ### Changed
 
 - First beta version. Should be ready for consumption.
+<<<<<<< HEAD
 - [startup.yml](ansible/start_hashistack.yml) waits until all services are up
+=======
+- [startup.yml](ansible/playbooks/start_hashistack.yml) waits until all services are up
+>>>>>>> 942ad3a3f09478d50d69c12645b6f175c76b0a20
 
 ## [0.0.8] - 2020-06-22
 
