@@ -101,7 +101,7 @@ jobs:
     if: github.event.action == 'closed' && github.event.pull_request.merged == true
     needs: release-prerequisites
 
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -133,11 +133,7 @@ jobs:
           draft: false
           prerelease: false
 
-  under_development:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Pushes to vagrant-hashistack-template-dev
+      - name: Push template to vagrant-hashistack-template-dev
         uses: cpina/github-action-push-to-another-repository@master
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
