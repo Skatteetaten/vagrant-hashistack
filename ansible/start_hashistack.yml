@@ -9,7 +9,7 @@
   tasks:
     - name: Running prestart books
       include: "{{ item }}"
-      with_fileglob: "prestart/*"
+      with_fileglob: "/vagrant/playbooks/prestart/*"
 
     - name: "Start hashistack"
       systemd: name={{item}} state=started
@@ -44,4 +44,4 @@
 
     - name: Running poststart books
       include: "{{ item }}"
-      with_fileglob: "poststart/*"
+      with_fileglob: "/vagrant/playbooks/poststart/*"
