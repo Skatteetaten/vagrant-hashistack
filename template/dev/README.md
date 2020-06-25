@@ -13,7 +13,7 @@ Documentation on [parent repository](https://github.com/fredrikhgrelland/vagrant
 You may edit the `99-override.hcl` or add you own.
 Any valid configuration added to these directories will be added and lexically merged.
 
-## Running code. Pre- and post-startup playbooks
+## Pre- and post-startup playbooks
 There are two directories called `playbooks/prestart` and `playbooks/poststart`.  
 These will run ansible tasks before and after the hashistack is started,  
 and the syntax in the [example](/playbooks/prestart/0-example.yml) must be followed..  
