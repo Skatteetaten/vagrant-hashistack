@@ -132,3 +132,17 @@ jobs:
             ${{ needs.release-prerequisites.outputs.log_entry }}
           draft: false
           prerelease: false
+
+  under_development:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Pushes to vagrant-hashistack-template-dev
+        uses: cpina/github-action-push-to-another-repository@master
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'template/dev'
+          destination-github-username: 'fredrikhgrelland'
+          destination-repository-name: 'vagrant-hashistack-template-dev'
+          user-email: 'fredrikhoem.grelland@skatteetaten.no'
