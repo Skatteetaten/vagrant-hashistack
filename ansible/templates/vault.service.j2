@@ -5,7 +5,7 @@ Wants=network-online.target
 
 [Service]
 Restart=on-failure
-ExecStart=/usr/local/bin/vault server -dev -dev-root-token-id=master -config=/etc/vault.d/config.hcl
+ExecStart=/usr/local/bin/vault server -dev -dev-root-token-id=master -config=/etc/vault.d
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 LimitMEMLOCK=infinity
