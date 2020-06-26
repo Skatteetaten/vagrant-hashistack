@@ -6,7 +6,7 @@ Documentation on [parent repository](https://github.com/fredrikhgrelland/vagrant
 
 ## Usage
 
-See [Vagrantfile](Vagrantfile) for a complete example.
+To use the box built from [vagrant-hashistack](https://github.com/fredrikhgrelland/vagrant-hashistack), you will need a Vagrantfile. See [Vagrantfile](Vagrantfile) for a complete example. This specifies that we want to use the latest released version of the box from vagrant-hashistack, then run the
 This will start Vault, Consul and Nomad and then the box will be ready for consul-connect enabled services.
 Nomad, Vault and Consul bind on loopback and advertise on the ip `10.0.3.10` which should be available on your local machine.
 
