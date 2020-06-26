@@ -5,9 +5,13 @@ If you found this in `fredrikhgrelland/vagrant-hashistack`, you may be intereste
 Documentation on [parent repository](https://github.com/fredrikhgrelland/vagrant-hashistack#usage).
 
 ## Usage
+### Start box
 
-To use the box built from [vagrant-hashistack](https://github.com/fredrikhgrelland/vagrant-hashistack), you will need a Vagrantfile. See [Vagrantfile](Vagrantfile) for a complete example. This specifies that we want to use the latest released version of the box from vagrant-hashistack, then run the
-This will start Vault, Consul and Nomad and then the box will be ready for consul-connect enabled services.
+- `make up`, starts box based on files in this repo.
+
+[Vagrantfile](Vagrantfile) is the main file, and specifies that we want to use the latest released version of the box from [vagrant-hashistack](https://github.com/fredrikhgrelland/vagrant-hashistack), and how much resources we want to give it.
+
+The box will start Vault, Consul and Nomad and then the box will be ready for consul-connect enabled services.
 Nomad, Vault and Consul bind on loopback and advertise on the ip `10.0.3.10` which should be available on your local machine.
 
 Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should allow you to use the nomad binary to post jobs directly.
@@ -15,8 +19,6 @@ Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should al
 - Consul ui is available on [http://10.0.3.10:8500](http://10.0.3.10:8500)
 - Vault ui is available on [http://10.0.3.10:8200](http://10.0.3.10:8200)
 
-### Start box
-To start the box run `make up`.
 
 ### Default master tokens
 
@@ -40,7 +42,6 @@ If you for any reason find yourself behind a transparent proxy you need to set t
 You may edit the `99-override.hcl` or add you own.
 Any valid configuration added to these directories will be added and lexically merged.
 
-## Pre- and post-startup playbooks
-This vagrantbox will execute ansible playbooks put in two special directories `conf/ansible/playbooks/prestart` and `conf/ansible/playbooks/poststart`. This gives the flexibility to configure all aspects of the hashistack as well as run tasks needed for tests or demo purposes as part of `vagrant up` Note; The playbooks are included into the main run, so the syntax in the [example](/playbooks/prestart/0-example.yml) must be followed..  
-They will be run in lexical order, and prefixing with numbers is a good  
-way to get the order you want.
+### Pre- and post-startup playbooks
+This vagrantbox will execute ansible playbooks put in two special directories `conf/ansible/playbooks/prestart` and `conf/ansible/playbooks/poststart`. This gives the flexibility to configure all aspects of the hashistack as well as run tasks needed for tests or demo purposes as part of `vagrant up` Note; The playbooks are included into the main run, so the syntax in the [example](/playbooks/prestart/0-example.yml) must be followed.
+They will be run in lexical order, and prefixing with numbers is a good way to get the order you want.
