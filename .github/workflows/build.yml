@@ -96,7 +96,7 @@ jobs:
     if: github.event.action == 'closed' && github.event.pull_request.merged == true
     needs: release-prerequisites
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -127,6 +127,14 @@ jobs:
             ${{ needs.release-prerequisites.outputs.log_entry }}
           draft: false
           prerelease: false
+
+release-template:
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true
+    needs: release
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
 
       - name: Push template to vagrant-hashistack-template
         uses: cpina/github-action-push-to-another-repository@master
