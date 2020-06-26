@@ -5,7 +5,6 @@ export
 .DEFAULT_GOAL := test
 
 up:
-	echo ls -l $$(pwd)/$${VAGRANT_VAGRANTFILE}
 	vagrant up --provision
 	$(MAKE) clean
 
