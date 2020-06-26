@@ -8,7 +8,7 @@ ifeq ($(UNAME),Linux)
 	$(MAKE) -C linux
 endif
 ifeq ($(UNAME),Darwin)
-	$(MAKE) -C linux
+	$(MAKE) -C mac
 endif
 
 versions:

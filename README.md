@@ -15,7 +15,7 @@ This vagrant box aims to make it dead simple to start a hashistack in a "product
 
 ## Build & Test
 
-`make install` (ubuntu 18.04 or macos) will download and install all prerequisites (virtualbox, vagrant, packer) 
+`make install` (ubuntu 18.04 or macos) will download and install all prerequisites (virtualbox, vagrant, packer)
 
 `make build` will build a vagrant box based on hashicorp/bionic64. The packaged box will be locally available at ´packer/output-hashistack/package.box´
 
