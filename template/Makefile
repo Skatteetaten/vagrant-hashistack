@@ -2,6 +2,9 @@ include .env
 export
 export PATH := $(shell pwd)/tmp:$(PATH)
 
+.ONESHELL .PHONY: up update-box destroy-box remove-tmp clean copy-consul test
+.DEFAULT_GOAL := up
+
 #### Development ####
 # start commands
 up: clean update-box
@@ -22,7 +25,5 @@ clean: destroy-box remove-tmp
 copy-consul:
 	if [ ! -f "./tmp/consul" ]; then mkdir -p ./tmp; vagrant ssh -c "cp /usr/local/bin/consul /vagrant/tmp/consul"; fi;
 
-#### Test #### TODO: move to test template
-
-test: up
-	$(MAKE) -C test test
+test:
+	$(MAKE) -C test

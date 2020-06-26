@@ -8,8 +8,8 @@
       - nomad
   tasks:
     - name: Running prestart books
-      include: "{{ item }}"
-      with_fileglob: "/vagrant/conf/vagrant/ansible/playbooks/prestart/*"
+      include_tasks: "{{ item }}"
+      with_fileglob: "/vagrant/vagrant/conf/ansible/playbooks/prestart/*"
 
     - name: "Start hashistack"
       systemd: name={{item}} state=started
@@ -43,5 +43,5 @@
       delay: 1
 
     - name: Running poststart books
-      include: "{{ item }}"
-      with_fileglob: "/vagrant/conf/vagrant/ansible/playbooks/poststart/*"
+      include_tasks: "{{ item }}"
+      with_fileglob: "/vagrant/vagrant/conf/ansible/playbooks/poststart/*"

@@ -5,11 +5,10 @@ export
 .DEFAULT_GOAL := test
 
 up:
-	vagrant up --provision
+	@echo Running test in template as vagrant's working directory, with its Vagrantfile overriden by: ${VAGRANT_VAGRANT_FILE}
+	$(MAKE) -C ../template test
 
 clean:
-	vagrant destroy -f
 	vagrant box remove local/hashistack --force || true
-	rm -f terraform.tfstate terraform.tfstate.backup
 
 test: clean up clean
