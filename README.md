@@ -15,17 +15,15 @@ This vagrant box aims to make it dead simple to start a hashistack in a "product
 
 ## Build & Test
 
-`make install` (ubuntu) or `make install-mac` *(mac) will download and install all prerequisites (virtualbox, vagrant) You may want to reboot now!
+`make install` (ubuntu 18.04 or macos) will download and install all prerequisites (virtualbox, vagrant, packer)
 
-`make build` will build a vagrant box based on hashicorp/bionic64
+`make build` will build a vagrant box based on hashicorp/bionic64. The packaged box will be locally available at ´packer/output-hashistack/package.box´
 
-`make test` (dependent on a prior `make build`) will add the built box as local/hashistack, run it and it will start the [countdash](https://www.nomadproject.io/docs/integrations/consul-connect/) consul-connect example.
-
-\* Mac OS prerequisites installation require [package manager - brew](https://brew.sh/)
+`make test` run tests by starting the [countdash](https://www.nomadproject.io/docs/integrations/consul-connect/) consul-connect example. If ´packer/output-hashistack/package.box´ does not exist, it will run ´make build´
 
 ## Usage
 
-This is meant to be used as a base-box for different projects to extend on. See [Vagrantfile](./Vagrantfile) for a complete example.
+This is meant to be used as a base-box for different projects to extend on. See [Vagrantfile](vagrant/Vagrantfile) for a complete example.
 
 ### Requirements
 
@@ -49,7 +47,7 @@ config.vm.provision "ansible_local" do |startup|
 end
 ```
 
-in the Vagrant file for hashistack to startup. See [Vagrantfile](Vagrantfile) for a complete example.
+in the Vagrant file for hashistack to startup. See [Vagrantfile](vagrant/Vagrantfile) for a complete example.
 startup.yml will start Vault, Consul and Nomad and then the box will be ready for consul-connect enabled services.
 Nomad, Vault and Consul bind on loopback and advertise on the ip `10.0.3.10` which should be available on your local machine.
 Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should allow you to use the nomad binary to post jobs directly.
