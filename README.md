@@ -47,7 +47,7 @@ If you for any reason find yourself behind a transparent proxy you need to set t
 - Set the environment variables permanently by adding the export commands above to your `~/.bashrc` or equivalent.
 
 ### Extending the base-box to fit your needs
-To see a full example of how to utilise this box and extend it, go to [template](template).
+To see a full example of how to utilise this box and extend it, go to [template-repo](https://github.com/fredrikhgrelland/vagrant-hashistack-template).
 
 ## Why does this exist?
 
