@@ -6,6 +6,8 @@
 
 This vagrant box aims to make it dead simple to start a hashistack in a "production state."
 
+This repository will release a new [template](template/README.md) into [fredrikhgrelland/vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template) on every release.
+
 ---
 > 🚧 - current vagrant box runs consul, nomad and vault in `dev` (development) mode.
 - [consul development mode](https://learn.hashicorp.com/consul/getting-started/agent)
@@ -23,10 +25,10 @@ This vagrant box aims to make it dead simple to start a hashistack in a "product
 
 ## Usage
 
-This repo will build a base-box for different projects to extend on. The base box contains components and setup that makes it ideal for testing and using the hashistack.
+This repo will build a base-box for different projects to extend on. The base box contains components and a setup that makes it ideal for working with the hashistack.
 
 
-The default box will start Nomad, Vault and Consul, bound on loopback and advertise on the ip `10.0.3.10` which should be available on your local machine.
+The default box will start Nomad, Vault and Consul, bound on loopback and advertising on the ip `10.0.3.10`, which should be available on your local machine.
 Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should allow you to use the nomad binary to post jobs directly. Consul and Vault has also been portforwarded, and are also available on `127.0.0.1` on port `8500` and `8200` respectively.
 - Nomad ui is available on [http://10.0.3.10:4646](http://10.0.3.10:4646) and all links to services should work.
 - Consul ui is available on [http://10.0.3.10:8500](http://10.0.3.10:8500)
@@ -34,6 +36,9 @@ Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should al
 
 ### Starting a plain default box
 To get a running VM using the lastest release of this box run `vagrant box init fredrikhgrelland/hashistack` then `vagrant up`. The first command will add a file called `Vagrantfile` to your directory, and `vagrant up` will start a box based on the specifications of that file.
+
+### Starting a new project based on the hashistack
+To see a full example of how to start a new project based on this box go to [template-repo](https://github.com/fredrikhgrelland/vagrant-hashistack-template).
 
 ### Default master tokens
 
@@ -45,9 +50,6 @@ If you for any reason find yourself behind a transparent proxy you need to set t
 - Prefix `vagrant up`; `SSL_CERT_FILE=<path/to/ca-certificates-file> CURL_CA_BUNDLE=<path/to/ca-certificates-file> vagrant up`
 - Set the environment variables in your current session by running `export SSL_CERT_FILE=<path/to/ca-certificates-file>` and `export CURL_CA_BUNDLE=<path/to/ca-certificates-file>` in the terminal. Eg:`export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt`
 - Set the environment variables permanently by adding the export commands above to your `~/.bashrc` or equivalent.
-
-### Extending the base-box to fit your needs
-To see a full example of how to utilise this box and extend it, go to [template-repo](https://github.com/fredrikhgrelland/vagrant-hashistack-template).
 
 ## Why does this exist?
 
