@@ -35,6 +35,9 @@ Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should al
 ### Starting a plain default box
 To get a running VM using the lastest release of this box run `vagrant box init fredrikhgrelland/hashistack` then `vagrant up`. The first command will add a file called `Vagrantfile` to your directory, and `vagrant up` will start a box based on the specifications of that file.
 
+### Starting a new project based on the hashistack
+This repository will release a new [template](template/README.md) into [fredrikhgrelland/vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template) on evry release.
+
 ### Default master tokens
 
 The master token for `Consul` and `Vault` is `master`.
@@ -45,9 +48,6 @@ If you for any reason find yourself behind a transparent proxy you need to set t
 - Prefix `vagrant up`; `SSL_CERT_FILE=<path/to/ca-certificates-file> CURL_CA_BUNDLE=<path/to/ca-certificates-file> vagrant up`
 - Set the environment variables in your current session by running `export SSL_CERT_FILE=<path/to/ca-certificates-file>` and `export CURL_CA_BUNDLE=<path/to/ca-certificates-file>` in the terminal. Eg:`export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt`
 - Set the environment variables permanently by adding the export commands above to your `~/.bashrc` or equivalent.
-
-### Extending the base-box to fit your needs
-To see a full example of how to utilise this box and extend it, go to [template-repo](https://github.com/fredrikhgrelland/vagrant-hashistack-template).
 
 ## Why does this exist?
 
