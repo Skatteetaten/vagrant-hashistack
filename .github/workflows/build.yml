@@ -128,7 +128,7 @@ jobs:
           draft: false
           prerelease: false
 
-release-template:
+  release-template:
     if: github.event.action == 'closed' && github.event.pull_request.merged == true
     needs: release
 
