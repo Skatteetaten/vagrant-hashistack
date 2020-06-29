@@ -34,21 +34,21 @@
       include_role:
         name: geerlingguy.docker
 
-    - name: "install systemd unit file"
+    - name: Install systemd unit file
       template: src={{item}}.service.j2 dest=/etc/systemd/system/{{item}}.service
       loop: "{{ hashicorp.daemons }}"
 
-    - name: "create /etc/{{item}}.d"
+    - name: Create /etc/{{item}}.d
       file:
         path: /etc/{{item}}.d
         state: directory
       loop: "{{ hashicorp.daemons }}"
 
-    - name: "add config.json"
+    - name: Add config.json
       template: src={{item}}.hcl.j2 dest=/etc/{{item}}.d/config.hcl
       loop: "{{ hashicorp.daemons }}"
 
-    - name: "systemd reload"
+    - name: systemd reload
       systemd: daemon_reload=yes
 
     - name: Install hashistack

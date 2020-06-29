@@ -11,7 +11,7 @@
       include_tasks: "{{ item }}"
       with_fileglob: "/vagrant/vagrant/conf/ansible/playbooks/prestart/*"
 
-    - name: "Start hashistack"
+    - name: Start hashistack
       systemd: name={{item}} state=started
       loop: "{{ daemons }}"
 
