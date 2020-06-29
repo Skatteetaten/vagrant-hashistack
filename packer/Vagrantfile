@@ -18,6 +18,6 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "cp /vagrant/vagrant/conf/hashistack/nomad/99-override.hcl /etc/nomad.d/99-override.hcl || true"
     config.vm.provision "ansible_local" do |startup|
         run = "always"
-        startup.playbook = "/etc/ansible/start_hashistack.yml"
+        startup.playbook = "/etc/ansible/bootstrap.yml"
     end
 end

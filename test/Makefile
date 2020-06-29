@@ -5,7 +5,7 @@ export
 .DEFAULT_GOAL := test
 
 up:
-	@echo "Running test in template as vagrant's working directory, with its Vagrantfile overriden by: ${VAGRANT_VAGRANT_FILE}"
+	@echo "Running test in template as vagrant's working directory, with its Vagrantfile overriden by: ${VAGRANT_VAGRANTFILE}"
 	$(MAKE) -C ../template test
 
 clean:
