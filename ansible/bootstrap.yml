@@ -1,103 +1,47 @@
 ---
 - hosts: all
   become: yes
+  vars:
+    daemons:
+      - vault
+      - consul
+      - nomad
   tasks:
-    - name: Create a directory if it does not exist
-      file:
-        path: /etc/ansible
-        state: directory
-        mode: '0755'
+    - name: Running prestart books
+      include_tasks: "{{ item }}"
+      with_fileglob: "/vagrant/vagrant/conf/ansible/playbooks/prestart/*"
 
-    - name: Copy ansible config
-      copy:
-        src: ansible.cfg
-        dest: /etc/ansible/ansible.cfg
+    - name: "Start hashistack"
+      systemd: name={{item}} state=started
+      loop: "{{ daemons }}"
 
-    - name: Copy ansible startup playbook
-      copy:
-        src: start_hashistack.yml
-        dest: /etc/ansible/start_hashistack.yml
+    - name: Wait for consul to start
+      uri:
+        url: http://127.0.0.1:8500/ui/dc1/services
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 1
 
-    - name: Copy ansible hosts file
-      copy:
-        src: hosts
-        dest: /etc/ansible/hosts
+    - name: Wait for nomad to start
+      uri:
+        url: http://127.0.0.1:4646/v1/jobs
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 1
 
-    - name: Install unzip
-      apt: pkg=unzip state=latest
+    - name: Wait for vault to start
+      uri:
+        url: http://127.0.0.1:8200/ui/
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 1
 
-    - name: Install ansible galaxy roles
-      command: "ansible-galaxy install {{ item }} -p /etc/ansible/roles/"
-      loop: "{{ ansible.galaxy.roles }}"
-
-    - name: Install docker
-      include_role:
-        name: geerlingguy.docker
-
-    - name: "install systemd unit file"
-      template: src={{item}}.service.j2 dest=/etc/systemd/system/{{item}}.service
-      loop: "{{ hashicorp.daemons }}"
-
-    - name: "create /etc/{{item}}.d"
-      file:
-        path: /etc/{{item}}.d
-        state: directory
-      loop: "{{ hashicorp.daemons }}"
-
-    - name: "add config.json"
-      template: src={{item}}.hcl.j2 dest=/etc/{{item}}.d/config.hcl
-      loop: "{{ hashicorp.daemons }}"
-
-    - name: "systemd reload"
-      systemd: daemon_reload=yes
-
-    - name: Install hashistack
-      include_role:
-        name: hashistack
-      vars:
-        software: "{{ item.key }}"
-        version: "{{ item.value }}"
-      loop: "{{ query('dict', hashicorp.tools) }}"
-
-    - name:  Update message of the day
-      template:
-        src: "{{item}}"
-        dest: "/etc/update-motd.d/{{ (item | basename | splitext)[0] }}"
-        mode: "+rx"
-      with_fileglob:
-        - templates/update-motd.d/*
-
-    - name: CNI - Ensure Dir
-      file:
-        path: /opt/cni/bin
-        state: directory
-
-    - name: CNI - Install
-      unarchive:
-        src: https://github.com/containernetworking/plugins/releases/download/v0.8.4/cni-plugins-linux-amd64-v0.8.4.tgz
-        remote_src: true
-        dest: /opt/cni/bin
-
-    - name: CNI - Tune iptables - persist
-      copy:
-        dest: "/etc/sysctl.d/cni-iptables"
-        mode: "+rx"
-        content: |
-          net.bridge.bridge-nf-call-arptables = 1
-          net.bridge.bridge-nf-call-ip6tables = 1
-          net.bridge.bridge-nf-call-iptables = 1
-
-    - name: CNI - Tune iptables - run
-      command: sysctl --system
-
-    - name: Install Docker SDK for Python
-      pip:
-        name: docker
-
-    - name: Checking for entry VAULT_ADDR env in .bashrc
-      shell: cat /home/vagrant/.bashrc | grep "export VAULT_ADDR" | wc -l
-      register: test_grep
-
-    - name: Append VAULT_ADDR
-      lineinfile: dest=/home/vagrant/.bashrc line="export VAULT_ADDR=http://127.0.0.1:8200"
-      when: test_grep.stdout == "0"
+    - name: Running poststart books
+      include_tasks: "{{ item }}"
+      with_fileglob: "/vagrant/vagrant/conf/ansible/playbooks/poststart/*"
