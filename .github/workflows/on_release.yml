@@ -1,0 +1,21 @@
+name: Template
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  push-template:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Push template to vagrant-hashistack-template
+        uses: fredrikhgrelland/github-action-push-to-another-repository@v1.1
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'template'
+          destination-github-username: 'fredrikhgrelland'
+          destination-repository-name: 'vagrant-hashistack-template'
+          user-email: 'fredrikhoem.grelland@skatteetaten.no'
