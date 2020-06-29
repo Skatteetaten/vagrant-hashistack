@@ -28,6 +28,7 @@ This repository will release a new [template](template/README.md) into [fredrikh
 This repo will build a base-box for different projects to extend on. The base box contains components and a setup that makes it ideal for working with the hashistack.
 
 
+
 The default box will start Nomad, Vault and Consul, bound on loopback and advertising on the ip `10.0.3.10`, which should be available on your local machine.
 Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should allow you to use the nomad binary to post jobs directly. Consul and Vault has also been portforwarded, and are also available on `127.0.0.1` on port `8500` and `8200` respectively.
 - Nomad ui is available on [http://10.0.3.10:4646](http://10.0.3.10:4646) and all links to services should work.
@@ -35,7 +36,7 @@ Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should al
 - Vault ui is available on [http://10.0.3.10:8200](http://10.0.3.10:8200)
 
 ### Starting a plain default box
-To get a running VM using the lastest release of this box run `vagrant box init fredrikhgrelland/hashistack` then `vagrant up`. The first command will add a file called `Vagrantfile` to your directory, and `vagrant up` will start a box based on the specifications of that file.
+To get a running VM using the lastest release of this box run `vagrant init fredrikhgrelland/hashistack` then `vagrant up`. The first command will add a file called `Vagrantfile` to your directory, and `vagrant up` will start a box based on the specifications of that file.
 
 ### Starting a new project based on the hashistack
 To see a full example of how to start a new project based on this box go to [template-repo](https://github.com/fredrikhgrelland/vagrant-hashistack-template).
