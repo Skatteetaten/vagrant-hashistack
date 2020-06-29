@@ -1,0 +1,1 @@
+#Any vaild configuration from https://www.vaultproject.io/docs/configuration
