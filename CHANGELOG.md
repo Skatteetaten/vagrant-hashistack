@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased 0.2.1]
+
+### Fixed
+
+- Template was missing directories
+- VAGRANT_VAGRANTFILE was not properly referenced
+
+### Added
+
+- README.md in template directories adds a bit of guidance and context
+
 ## [0.2.0]
 
 ### Changed
