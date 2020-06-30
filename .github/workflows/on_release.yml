@@ -2,7 +2,6 @@ name: Template
 
 on:
   release:
-    types: [published]
 
 jobs:
   push-template:
