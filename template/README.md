@@ -22,17 +22,16 @@ You may edit the `99-override.hcl` or add your own.
 Any valid configuration added to these directories will be added to their respective services' configuration, in lexical order.
 
 #### Config variations
-We provide some config variations as additional functionality, which you may want to use. 
+We provide some config variations as additional functionality, which you may want to use.
 Current supported variations:
-```
+```text
 * ACL default policy for consul (deny or allow)
-
 ```
 To choose other config variation you need to override ansible variables. There are two options how to override ansible variables:
-* First option via ANSIBLE_AGRS
+* First option via `ANSIBLE_AGRS`
 ```bash
 ANSIBLE_ARGS='--extra-vars "consul_agent_acl_default_policy=deny"' vagrant up --provision
-``` 
+```
 * Second option via prestart, adding fact in `vagrant/conf/ansible/playbooks/prestart/0-example.yml`
 ```yaml
 # Option 2 how to turn on ACL
@@ -53,4 +52,4 @@ They will be run in lexical order, and prefixing with numbers is a good way to g
 3. `prestart/0-example.yml` - prestart scripts, running before hashistack software will start
 4. `bootstrap.yml` - verify ansible variables and software configuration, run hashistack software & verify that it started correctly
 5. `poststart/0-example.yml` - poststart scripts, running after hasistack software runs and ready
-6. `ansible/playbook.yml` - user's provisioning playbook 
+6. `ansible/playbook.yml` - user's provisioning playbook
