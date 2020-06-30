@@ -1,5 +1,8 @@
 name: Template
 
+env:
+  GITHUB_TOKEN: ${{ secrets.PAT_GITHUB_TOKEN }}
+
 on:
   release:
     types:
