@@ -15,7 +15,7 @@
       include_tasks: default_vars.yml
 
     - name: Verify Consul ACL default policy
-      template: src=/etc/ansible/templates/consul-acl.hcl.j2 dest=/etc/consul.d/config-merge1.hcl
+      template: src=/etc/ansible/templates/consul-acl.hcl.j2 dest=/etc/consul.d/config-acl.hcl
       when: consul_agent_acl_default_policy == "deny"
 
     - name: Start hashistack
