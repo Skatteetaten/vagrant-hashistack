@@ -2,6 +2,9 @@ name: Template
 
 on:
   release:
+    types:
+      - released
+      - edited
 
 jobs:
   push-template:
