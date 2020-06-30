@@ -2,11 +2,22 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Create a directory if it does not exist
+    - name: Create /etc/ansible directory if it does not exist
       file:
         path: /etc/ansible
         state: directory
         mode: '0755'
+
+    - name: Create /etc/ansible/templates directory if it does not exist
+      file:
+        path: /etc/ansible/templates
+        state: directory
+        mode: '0755'
+
+    - name: Copy ansible default_vars playbook
+      copy:
+        src: default_vars.yml
+        dest: /etc/ansible/default_vars.yml
 
     - name: Copy ansible config
       copy:
@@ -101,3 +112,9 @@
     - name: Append VAULT_ADDR
       lineinfile: dest=/home/vagrant/.bashrc line="export VAULT_ADDR=http://127.0.0.1:8200"
       when: test_grep.stdout == "0"
+
+# Additional config for conditional startup
+    - name: Copy acl template config for consul
+      copy:
+        src: templates/consul-acl.hcl.j2
+        dest: /etc/ansible/templates/consul-acl.hcl.j2

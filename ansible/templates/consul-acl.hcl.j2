@@ -1,0 +1,10 @@
+{% raw -%}
+acl {
+  default_policy = "deny"
+  down_policy = "extend-cache"
+  enabled = true
+  tokens {
+    master = "master"
+  }
+}
+{%- endraw %}
