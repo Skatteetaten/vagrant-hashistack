@@ -6,14 +6,44 @@
       - vault
       - consul
       - nomad
+    token: master
   tasks:
     - name: Running prestart books
       include_tasks: "{{ item }}"
       with_fileglob: "/vagrant/vagrant/conf/ansible/playbooks/prestart/*"
 
+    - name: Verify default variables
+      include_tasks: default_vars.yml
+
+    - name: Verify Consul ACL default policy
+      template: src=/etc/ansible/templates/consul-acl.hcl.j2 dest=/etc/consul.d/config-acl.hcl
+      when: consul_agent_acl_default_policy == "deny"
+
     - name: Start hashistack
       systemd: name={{item}} state=started
       loop: "{{ daemons }}"
+
+    - name: Verify Consul ACL deny policy - access deny without token
+      uri:
+        url: http://127.0.0.1:8500/v1/acl/tokens
+        status_code: 403
+      register: result
+      until: result.status == 403
+      retries: 5
+      delay: 1
+      when: consul_agent_acl_default_policy == "deny"
+
+    - name: Verify Consul ACL deny policy - access granted with correct token
+      uri:
+        url: http://127.0.0.1:8500/v1/acl/tokens
+        status_code: 200
+        headers:
+          X-Consul-Token: "{{ token }}"
+      register: result
+      until: result.status == 200
+      retries: 5
+      delay: 1
+      when: consul_agent_acl_default_policy == "deny"
 
     - name: Wait for consul to start
       uri:

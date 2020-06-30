@@ -1,0 +1,3 @@
+## Option 2 how to turn on ACL
+## [ACL] Set 'deny' default policy for consul agent
+#- set_fact: consul_agent_acl_default_policy="deny"
