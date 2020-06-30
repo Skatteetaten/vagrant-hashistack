@@ -6,6 +6,7 @@
       - vault
       - consul
       - nomad
+    token: master
   tasks:
     - name: Running prestart books
       include_tasks: "{{ item }}"
@@ -37,22 +38,12 @@
         url: http://127.0.0.1:8500/v1/acl/tokens
         status_code: 200
         headers:
-          X-Consul-Token: master
+          X-Consul-Token: "{{ token }}"
       register: result
       until: result.status == 200
       retries: 5
       delay: 1
       when: consul_agent_acl_default_policy == "deny"
-
-    - name: Verify Consul ACL allow policy - access granted without token
-      uri:
-        url: http://127.0.0.1:8500/v1/acl/tokens
-        status_code: 200
-      register: result
-      until: result.status == 200
-      retries: 5
-      delay: 1
-      when: consul_agent_acl_default_policy == "allow"
 
     - name: Wait for consul to start
       uri:
