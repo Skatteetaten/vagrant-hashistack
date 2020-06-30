@@ -51,5 +51,5 @@ They will be run in lexical order, and prefixing with numbers is a good way to g
 2. `default_vars.yml` - setup default ansible variables
 3. `prestart/*.yml` - prestart scripts, running before hashistack software will start
 4. `bootstrap.yml` - verify ansible variables and software configuration, run hashistack software & verify that it started correctly
-5. `poststart/0-example.yml` - poststart scripts, running after hasistack software runs and ready
+5. `poststart/*.yml` - poststart scripts, running after hasistack software runs and ready
 6. `ansible/playbook.yml` - user's provisioning playbook
