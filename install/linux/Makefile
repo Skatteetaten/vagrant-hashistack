@@ -1,4 +1,4 @@
-include .env
+include ../.env
 export
 
 .ONESHELL .PHONY: prereq check_upgrade stop_vbox install_virtualbox hashicorp_gpg install_vagrant configure_vagrant install_packer
