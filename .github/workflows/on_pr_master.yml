@@ -108,7 +108,7 @@ jobs:
           path: packer/output-hashistack
       
       - name: Authenticate to vagrant cloud
-        run: vagrant auth login --token ${{ secrets.VAGRANT_CLOUD_TOKEN }}
+        run: vagrant cloud auth login --token ${{ secrets.VAGRANT_CLOUD_TOKEN }}
         
       - name: Upload and release vagrantbox on vagrant cloud
         uses: nick-invision/retry@v1
