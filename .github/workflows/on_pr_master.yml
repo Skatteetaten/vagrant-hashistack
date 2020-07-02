@@ -106,11 +106,12 @@ jobs:
         with:
           name: vagrantbox
           path: packer/output-hashistack
-
+      
+      - name: Authenticate to vagrant cloud
+        run: vagrant auth login --token ${{ secrets.VAGRANT_CLOUD_TOKEN }}
+        
       - name: Upload and release vagrantbox on vagrant cloud
         uses: nick-invision/retry@v1
-        env:
-          VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
         with:
           timeout_minutes: 10
           max_attempts: 3
