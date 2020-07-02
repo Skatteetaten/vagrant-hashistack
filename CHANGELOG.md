@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.2]
+
+### Fixed
+
+- Mac installation prerequisites
+
+### Added
+
+- Introduce vagrant-hashistack box life-cycle
+- Default extra_vars for ansible provisioner
+- Override default extra_vars via ANSIBLE_ARGS or prestart scripts
+- Consul ACL default policy based on extra_vars switch
+
 ## [0.2.1]
 
 ### Changed
