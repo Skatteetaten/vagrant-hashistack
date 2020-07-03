@@ -46,7 +46,7 @@ This vagrant box will execute ansible playbooks put in two special directories [
 They will be run in lexical order, and prefixing with numbers is a good way to get the order you want.
 
 ### Vagrant box life-cycle
-![img](../docs/life-cycle.png)
+![img](vagrant/docs/life-cycle.png)
 1. `install.yml` - installing required software
 2. `default_vars.yml` - setup default ansible variables
 3. `prestart/*.yml` - prestart scripts, running before hashistack software will start
