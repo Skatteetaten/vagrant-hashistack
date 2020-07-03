@@ -13,7 +13,11 @@ This repository will release a new [template](template/README.md) into [fredrikh
 <p align="center">
    <a href="https://app.vagrantup.com/fredrikhgrelland/boxes/hashistack" alt="Download og Vagrant Cloud">
         <img src="https://img.shields.io/badge/Download%20on-Vagrant%20Cloud-orange?style=for-the-badge&logo=vagrant" /></a>
+   <a href="https://github.com/fredrikhgrelland/vagrant-hashistack-template" alt="Clone Template">
+     <img src="https://img.shields.io/badge/Github-Clone%20template-blue?style=for-the-badge&logo=github" /></a>
 </p>
+
+---
 
 > 🚧 - current vagrant box runs consul, nomad and vault in `dev` (development) mode.
 - [consul development mode](https://learn.hashicorp.com/consul/getting-started/agent)
