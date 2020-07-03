@@ -20,7 +20,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-directory: 'template'
+          source-directory: 'template/'
           destination-github-username: 'fredrikhgrelland'
           destination-repository-name: 'vagrant-hashistack-template'
           user-email: 'fredrikhoem.grelland@skatteetaten.no'
