@@ -11,6 +11,9 @@ endif
 ifeq (, $(shell which apt))
  $(error "Missing package `apt` installation only supported on debian ( tested on Ubuntu 18.04 )")
 endif
+ifeq (, $(shell which curl))
+ $(error "Missing package `curl`, install using the following command: `sudo apt-get install curl`")
+endif
 
 check_upgrade:
 ifneq (, $(shell which vboxmanage))
