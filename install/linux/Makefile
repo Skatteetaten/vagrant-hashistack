@@ -16,6 +16,8 @@ check_upgrade:
 ifneq (, $(shell which vboxmanage))
 	make stop_vbox
 	make install
+else
+	make install
 endif
 
 stop_vbox:
