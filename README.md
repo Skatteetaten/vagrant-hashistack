@@ -30,6 +30,15 @@ You will need to have pre-installed:
 
 - [Make](https://man7.org/linux/man-pages/man1/make.1.html)
 
+## Prerequisites
+### Linux
+- Virtualisation must be enabled. [Error if it is not.](https://github.com/fredrikhgrelland/vagrant-hashistack/issues/136)
+- Packages `gpg` and `apt` must be installed.
+
+### MacOS
+- Virtualisation must be enabled. [This is on by default on MacOS.](https://support.apple.com/en-us/HT203296)
+- [Homebrew](https://brew.sh/) must be installed.
+
 ## Build & Test
 
 `make install` (ubuntu 18.04 or macos) will download and install all prerequisites (virtualbox, vagrant, packer)
