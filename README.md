@@ -27,12 +27,12 @@ This repository will release a new [template](template/README.md) into [fredrikh
 
 ## Prerequisites
 ### Linux
-- Virtualisation must be enabled. (Error if it is not.)[https://github.com/fredrikhgrelland/vagrant-hashistack/issues/136]
+- Virtualisation must be enabled. [Error if it is not.](https://github.com/fredrikhgrelland/vagrant-hashistack/issues/136)
 - Packages `gpg` and `apt` must be installed.
 
 ### MacOS
-- Virtualisation must be enabled. (This is on by default on MacOS.)[https://support.apple.com/en-us/HT203296]
-- (Homebrew)[https://brew.sh/] must be installed.
+- Virtualisation must be enabled. [This is on by default on MacOS.](https://support.apple.com/en-us/HT203296)
+- [Homebrew](https://brew.sh/) must be installed.
 
 ## Build & Test
 
