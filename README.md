@@ -24,6 +24,11 @@ This repository will release a new [template](template/README.md) into [fredrikh
 - [nomad development mode](https://learn.hashicorp.com/nomad/getting-started/running)
 - [vault development mode](https://www.vaultproject.io/docs/concepts/dev-server)
 ---
+## Prerequisites
+
+You will need to have pre-installed:
+
+- [Make](https://man7.org/linux/man-pages/man1/make.1.html)
 
 ## Build & Test
 
