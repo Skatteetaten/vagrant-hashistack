@@ -7,7 +7,7 @@
 # Bootstrapping the acl stanza configures the Nomad agent to enable ACLs and tunes various ACL parameters.
 # Either true or false
 # https://www.nomadproject.io/docs/configuration/acl
-- set_fact: nomad_agent_acl_enable=false
+- set_fact: nomad_agent_acl_enable="false"
   when: nomad_agent_acl_enable is undefined
 
 # Example: some custom variable
