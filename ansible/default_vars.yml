@@ -1,13 +1,15 @@
 # Bootstrapping the default policy controls the behavior of a token when there is no matching rule.
 # Either "allow" or "deny"
 # https://www.consul.io/docs/agent/options.html#acl_default_policy
-- set_fact: consul_agent_acl_default_policy="allow"
+- name: Set consul acl default policy to "allow" if it is not set by user
+  set_fact: consul_agent_acl_default_policy="allow"
   when: consul_agent_acl_default_policy is undefined
 
 # Bootstrapping the acl stanza configures the Nomad agent to enable ACLs and tunes various ACL parameters.
 # Either true or false
 # https://www.nomadproject.io/docs/configuration/acl
-- set_fact: nomad_agent_acl_enable="false"
+- name: Set nomad acl to "false" if it is not set by user
+  set_fact: nomad_agent_acl_enable="false"
   when: nomad_agent_acl_enable is undefined
 
 # Example: some custom variable
