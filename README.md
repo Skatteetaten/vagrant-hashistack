@@ -30,7 +30,8 @@ You will need to have pre-installed:
 
 - [Make](https://man7.org/linux/man-pages/man1/make.1.html)
 
-## Prerequisites
+The rest of the prerequisites are system-dependent:
+
 ### Linux
 - Virtualisation must be enabled. [Error if it is not.](https://github.com/fredrikhgrelland/vagrant-hashistack/issues/136)
 - Packages `gpg` and `apt` must be installed.

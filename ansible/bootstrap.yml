@@ -15,9 +15,13 @@
     - name: Verify default variables
       include_tasks: default_vars.yml
 
-    - name: Verify Consul ACL default policy
+    - name: Verify and render consul acl default policy
       template: src=/etc/ansible/templates/consul-acl.hcl.j2 dest=/etc/consul.d/config-acl.hcl
       when: consul_agent_acl_default_policy == "deny"
+
+    - name: Verify and render nomad acl configuration
+      template: src=/etc/ansible/templates/nomad-acl.hcl.j2 dest=/etc/nomad.d/config-acl.hcl
+      when: nomad_agent_acl_enable|bool == true
 
     - name: Start hashistack
       systemd: name={{item}} state=started
@@ -54,7 +58,7 @@
       retries: 60
       delay: 1
 
-    - name: Wait for nomad to start
+    - name: Wait for nomad to start - without ACLs
       uri:
         url: http://127.0.0.1:4646/v1/jobs
         status_code: 200
@@ -62,6 +66,17 @@
       until: result.status == 200
       retries: 60
       delay: 1
+      when: nomad_agent_acl_enable|bool == false
+
+    - name: Wait for nomad to start - with ACLs
+      uri:
+        url: http://127.0.0.1:4646/v1/jobs
+        status_code: 403
+      register: result
+      until: result.status == 403
+      retries: 60
+      delay: 1
+      when: nomad_agent_acl_enable|bool == true
 
     - name: Wait for vault to start
       uri:
