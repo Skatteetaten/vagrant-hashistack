@@ -87,6 +87,17 @@
       retries: 60
       delay: 1
 
+    - name: start vault's nomad secrets backend
+      shell:
+        cmd: vault secrets enable nomad
+      environment:
+        VAULT_ADDR: http://127.0.0.1:8200
+        VAULT_TOKEN: master
+
+    - name: Run the nomad acl bootstrap process
+      include: nomad_acl_bootstrap.yml
+      when: nomad_agent_acl_enable|bool == true
+
     - name: Running poststart books
       include_tasks: "{{ item }}"
       with_fileglob: "/vagrant/vagrant/conf/ansible/playbooks/poststart/*"

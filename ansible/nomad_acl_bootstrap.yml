@@ -1,0 +1,29 @@
+- name: acl bootstrap nomad
+  shell:
+    cmd: (nomad acl bootstrap > management.token) && awk '/Secret/ {print $4}' management.token
+  register: secret_id
+
+- name: print accessor ID
+  shell:
+    cmd: awk '/Accessor/ {print $4}' management.token
+  register: accessor_id
+
+- name: add management token to vault
+  shell:
+    cmd: vault kv put secret/nomad-bootstrap-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
+  environment:
+    VAULT_ADDR: http://127.0.0.1:8200
+    VAULT_TOKEN: master
+
+- name: delete management.token file
+  file:
+    path: management.token
+    state: absent
+
+- name: create policy write
+  shell:
+    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Test write policy" write-test /etc/nomad.d/policies/write.policy.hcl
+
+- name: create policy read
+  shell:
+    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Test read policy" read-test /etc/nomad.d/policies/read.policy.hcl
