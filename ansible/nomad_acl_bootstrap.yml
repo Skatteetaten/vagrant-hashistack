@@ -20,10 +20,10 @@
     path: management.token
     state: absent
 
-- name: create policy write
+- name: create default policy write
   shell:
-    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Test write policy" write-test /etc/nomad.d/policies/write.policy.hcl
+    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Default write policy" write-default /etc/nomad.d/policies/write.policy.hcl
 
-- name: create policy read
+- name: create default policy read
   shell:
-    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Test read policy" read-test /etc/nomad.d/policies/read.policy.hcl
+    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Default read policy" read-default /etc/nomad.d/policies/read.policy.hcl
