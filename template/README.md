@@ -24,7 +24,10 @@ Any valid configuration added to these directories will be added to their respec
 #### Nomad ACLs
 Refer to [config variations](#config-variations) on how to toggle ACLs in nomad.
 
-When ACLs in Nomad are on the bootstrap management token will be available in vault under `secret/nomad/management-token` with the two key-value pairs `accessor-id` and `secret-id`. `secret-id` is the token itself. This can be accessed from inside the vagrant box with `vault kv get secret/nomad-bootstrap-token` (you may need to run `export VAULT_TOKEN=master` first, if it is not already set), or by going to vault's UI on `localhost:8200` and signing in with the root token.
+When ACLs in Nomad are enabled the bootstrap token will be available in vault under `secret/nomad/management-token` with the two key-value pairs `accessor-id` and `secret-id`. `secret-id` is the token itself. These can be accessed in several ways:
+- From inside the vagrant box with `vault kv get secret/nomad-bootstrap-token` (you may need to run `export VAULT_TOKEN=master` and `export VAULT_ADDR=http://127.0.0.1:8200` first, if they are not already set).
+- From local machine with `vagrant ssh -c "VAULT_ADDR=http://127.0.0.1:8200 VAULT_TOKEN=master vault kv get secret/nomad-bootstrap-token"`
+- By going to vault's UI on `localhost:8200`, and signing in with the root token.
 
 #### Consul default ACL policy
 Refer to [config variations](#config-variations) on how to change Consul's default ACL policy.
