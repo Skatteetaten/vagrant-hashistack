@@ -29,6 +29,11 @@
         src: bootstrap.yml
         dest: /etc/ansible/bootstrap.yml
 
+    - name: Copy ansible nomad acl bootstrap playbook
+      copy:
+        src: nomad_acl_bootstrap.yml
+        dest: /etc/ansible/nomad_acl_bootstrap.yml
+
     - name: Copy ansible hosts file
       copy:
         src: hosts
@@ -58,6 +63,18 @@
     - name: Add config.json
       template: src={{item}}.hcl.j2 dest=/etc/{{item}}.d/config.hcl
       loop: "{{ hashicorp.daemons }}"
+
+    - name: Create /etc/nomad.d/policies/ dir
+      file:
+        path: /etc/nomad.d/policies/
+        state: directory
+
+    - name: Add nomad policies
+      copy:
+        src: "{{item}}"
+        dest: "/etc/nomad.d/policies/"
+      with_fileglob:
+        - "templates/nomad-policies/*"
 
     - name: systemd reload
       systemd: daemon_reload=yes
