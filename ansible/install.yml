@@ -34,6 +34,11 @@
         src: nomad_acl_bootstrap.yml
         dest: /etc/ansible/nomad_acl_bootstrap.yml
 
+    - name: Copy ansible nomad vault integration playbook
+      copy:
+        src: vault_nomad_integration.yml
+        dest: /etc/ansible/vault_nomad_integration.yml
+
     - name: Copy ansible hosts file
       copy:
         src: hosts
