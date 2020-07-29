@@ -8,7 +8,7 @@ If you found this in `fredrikhgrelland/vagrant-hashistack`, you may be intereste
 
 Documentation on [parent repository](https://github.com/fredrikhgrelland/vagrant-hashistack#usage).
 
-## Customizing the vagrant box
+## Customizing and using the vagrant box
 The vagrant box ships with a default startup scheme. It will run an ansible playbook to start all services.
 You may change the hashistack configuration or add aditional pre and post steps to the startup procedure to match your needs.
 
