@@ -9,7 +9,7 @@ provider "nomad" {
   //  secret_id = "${data.vault_generic_secret.nomad_secret_id.data.secret_id}"
 }
 
-// The following data-source is needed ACLs are enabled in Nomad
+// The following data-source is needed if ACLs are enabled in Nomad
 /*
 data "vault_generic_secret" "nomad_secret_id" {
   path = "nomad/creds/write"
