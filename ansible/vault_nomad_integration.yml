@@ -8,7 +8,7 @@
 - name: fetch bootstrap token nomad
   shell:
     cmd: vault kv get -field=secret-id secret/nomad-bootstrap-token
-  register: bootstrap
+  register: bootstrap_token
   environment:
     VAULT_TOKEN: master
     VAULT_ADDR: http://127.0.0.1:8200
@@ -17,7 +17,7 @@
   shell:
     cmd: nomad acl token create -name="Vault Management Token" -type="management" > management.token
   environment:
-    NOMAD_TOKEN: "{{ bootstrap.stdout }}"
+    NOMAD_TOKEN: "{{ bootstrap_token.stdout }}"
 
 - name: register accessor ID
   shell:
