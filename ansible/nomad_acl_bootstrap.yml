@@ -1,23 +1,23 @@
 - name: acl bootstrap nomad
   shell:
-    cmd: (nomad acl bootstrap > management.token) && awk '/Secret/ {print $4}' management.token
+    cmd: (nomad acl bootstrap > bootstrap.token) && awk '/Secret/ {print $4}' bootstrap.token
   register: secret_id
 
 - name: print accessor ID
   shell:
-    cmd: awk '/Accessor/ {print $4}' management.token
+    cmd: awk '/Accessor/ {print $4}' bootstrap.token
   register: accessor_id
 
-- name: add management token to vault
+- name: add bootstrap token to vault
   shell:
     cmd: vault kv put secret/nomad-bootstrap-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
   environment:
     VAULT_ADDR: http://127.0.0.1:8200
     VAULT_TOKEN: master
 
-- name: delete management.token file
+- name: delete bootstrap.token file
   file:
-    path: management.token
+    path: bootstrap.token
     state: absent
 
 - name: create default policy write
