@@ -12,16 +12,13 @@
       include_tasks: "{{ item }}"
       loop: "{{ query('fileglob', \"/vagrant/vagrant/conf/ansible/playbooks/prestart/*\") | sort }}"
 
-    - name: Verify default variables
-      include_tasks: default_vars.yml
-
     - name: Verify and render consul acl default policy
       template: src=/etc/ansible/templates/consul-acl.hcl.j2 dest=/etc/consul.d/config-acl.hcl
-      when: consul_agent_acl_default_policy == "deny"
+      when: "{{ lookup('env', 'consul_acl_default_policy') }}" == "deny"
 
     - name: Verify and render nomad acl configuration
       template: src=/etc/ansible/templates/nomad-acl.hcl.j2 dest=/etc/nomad.d/config-acl.hcl
-      when: nomad_agent_acl_enable|bool == true
+      when: "{{ lookup('env', 'TF_VAR_nomad_acl') }}"
 
     - name: Start hashistack
       systemd: name={{item}} state=started
@@ -35,7 +32,7 @@
       until: result.status == 403
       retries: 5
       delay: 1
-      when: consul_agent_acl_default_policy == "deny"
+      when: "{{ lookup('env', 'consul_acl_default_policy') }}" == "deny"
 
     - name: Verify Consul ACL deny policy - access granted with correct token
       uri:
@@ -47,7 +44,7 @@
       until: result.status == 200
       retries: 5
       delay: 1
-      when: consul_agent_acl_default_policy == "deny"
+      when: "{{ lookup('env', 'consul_acl_default_policy') }}" == "deny"
 
     - name: Wait for consul to start
       uri:
@@ -66,7 +63,7 @@
       until: result.status == 200
       retries: 60
       delay: 1
-      when: nomad_agent_acl_enable|bool == false
+      when: not "{{ lookup('env', 'TF_VAR_nomad_acl') }}"
 
     - name: Wait for nomad to start - with ACLs
       uri:
@@ -76,7 +73,7 @@
       until: result.status == 403
       retries: 60
       delay: 1
-      when: nomad_agent_acl_enable|bool == true
+      when: "{{ lookup('env', 'TF_VAR_nomad_acl') }}"
 
     - name: Wait for vault to start
       uri:
@@ -89,15 +86,31 @@
 
     - name: Run the nomad acl bootstrap process
       include_tasks: nomad_acl_bootstrap.yml
-      when: nomad_agent_acl_enable|bool == true
+      when: "{{ lookup('env', 'TF_VAR_nomad_acl') }}"
 
     - name: Create roles for nomad in vault
       include_tasks: vault_nomad_integration.yml
-      when: nomad_agent_acl_enable|bool == true
+      when: "{{ lookup('env', 'TF_VAR_nomad_acl') }}"
 
     - name: Vault enable consul secret engine
       include_tasks: vault_consul_integration.yml
-      when: consul_agent_acl_default_policy == "deny"
+      when: "{{ lookup('env', 'consul_acl_default_policy') }}" == "deny"
+
+    - name: Checking for entry VAULT_ADDR env in .bashrc
+      shell: cat /home/vagrant/.bashrc | grep "export VAULT_ADDR" | wc -l
+      register: test_grep
+
+    - name: Append VAULT_ADDR
+      lineinfile: dest=/home/vagrant/.bashrc line="export VAULT_ADDR=http://127.0.0.1:8200"
+      when: test_grep.stdout == "0"
+
+    - name: Checking for entry VAULT_TOKEN env in .bashrc
+      shell: cat /home/vagrant/.bashrc | grep "export VAULT_TOKEN" | wc -l
+      register: vault_token_check
+
+    - name: Append VAULT_token
+      lineinfile: dest=/home/vagrant/.bashrc line="export VAULT_TOKEN=master"
+      when: vault_token_check.stdout == "0"
 
     - name: Running poststart books
       include_tasks: "{{ item }}"

@@ -2,7 +2,12 @@
 - hosts: all
   become: yes
   tasks:
+    - name: Verify default variables
+      include_tasks: /etc/ansible/load_env_vars.yml
+
     - name: Terraform
+      environment:
+        TF_VAR_nomad_acl: "{{ nomad_acl }}"
       terraform:
         project_path: ../terraform
         force_init: true
