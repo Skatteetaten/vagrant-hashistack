@@ -1,3 +1,0 @@
-- name: Task that shows usage of poststart
-  debug:
-    msg: This would be a poststart task

@@ -1,3 +1,0 @@
-- name: Task that shows usage of prestart
-  debug:
-    msg: This would be a prestart task
