@@ -4,12 +4,12 @@ hashicorp:
     - consul
     - nomad
   tools:
-    terraform: 0.12.26
-    consul-template: 0.25.0
-    consul: 1.8.0
-    vault: 1.4.2
-    nomad: 0.11.3
-    packer: 1.6.0
+    terraform: 0.12.29
+    consul-template: 0.25.1
+    consul: 1.8.1
+    vault: 1.5.0
+    nomad: 0.12.1
+    packer: 1.6.1
 ansible:
   galaxy:
     roles:

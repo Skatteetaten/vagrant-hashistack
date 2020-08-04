@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.2.3 UNRELEASED]
+
+### Fixed
+
+- Pre- and post steps runs in lexical order.
+- make install: lacking binaries
+- make install: missing else statement
+
+### Changed
+
+- nomad: acl toggle, refactor bootstrap, tokens via vault
+- nomad: 0.11.3 -> 0.12.1
+- consul: 1.8.0 -> 1.8.1
+- vault: 1.4.2 -> 1.5.0
+- consul-template: 0.25.0 -> 0.25.1
+- packer: 1.6.0 -> 1.6.1
+- terraform: 0.12.26 -> 1.12.29
+
 ## [0.2.2]
 
 ### Fixed
