@@ -1,0 +1,53 @@
+- name: Vault - enable vault's consul secrets engine
+  shell:
+    cmd: vault secrets enable consul
+  environment:
+    VAULT_ADDR: http://127.0.0.1:8200
+    VAULT_TOKEN: master
+
+- name: Consul - create management token for Vault, with global-management policy attached to it
+  shell:
+    cmd: consul acl token create -policy-name=global-management | awk '/SecretID/ {print $2}'
+  register: secret_id
+  environment:
+    CONSUL_HTTP_TOKEN: master
+
+- name: Vault - configure Vault to connect and authenticate to Consul
+  shell:
+    cmd: vault write consul/config/access address=127.0.0.1:8500 token="{{ secret_id.stdout }}"
+  environment:
+    VAULT_ADDR: http://127.0.0.1:8200
+    VAULT_TOKEN: master
+
+# example
+# 1. Create consul policy for key/value store
+# 2. Map role to policy
+# 3. Generate token(s)
+- name: Consul - create read policy for key/value
+  shell:
+    cmd: consul acl policy create -name vault-consul-keyvalue-managment -rules @/etc/consul.d/policies/key-policy.hcl
+  environment:
+    CONSUL_HTTP_TOKEN: master
+
+- name: Vault - configure a role that maps a name in Vault to a Consul ACL policy
+  shell:
+    cmd: vault write consul/roles/keyvalue-manager policies=vault-consul-keyvalue-managment
+  environment:
+    VAULT_ADDR: http://127.0.0.1:8200
+    VAULT_TOKEN: master
+
+- name: Vault - example, generate token with key-value access to consul
+  shell:
+    cmd: vault read consul/creds/keyvalue-manager | awk '/token/ {print $2}'
+  register: token
+  environment:
+    VAULT_ADDR: http://127.0.0.1:8200
+    VAULT_TOKEN: master
+
+- name: Print token
+  debug:
+    msg: "{{ token.stdout }}"
+
+# to write/read check key-policy.hcl
+# CONSUL_HTTP_TOKEN=<generated_token> consul kv put foo/man lol
+# CONSUL_HTTP_TOKEN=<generated_token> consul kv get foo/man

@@ -95,6 +95,9 @@
       include_tasks: vault_nomad_integration.yml
       when: nomad_agent_acl_enable|bool == true
 
+    - name: Vault enable consul secret engine
+      include_tasks: vault_consul_integration.yml
+
     - name: Running poststart books
       include_tasks: "{{ item }}"
       loop: "{{ query('fileglob', \"/vagrant/vagrant/conf/ansible/playbooks/poststart/*\") | sort }}"
