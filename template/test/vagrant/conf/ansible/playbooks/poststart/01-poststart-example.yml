@@ -1,0 +1,3 @@
+- name: Task that shows usage of poststart
+  debug:
+    msg: This is the second poststart task ( 01-poststart-example.yml )
