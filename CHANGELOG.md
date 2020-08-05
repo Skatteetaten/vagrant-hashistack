@@ -21,6 +21,8 @@
 ### Added
 
 - Included jq (json query tool) in vagrantbox
+- Vault-Consul integration: enable consul secrets engine
+- Vault-Consul integration: create dev/admin custom policies, roles and tokens
 
 ## [0.2.2]
 

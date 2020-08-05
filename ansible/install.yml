@@ -39,6 +39,11 @@
         src: vault_nomad_integration.yml
         dest: /etc/ansible/vault_nomad_integration.yml
 
+    - name: Copy ansible consul vault integration playbook
+      copy:
+        src: vault_consul_integration.yml
+        dest: /etc/ansible/vault_consul_integration.yml
+
     - name: Copy ansible hosts file
       copy:
         src: hosts
@@ -74,12 +79,24 @@
         path: /etc/nomad.d/policies/
         state: directory
 
+    - name: Create /etc/nomad.d/policies/ dir
+      file:
+        path: /etc/consul.d/policies/
+        state: directory
+
     - name: Add nomad policies
       copy:
         src: "{{item}}"
         dest: "/etc/nomad.d/policies/"
       with_fileglob:
         - "templates/nomad-policies/*"
+
+    - name: Add consul policies
+      copy:
+        src: "{{item}}"
+        dest: "/etc/consul.d/policies/"
+      with_fileglob:
+        - "templates/consul-policies/*"
 
     - name: systemd reload
       systemd: daemon_reload=yes
