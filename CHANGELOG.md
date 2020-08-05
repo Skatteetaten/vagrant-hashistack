@@ -18,6 +18,10 @@
 - packer: 1.6.0 -> 1.6.1
 - terraform: 0.12.26 -> 1.12.29
 
+### Added
+
+- Included jq (json query tool) in vagrantbox
+
 ## [0.2.2]
 
 ### Fixed
