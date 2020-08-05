@@ -60,7 +60,7 @@ How to generate token:
 vagrant ssh -c 'VAULT_ADDR=http://127.0.0.1:8200 VAULT_TOKEN=master vault read consul/creds/dev-team'
 
 # generate token for admin team member
-vagrant ssh -c 'VAULT_ADDR=http://127.0.0.1:8200 VAULT_TOKEN=master vault read consul/creds/admin-team' 
+vagrant ssh -c 'VAULT_ADDR=http://127.0.0.1:8200 VAULT_TOKEN=master vault read consul/creds/admin-team'
 ```
 
 *Tokens can be used to access UI (different access level depends on role)
