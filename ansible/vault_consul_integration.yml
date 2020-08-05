@@ -19,35 +19,66 @@
     VAULT_ADDR: http://127.0.0.1:8200
     VAULT_TOKEN: master
 
-# example
-# 1. Create consul policy for key/value store
+# example 1
+# 1. Create consul policy for admin team
 # 2. Map role to policy
 # 3. Generate token(s)
-- name: Consul - create read policy for key/value
+- name: Consul - create dev team policy
   shell:
-    cmd: consul acl policy create -name vault-consul-keyvalue-managment -rules @/etc/consul.d/policies/key-policy.hcl
+    cmd: consul acl policy create -name admin-team-policy -rules @/etc/consul.d/policies/admin.team.policy.hcl
   environment:
     CONSUL_HTTP_TOKEN: master
 
-- name: Vault - configure a role that maps a name in Vault to a Consul ACL policy
+- name: Vault - map admin-team role with dev-team-policy to a Consul ACL policy
   shell:
-    cmd: vault write consul/roles/keyvalue-manager policies=vault-consul-keyvalue-managment
+    cmd: vault write consul/roles/admin-team policies=admin-team-policy
   environment:
     VAULT_ADDR: http://127.0.0.1:8200
     VAULT_TOKEN: master
 
-- name: Vault - example, generate token with key-value access to consul
+- name: Vault - example, generate token for admin-team member
   shell:
-    cmd: vault read consul/creds/keyvalue-manager | awk '/token/ {print $2}'
-  register: token
+    cmd: vault read consul/creds/admin-team | awk '/token/ {print $2}'
+  register: admin_team_token
   environment:
     VAULT_ADDR: http://127.0.0.1:8200
     VAULT_TOKEN: master
 
-- name: Print token
+- name: Print admin team token
   debug:
-    msg: "{{ token.stdout }}"
+    msg: "{{ admin_team_token.stdout }}"
 
-# to write/read check key-policy.hcl
+# todo: tests
+
+# example 2
+# 1. Create consul policy for dev team
+# 2. Map role to policy
+# 3. Generate token(s)
+- name: Consul - create dev team policy
+  shell:
+    cmd: consul acl policy create -name dev-team-policy -rules @/etc/consul.d/policies/dev.team.policy.hcl
+  environment:
+    CONSUL_HTTP_TOKEN: master
+
+- name: Vault - map dev-team role with dev-team-policy to a Consul ACL policy
+  shell:
+    cmd: vault write consul/roles/dev-team policies=dev-team-policy
+  environment:
+    VAULT_ADDR: http://127.0.0.1:8200
+    VAULT_TOKEN: master
+
+- name: Vault - example, generate token for dev-team member
+  shell:
+    cmd: vault read consul/creds/dev-team | awk '/token/ {print $2}'
+  register: dev_team_token
+  environment:
+    VAULT_ADDR: http://127.0.0.1:8200
+    VAULT_TOKEN: master
+
+- name: Print dev team token
+  debug:
+    msg: "{{ dev_team_token.stdout }}"
+
+# to write/read check dev.team.policy.hcl
 # CONSUL_HTTP_TOKEN=<generated_token> consul kv put foo/man lol
 # CONSUL_HTTP_TOKEN=<generated_token> consul kv get foo/man

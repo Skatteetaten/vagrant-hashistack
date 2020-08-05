@@ -50,6 +50,25 @@ ANSIBLE_ARGS='--extra-vars "consul_agent_acl_default_policy=deny"' vagrant up --
 - set_fact: consul_agent_acl_default_policy="deny"
 ```
 
+#### Consul secrets engine
+If `consul_agent_acl_default_policy="deny"` has value `deny`, it will also enable [consul secrets engine](https://www.vaultproject.io/docs/secrets/consul) in vault. 
+Ansible will provision additional custom roles (admin-team, dev-team), [policies](../ansible/templates/consul-policies) and tokens for test purpose with different access level.
+
+How to generate token:
+```
+# generate token for dev team member 
+vagrant ssh -c 'VAULT_ADDR=http://127.0.0.1:8200 VAULT_TOKEN=master vault read consul/creds/dev-team'
+
+# generate token for admin team member
+vagrant ssh -c 'VAULT_ADDR=http://127.0.0.1:8200 VAULT_TOKEN=master vault read consul/creds/admin-team' 
+```
+
+*Tokens can be used to access UI (different access level depends on role)
+
+
+
+ 
+
 ### Pre- and post-startup ansible playbooks
 This vagrant box will execute ansible playbooks put in two special directories [vagrant/conf/ansible/playbooks/prestart](vagrant/conf/ansible/playbooks/prestart) and [vagrant/conf/ansible/playbooks/poststart](vagrant/conf/ansible/playbooks/poststart). These playbooks will be executed before and after the box's bundled startup sequence, respectively. This gives the flexibility to configure all aspects of the hashistack as well as run tasks needed for tests or demo purposes as part of `vagrant up` Note; The playbooks are included into the main run, so the syntax in the [example](vagrant/conf/ansible/playbooks/prestart/0-example.yml) must be followed..  
 They will be run in lexical order, and prefixing with numbers is a good way to get the order you want.
