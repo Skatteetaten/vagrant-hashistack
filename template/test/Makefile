@@ -1,4 +1,5 @@
 include .env
+include .env_override
 export
 
 .ONESHELL .PHONY: test clean up

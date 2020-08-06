@@ -34,28 +34,56 @@ jobs:
           path: packer/output-hashistack/package.box
 
   test:
-    needs: build
+    needs:
+      - build
+
     runs-on: macos-latest
 
     strategy:
       matrix:
-        consul_agent_acl_default_policy: ["allow", "deny"]
+        consul_acl: ["consul_acl_enabled", "consul_acl_disabled"]
+        consul_acl_default_policy: ["consul_acl_allow", "consul_acl_deny"]
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: set consul acl (enabled/disabled)
+        id: consul_acl
+        run: |
+          if [ "$test_consul_acl" == 'consul_acl_enabled' ]
+          then
+              echo "::set-output name=consul_acl::true"
+          else
+              echo "::set-output name=consul_acl::false"
+          fi
+        env:
+          test_consul_acl: ${{ matrix.consul_acl }}
+
+      - name: set consul acl default policy (allow/deny)
+        id: consul_acl_default_policy
+        run: |
+          if [ "$test_consul_acl_default_policy" == 'consul_acl_allow' ]
+          then
+              echo "::set-output name=default_policy::allow"
+          else
+              echo "::set-output name=default_policy::deny"
+          fi
+        env:
+          test_consul_acl_default_policy: ${{ matrix.consul_acl_default_policy }}
+
+      - name: Make .env_override in order to matrix test
+        run: python .github/action/create-env.py
+        env:
+          ENVKEY_TF_VAR_consul_acl: ${{ steps.consul_acl.outputs.consul_acl }}
+          ENVKEY_TF_VAR_consul_acl_default_policy: ${{ steps.consul_acl_default_policy.outputs.default_policy }}
+          FILE_NAME: test/.env_override
 
       - uses: actions/download-artifact@v2
         with:
           name: vagrantbox
           path: packer/output-hashistack
 
-      - name: set environment variable
-        run: echo "::set-env name=consul_agent_acl_default_policy::${{ matrix.consul_agent_acl_default_policy }}"
-
-      - name: get environment variable
-        run: echo $consul_agent_acl_default_policy
-
-      - name: Run make test with consul_agent_acl_default_policy set to ${{ matrix.consul_agent_acl_default_policy }}
+      - name: Run make test
         run: make test
 
   release-prerequisites:
