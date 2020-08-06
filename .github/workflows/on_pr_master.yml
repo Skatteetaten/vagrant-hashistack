@@ -37,6 +37,10 @@ jobs:
     needs: build
     runs-on: macos-latest
 
+    strategy:
+      matrix:
+        consul_agent_acl_default_policy: ["allow", "deny"]
+
     steps:
       - uses: actions/checkout@v2
 
@@ -45,7 +49,13 @@ jobs:
           name: vagrantbox
           path: packer/output-hashistack
 
-      - name: Run make test
+      - name: set environment variable
+        run: echo "::set-env name=consul_agent_acl_default_policy::${{ matrix.consul_agent_acl_default_policy }}"
+
+      - name: get environment variable
+        run: echo $consul_agent_acl_default_policy
+
+      - name: Run make test with consul_agent_acl_default_policy set to ${{ matrix.consul_agent_acl_default_policy }}
         run: make test
 
   release-prerequisites:
