@@ -91,6 +91,9 @@ jobs:
           ENVKEY_TF_VAR_consul_acl: ${{ steps.consul_acl.outputs.consul_acl }}
           ENVKEY_TF_VAR_consul_acl_default_policy: ${{ steps.consul_acl_default_policy.outputs.default_policy }}
           ENVKEY_TF_VAR_nomad_acl: ${{ steps.nomad_acl.outputs.nomad_acl }}
+          ENVKEY_consul_acl: ${{ steps.consul_acl.outputs.consul_acl }}
+          ENVKEY_consul_acl_default_policy: ${{ steps.consul_acl_default_policy.outputs.default_policy }}
+          ENVKEY_nomad_acl: ${{ steps.nomad_acl.outputs.nomad_acl }}
           FILE_NAME: test/.env_override
 
       - uses: actions/download-artifact@v2
