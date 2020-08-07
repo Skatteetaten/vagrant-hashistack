@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0 UNRELEASED]
+
+### Fixed
+
+- [main.tf](template/test/terraform/main.tf) now runs successfully with and without nomad ACLs enabled
+
+### Changed
+
+- nomad ACLs: the toggle is now done on the basis of nomad_acl from  [env.yml](template/test/env_default.yml).
+- Moved installation of unzip from [install.yml](ansible/install.yml) to [bootstrap.sh](packer/bootstrap.sh).
+
 ## [0.2.3 UNRELEASED]
 
 ### Fixed
