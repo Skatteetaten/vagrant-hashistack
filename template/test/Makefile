@@ -6,7 +6,7 @@ export
 .DEFAULT_GOAL := test
 
 up:
-	ANSIBLE_ARGS='--extra-vars "consul_agent_acl_default_policy=${consul_agent_acl_default_policy}"' vagrant up --provision
+	vagrant up --provision
 	$(MAKE) clean
 
 clean:

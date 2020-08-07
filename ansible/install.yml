@@ -14,11 +14,6 @@
         state: directory
         mode: '0755'
 
-    - name: Copy ansible default_vars playbook
-      copy:
-        src: default_vars.yml
-        dest: /etc/ansible/default_vars.yml
-
     - name: Copy ansible config
       copy:
         src: ansible.cfg
@@ -48,9 +43,6 @@
       copy:
         src: hosts
         dest: /etc/ansible/hosts
-
-    - name: Install unzip
-      apt: pkg=unzip state=latest
 
     - name: Install ansible galaxy roles
       command: "ansible-galaxy install {{ item }} -p /etc/ansible/roles/"
@@ -144,14 +136,6 @@
       pip:
         name: docker
 
-    - name: Checking for entry VAULT_ADDR env in .bashrc
-      shell: cat /home/vagrant/.bashrc | grep "export VAULT_ADDR" | wc -l
-      register: test_grep
-
-    - name: Append VAULT_ADDR
-      lineinfile: dest=/home/vagrant/.bashrc line="export VAULT_ADDR=http://127.0.0.1:8200"
-      when: test_grep.stdout == "0"
-
 # Additional config for conditional startup
     - name: Copy acl template config for consul
       copy:
@@ -161,3 +145,10 @@
       copy:
         src: templates/nomad-acl.hcl.j2
         dest: /etc/ansible/templates/nomad-acl.hcl.j2
+
+    - name: source .env_default
+      lineinfile: dest=/home/vagrant/.bashrc line="source /vagrant/.env_default"
+    - name: source .env
+      lineinfile: dest=/home/vagrant/.bashrc line="source /vagrant/.env"
+    - name: source .env_override
+      lineinfile: dest=/home/vagrant/.bashrc line="source /vagrant/.env_override"

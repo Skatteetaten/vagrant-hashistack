@@ -22,7 +22,10 @@ You may edit the `99-override.hcl` or add your own.
 Any valid configuration added to these directories will be added to their respective services' configuration, in lexical order.
 
 #### Nomad ACLs
-Refer to [config variations](#config-variations) on how to toggle ACLs in nomad.
+To toggle ACLs in nomad you need to supply a `env.yml` file in the same directory as your Vagrantfile containing the line:
+```yaml
+nomad_acl: true
+```
 
 When ACLs in Nomad are enabled the bootstrap token will be available in vault under `secret/nomad/management-token` with the two key-value pairs `accessor-id` and `secret-id`. `secret-id` is the token itself. These can be accessed in several ways:
 - From inside the vagrant box with `vault kv get secret/nomad-bootstrap-token` (you may need to run `export VAULT_TOKEN=master` and `export VAULT_ADDR=http://127.0.0.1:8200` first, if they are not already set).
@@ -33,7 +36,7 @@ When ACLs in Nomad are enabled the bootstrap token will be available in vault un
 Refer to [config variations](#config-variations) on how to change Consul's default ACL policy.
 
 #### Config variations
-We provide some config variations as additional functionality, which you may want to use. To see all supported variables, go to [default_vars.yml](../ansible/default_vars.yml)
+We provide some config variations as additional functionality, which you may want to use. To see all supported variables, go to [default_vars.yml](../ansible/load_env_vars.yml)
 Currently supported ways to edit these variables:
 ```text
 * ACL default policy for consul (deny or allow)
