@@ -11,9 +11,6 @@
 - name: add bootstrap token to vault
   shell:
     cmd: vault kv put secret/nomad-bootstrap-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
-  environment:
-    VAULT_ADDR: http://127.0.0.1:8200
-    VAULT_TOKEN: master
 
 - name: delete bootstrap.token file
   file:
