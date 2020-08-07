@@ -18,11 +18,11 @@
 
     - name: Render consul acl configuration
       template: src=/etc/ansible/templates/consul-acl.hcl.j2 dest=/etc/consul.d/config-acl.hcl
-      when: lookup('env', 'consul_acl')
+      when: lookup('env', 'consul_acl') | bool
 
     - name: Render nomad acl configuration
       template: src=/etc/ansible/templates/nomad-acl.hcl.j2 dest=/etc/nomad.d/config-acl.hcl
-      when: lookup('env', 'nomad_acl')
+      when: lookup('env', 'nomad_acl') | bool
 
     - name: Start hashistack
       systemd: name={{item}} state=started
@@ -36,7 +36,7 @@
       until: result.status == 403
       retries: 5
       delay: 1
-      when: lookup('env', 'consul_acl') and lookup('env', 'consul_acl_default_policy') == 'deny'
+      when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
 
     - name: Verify Consul ACL deny policy - access granted with correct token
       uri:
@@ -48,7 +48,7 @@
       until: result.status == 200
       retries: 5
       delay: 1
-      when: lookup('env', 'consul_acl') and lookup('env', 'consul_acl_default_policy') == 'deny'
+      when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
 
     - name: Wait for consul to start
       uri:
@@ -67,7 +67,7 @@
       until: result.status == 200
       retries: 60
       delay: 1
-      when: not lookup('env', 'nomad_acl')
+      when: not lookup('env', 'nomad_acl') | bool
 
     - name: Wait for nomad to start - with ACLs
       uri:
@@ -77,7 +77,7 @@
       until: result.status == 403
       retries: 60
       delay: 1
-      when: lookup('env', 'nomad_acl')
+      when: lookup('env', 'nomad_acl') | bool
 
     - name: Wait for vault to start
       uri:
@@ -90,15 +90,15 @@
 
     - name: Run the nomad acl bootstrap process
       include_tasks: nomad_acl_bootstrap.yml
-      when: lookup('env', 'nomad_acl')
+      when: lookup('env', 'nomad_acl') | bool
 
     - name: Create roles for nomad in vault
       include_tasks: vault_nomad_integration.yml
-      when: lookup('env', 'nomad_acl')
+      when: lookup('env', 'nomad_acl') | bool
 
     - name: Vault enable consul secret engine
       include_tasks: vault_consul_integration.yml
-      when: lookup('env', 'consul_acl')
+      when: lookup('env', 'consul_acl') | bool
 
     - name: Running poststart books
       include_tasks: "{{ item }}"
