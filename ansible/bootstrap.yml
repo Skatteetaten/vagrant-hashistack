@@ -12,7 +12,11 @@
       include_tasks: "{{ item }}"
       loop: "{{ query('fileglob', \"/vagrant/vagrant/conf/ansible/playbooks/prestart/*\") | sort }}"
 
-    - name: Verify and render consul acl default policy
+    - name: Debug all env vars
+      debug:
+        var: ansible_env
+
+    - name: Render consul acl configuration
       template: src=/etc/ansible/templates/consul-acl.hcl.j2 dest=/etc/consul.d/config-acl.hcl
       when: "'{{ lookup('env', 'consul_acl_default_policy') }}' == 'deny'"
 
