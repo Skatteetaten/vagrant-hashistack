@@ -10,8 +10,6 @@ for key in env_keys:
 
 with open( str(os.environ.get("GITHUB_WORKSPACE")) + "/" + str(os.environ.get("FILE_NAME")), "w") as text_file:
     text_file.write(out_file)
-text_file.close()
 
 with open( str(os.environ.get("GITHUB_WORKSPACE")) + "/" + str(os.environ.get("FILE_NAME")), "r") as text_file:
     print(text_file.read())
-text_file.close()
