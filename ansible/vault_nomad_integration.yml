@@ -1,17 +1,11 @@
 - name: Start vault's nomad secrets backend
   shell:
     cmd: vault secrets enable nomad
-  environment:
-    VAULT_ADDR: http://127.0.0.1:8200
-    VAULT_TOKEN: master
 
 - name: fetch bootstrap token nomad
   shell:
     cmd: vault kv get -field=secret-id secret/nomad-bootstrap-token
   register: bootstrap_token
-  environment:
-    VAULT_TOKEN: master
-    VAULT_ADDR: http://127.0.0.1:8200
 
 - name: Create management token for vault
   shell:
@@ -32,9 +26,6 @@
 - name: add nomad management token to vault
   shell:
     cmd: vault kv put secret/nomad-management-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
-  environment:
-    VAULT_ADDR: http://127.0.0.1:8200
-    VAULT_TOKEN: master
 
 - name: delete management.token file
   file:
@@ -45,13 +36,7 @@
   shell:
     cmd: vault write nomad/config/access address=http://127.0.0.1:4646 token="{{ secret_id.stdout }}"
   register: result
-  environment:
-    VAULT_ADDR: http://127.0.0.1:8200
-    VAULT_TOKEN: master
 
 - name: create roles corresponding to nomad's policies
   shell:
     cmd: vault write nomad/role/read policies=read-default && vault write nomad/role/write policies=write-default
-  environment:
-    VAULT_ADDR: http://127.0.0.1:8200
-    VAULT_TOKEN: master
