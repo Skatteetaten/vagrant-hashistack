@@ -146,9 +146,15 @@
         src: templates/nomad-acl.hcl.j2
         dest: /etc/ansible/templates/nomad-acl.hcl.j2
 
-    - name: source .env_default
-      lineinfile: dest=/home/vagrant/.bashrc line="source /vagrant/.env_default"
-    - name: source .env
-      lineinfile: dest=/home/vagrant/.bashrc line="source /vagrant/.env"
-    - name: source .env_override
-      lineinfile: dest=/home/vagrant/.bashrc line="source /vagrant/.env_override"
+# Add change to bash.bashrc in order to use environment in vagrant and ansible (non interactive)
+    - name: source .env_default .env .env_override
+      blockinfile:
+        path: /etc/bash.bashrc
+        insertbefore: BOF
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - Define variables that works in non-interactive shell"
+        block: |
+          set -a
+          . /vagrant/.env_default
+          . /vagrant/.env
+          . /vagrant/.env_override
+          set +a
