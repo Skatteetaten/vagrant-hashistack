@@ -47,6 +47,7 @@ The rest of the prerequisites are system-dependent:
 `make build` will build a vagrant box based on hashicorp/bionic64. The packaged box will be locally available at ´packer/output-hashistack/package.box´
 
 `make test` run tests by starting the [countdash](https://www.nomadproject.io/docs/integrations/consul-connect/) consul-connect example. If ´packer/output-hashistack/package.box´ does not exist, it will run ´make build´
+- Note: You can refer [SystemConfigurationDoc](docs/SystemConfiguration.md) inorder to get a comprehensive overview of the default configurations with which the sytstem is set up. The document also provides information about test configuration and steps for overriding the default system configuration.
 
 ## Usage
 
