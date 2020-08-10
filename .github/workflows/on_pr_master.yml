@@ -2,6 +2,8 @@ name: CI/CD
 env:
   GITHUB_TOKEN: ${{ secrets.PAT_GITHUB_TOKEN }}
 on:
+  push:
+    branches: [ documentation_sys_config ]
   pull_request:
     branches: [ master ]
     types: [opened, synchronize, reopened, edited, closed]
