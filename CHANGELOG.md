@@ -4,20 +4,11 @@
 
 ### Fixed
 
-- [main.tf](template/test/terraform/main.tf) now runs successfully with and without nomad ACLs enabled
-
-### Changed
-
-- nomad ACLs: the toggle is now done on the basis of nomad_acl from  [env.yml](template/test/env_default.yml).
-- Moved installation of unzip from [install.yml](ansible/install.yml) to [bootstrap.sh](packer/bootstrap.sh).
-
-## [0.2.3 UNRELEASED]
-
-### Fixed
-
 - Pre- and post steps runs in lexical order.
 - make install: lacking binaries
 - make install: missing else statement
+- [main.tf](template/test/terraform/main.tf) now runs successfully with and without nomad ACLs enabled
+- `Make build` will not leave virtualbox vm in halted state.
 
 ### Changed
 
@@ -28,12 +19,17 @@
 - consul-template: 0.25.0 -> 0.25.1
 - packer: 1.6.0 -> 1.6.1
 - terraform: 0.12.26 -> 1.12.29
+- nomad ACLs: the toggle is now done on the basis of nomad_acl from  [env.yml](template/test/env_default.yml).
+- Moved installation of unzip from [install.yml](ansible/install.yml) to [bootstrap.sh](packer/bootstrap.sh).
+- cleanup and zero out disk before box output in order to reduce time and space consumption.
+- box features can now be controlled by environment variables in `.env`
 
 ### Added
 
 - Included jq (json query tool) in vagrantbox
 - Vault-Consul integration: enable consul secrets engine
 - Vault-Consul integration: create dev/admin custom policies, roles and tokens
+- Test matrix. relevant box feature permutations will now be tested by default.
 
 ## [0.2.2]
 

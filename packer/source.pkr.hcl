@@ -4,5 +4,6 @@ source "vagrant" "hashistack" {
   box_version = "1.0.282"
   box_name = "hashistack"
   provider = "virtualbox"
+  teardown_method = "destroy"
   output_vagrantfile = "Vagrantfile"
 }
