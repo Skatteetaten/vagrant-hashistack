@@ -17,8 +17,8 @@ By default Consul Acl policies are enabled on the system and the default policy 
 
 ## How to override the default System Configuration
 
-When the vagrant box is provisioned it reads the data from the following environment file [.env_default](../ansible/template/.env_default) in order to set
-up the system. If you wish to override any of the default values then you can do so by adding that variable name and value in [.env](../ansible/template/test/.env) file. The property values in the .env file override the property values present in the .env_default file and thus makes it super easy to provision sytems that suffice the relevant development needs.
+When the vagrant box is provisioned, it reads the data from the following environment file [.env_default](../ansible/template/.env_default) in order to set
+up the system. If you wish to override any of the default values then you can do so by adding that variable name and value in [.env](../ansible/template/test/.env) file. The property values in the .env file override the property values present in the .env_default file and thus makes it super easy to provision systems that suffice the relevant development needs.
 
 
 For example, in order to override the **consul acl default policy** from **allow** to **deny**, the following needs to be added to the **.env** file:
