@@ -42,11 +42,13 @@ The rest of the prerequisites are system-dependent:
 
 ## Build & Test
 
+
 `make install` (ubuntu 18.04 or macos) will download and install all prerequisites (virtualbox, vagrant, packer)
 
 `make build` will build a vagrant box based on hashicorp/bionic64. The packaged box will be locally available at ´packer/output-hashistack/package.box´
 
 `make test` run tests by starting the [countdash](https://www.nomadproject.io/docs/integrations/consul-connect/) consul-connect example. If ´packer/output-hashistack/package.box´ does not exist, it will run ´make build´
+- Note: You can refer to [SystemConfigurationDoc](docs/SystemConfiguration.md) in order to get a comprehensive overview of the default configurations with which the system is set up. The document also provides information about steps for overriding the default system configuration.
 
 ## Usage
 
@@ -99,6 +101,33 @@ In order to build cloud native, security minded and dependable services, there e
 - Ansible (installed)
 - Packer
 - consul-template
+
+## Test Configuration and Execution
+The tests are run using [Github Actions](https://github.com/features/actions) feature which makes it possible to automate, customize, and execute the software development workflows right in the repository. We utilize the **matrix testing strategy** to cover all the possible and logical combinations of the different properties and values that the components support.The [.env_override](template/test/.env_override) file is used by the tests to override the values that are available in the .env_default file.
+
+
+As of today, the following tests are executed whenever a Pull request is created :
+
+
+1. test (consul_acl_enabled, consul_acl_allow, nomad_acl_enabled) : Here the tests are run on a system which is configured such that the consul policy is **enabled**, consul default acl policy is set to **allow** and nomad acl policy is **enabled**.
+
+
+2. test (consul_acl_enabled, consul_acl_allow, nomad_acl_disabled) : Here the tests are run on a system which is configured such that the consul policy is **enabled**, consul default acl policy is set to **allow** and nomad acl policy is **disabled**.
+
+
+3. test (consul_acl_enabled, consul_acl_deny, nomad_acl_enabled) : Here the tests are run on a system which is configured such that the consul policy is **enabled**, consul default acl policy is set to **deny** and nomad acl policy is **enabled**.
+
+
+4. test (consul_acl_enabled, consul_acl_deny, nomad_acl_disabled) : Here the tests are run on a system which is configured such that the consul policy is **enabled**, consul default acl policy is set to **deny** and nomad acl policy is **disabled**.
+
+
+5. test (consul_acl_disabled, consul_acl_allow, nomad_acl_enabled) : Here the tests are run on a system which is configured such that the consul policy is **disabled**, consul default acl policy is set to **allow** and nomad acl policy is **enabled**.
+
+
+6. test (consul_acl_disabled, consul_acl_allow, nomad_acl_disabled) : Here the tests are run on a system which is configured such that the consul policy is **disabled**, consul default acl policy is set to **allow** and nomad acl policy is **disabled**.
+
+
+The latest test results can be looked up under the Actions tab [Actions](https://github.com/fredrikhgrelland/vagrant-hashistack/actions)
 
 ## Contribute
 
