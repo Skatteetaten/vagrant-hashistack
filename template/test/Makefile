@@ -6,7 +6,7 @@ export
 
 up:
 	vagrant up --provision
-	$(MAKE) clean
+	#$(MAKE) clean
 
 clean:
 	vagrant destroy -f
