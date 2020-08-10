@@ -94,6 +94,7 @@
 
     - name: Create roles for nomad in vault
       include_tasks: vault_nomad_integration.yml
+      when: lookup('env', 'nomad_acl') | bool
 
     - name: Vault enable consul secret engine
       include_tasks: vault_consul_integration.yml
