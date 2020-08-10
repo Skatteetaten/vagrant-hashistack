@@ -97,6 +97,7 @@
 
     - name: Vault enable consul secret engine
       include_tasks: vault_consul_integration.yml
+      when: lookup('env', 'consul_acl') | bool
 
     - name: Running poststart books
       include_tasks: "{{ item }}"
