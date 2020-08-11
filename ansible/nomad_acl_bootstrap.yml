@@ -19,8 +19,8 @@
 
 - name: create default policy write
   shell:
-    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Default write policy" write-default /etc/nomad.d/policies/write.policy.hcl
+    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Default write policy" write-default /etc/nomad.d/policies/write_policy.hcl
 
 - name: create default policy read
   shell:
-    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Default read policy" read-default /etc/nomad.d/policies/read.policy.hcl
+    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Default read policy" read-default /etc/nomad.d/policies/read_policy.hcl

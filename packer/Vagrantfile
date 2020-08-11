@@ -13,12 +13,11 @@ Vagrant.configure("2") do |config|
         vb.linked_clone = true
         vb.memory = 2048
     end
-    config.vm.provision "shell", inline: "cp /vagrant/vagrant/conf/hashistack/consul/99-override.hcl /etc/consul.d/99-override.hcl || true"
-    config.vm.provision "shell", inline: "cp /vagrant/vagrant/conf/hashistack/vault/99-override.hcl /etc/vault.d/99-override.hcl || true"
-    config.vm.provision "shell", inline: "cp /vagrant/vagrant/conf/hashistack/nomad/99-override.hcl /etc/nomad.d/99-override.hcl || true"
+    config.vm.provision "shell", inline: ". /vagrant/vagrant/conf/pre_ansible.sh || true"
     config.vm.provision "ansible_local" do |startup|
         run = "always"
         startup.playbook = "/etc/ansible/bootstrap.yml"
         startup.raw_arguments = Shellwords.shellsplit(ENV['ANSIBLE_ARGS']) if ENV['ANSIBLE_ARGS']
     end
+    config.vm.provision "shell", inline: ". /vagrant/vagrant/conf/post_ansible.sh || true"
 end

@@ -103,7 +103,7 @@ In order to build cloud native, security minded and dependable services, there e
 - consul-template
 
 ## Test Configuration and Execution
-The tests are run using [Github Actions](https://github.com/features/actions) feature which makes it possible to automate, customize, and execute the software development workflows right in the repository. We utilize the **matrix testing strategy** to cover all the possible and logical combinations of the different properties and values that the components support.The [.env_override](template/test/.env_override) file is used by the tests to override the values that are available in the .env_default file.
+The tests are run using [Github Actions](https://github.com/features/actions) feature which makes it possible to automate, customize, and execute the software development workflows right in the repository. We utilize the **matrix testing strategy** to cover all the possible and logical combinations of the different properties and values that the components support.The [.env_override](template/example/.env_override) file is used by the tests to override the values that are available in the .env_default file.
 
 
 As of today, the following tests are executed whenever a Pull request is created :
