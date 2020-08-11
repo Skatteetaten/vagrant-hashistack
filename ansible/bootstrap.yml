@@ -118,4 +118,4 @@
 
     - name: Running poststart books
       include_tasks: "{{ item }}"
-      loop: "{{ query('fileglob', \"/vagrant/vagrant/conf/pre_bootstrap/*.yml\") | sort }}"
+      loop: "{{ query('fileglob', \"/vagrant/vagrant/conf/post_bootstrap/*.yml\") | sort }}"
