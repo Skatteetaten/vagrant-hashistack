@@ -1,4 +1,4 @@
-## Overriding and appending consul configuration
+# Overriding and appending consul configuration
 
 You may add any hcl-files to this directory in order to change the configuration.
 Any valid configuration added to this directory will append the configuration, in lexical order.

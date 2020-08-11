@@ -6,7 +6,7 @@ Any valid configuration added to this directory will append the configuration, i
 Adding a file `99-override.hcl` you will ensure it will be appended last, and 00-override.hcl will be read first.
 Any valid configuration from [https://www.nomadproject.io/docs/configuration#general-parameters](https://www.nomadproject.io/docs/configuration#general-parameters) will work.
 
-### Example `98-template-plugin.hcl`
+## Example `98-template-plugin.hcl`
 ```hcl
 client {
   template {
