@@ -11,9 +11,9 @@ Documentation on [parent repository](https://github.com/fredrikhgrelland/vagrant
 ## Customizing and using the vagrant box
 The vagrant box ships with a default startup scheme. It will run an ansible playbook to start all services.
 You may change the hashistack configuration or add aditional pre and post steps to the startup procedure to match your needs.
-Detailed documentation in [vagrant/conf/README.md]()
+Detailed documentation in [vagrant/conf/README.md](vagrant/conf/README.md)
 
-#### Nomad ACLs
+### Nomad ACLs
 
 | default   | environment variable  |  value  |
 |:---------:|:----------------------|:-------:|
@@ -22,14 +22,14 @@ Detailed documentation in [vagrant/conf/README.md]()
 | x         | nomad_acl             |  false  |
 | x         | TF_VAR_nomad_acl      |  false  |
 
-To change from the default value, you may add the environment variable to [.env]()
+To change from the default value, you may add the environment variable to [.env](.env)
 
 When ACLs in Nomad are enabled the bootstrap token will be available in vault under `secret/nomad/management-token` with the two key-value pairs `accessor-id` and `secret-id`. `secret-id` is the token itself. These can be accessed in several ways:
 - From inside the vagrant box with `vault kv get secret/nomad-bootstrap-token`
 - From local machine with `vagrant ssh -c vault kv get secret/nomad-bootstrap-token"`
 - By going to vault's UI on `localhost:8200`, and signing in with the root token.
 
-#### Consul ACLs and policies
+### Consul ACLs and policies
 
 | default   | environment variable             |  value  |
 |:---------:|:---------------------------------|:-------:|
@@ -42,11 +42,11 @@ When ACLs in Nomad are enabled the bootstrap token will be available in vault un
 |           | consul_acl_default_policy        |  deny   |
 |           | TF_VAR_consul_acl_default_policy |  deny   |
 
-To change from the default value, you may add the environment variable to [.env]()
+To change from the default value, you may add the environment variable to [.env](.env)
 
 
 
-#### Consul secrets engine
+### Consul secrets engine
 If `consul_acl_default_policy` has value `deny`, it will also enable [consul secrets engine](https://www.vaultproject.io/docs/secrets/consul) in vault.  
 Ansible will provision additional custom roles (admin-team, dev-team), [policies](../ansible/templates/consul-policies) and tokens for test purpose with different access level.
 
@@ -61,7 +61,7 @@ vagrant ssh -c 'vault read consul/creds/admin-team'
 
 *Tokens can be used to access UI (different access level depends on role)
 
-### Vagrant box life-cycle
+## Vagrant box life-cycle
 1. `.env_default` - _preloaded_ - default variables
 1. `.env` - _user provided_ - variables override
 1. `.env_override` - _system provided_ - variables are overridden for test purposes
