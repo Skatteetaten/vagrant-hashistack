@@ -19,7 +19,7 @@
   shell:
     cmd: consul acl policy create -name admin-team-policy -rules @/etc/consul.d/policies/admin_team_policy.hcl
 
-- name: Vault - map admin-team role with dev-team-policy to a Consul ACL policy
+- name: Vault - map admin-team role with admin-team-policy to a Consul ACL policy
   shell:
     cmd: vault write consul/roles/admin-team policies=admin-team-policy
 
