@@ -22,6 +22,14 @@ remove-tmp:
 
 clean: destroy-box remove-tmp
 
+test:
+ifeq (,$(wildcard ansible/playbook.yml))
+	echo ERROR: There is no playbook.yml available in ansible/ && exit 2
+else
+	make clean
+	make up
+endif
+
 example:
 	cd example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
 

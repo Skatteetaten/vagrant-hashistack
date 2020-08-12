@@ -9,7 +9,10 @@ If you found this in `fredrikhgrelland/vagrant-hashistack`, you may be intereste
 Documentation on [parent repository](https://github.com/fredrikhgrelland/vagrant-hashistack#usage).
 
 ## Customizing and using the vagrant box
-The vagrant box ships with a default startup scheme. It will run an ansible playbook to start all services.
+### Where to start
+The vagrant box ships with a default startup scheme. `make` from this directory will start the box, and it will look for an ansible playbook called `playbook.yml` and start it after the bootstrap-process for the hashistack is done. In the [example](example/ansible/playbook.yml) we use it to start terraform which then starts a nomad-job.
+
+### Pre and post hashistack procedure
 You may change the hashistack configuration or add aditional pre and post steps to the startup procedure to match your needs.
 Detailed documentation in [vagrant/conf/README.md](vagrant/conf/README.md)
 
