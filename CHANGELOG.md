@@ -30,6 +30,7 @@
 - Vault-Consul integration: enable consul secrets engine
 - Vault-Consul integration: create dev/admin custom policies, roles and tokens
 - Test matrix. relevant box feature permutations will now be tested by default.
+- Added healthchecks to the [countdash-job](template/example/nomad/countdash.hcl).
 
 ## [0.2.2]
 

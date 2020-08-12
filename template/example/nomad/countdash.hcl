@@ -12,6 +12,14 @@ job "countdash" {
       connect {
         sidecar_service {}
       }
+      check {
+        expose   = true
+        name     = "api-alive"
+        type     = "http"
+        path     = "/health"
+        interval = "10s"
+        timeout  = "2s"
+      }
     }
 
     task "web" {
@@ -44,6 +52,14 @@ job "countdash" {
             }
           }
         }
+      }
+      check {
+        expose   = true
+        name     = "dashboard-alive"
+        type     = "http"
+        path     = "/health"
+        interval = "10s"
+        timeout  = "2s"
       }
     }
 
