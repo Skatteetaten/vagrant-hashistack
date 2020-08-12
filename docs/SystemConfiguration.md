@@ -33,24 +33,6 @@ For example, in order to override the **consul acl default policy** from **allow
 
 ### Option 2 - config files
 **Override of config files**
-
-It works the way overriding and appending configuration.
-
-You may add any hcl-files to these directories in order to change the configuration
-- [template/vagrant/conf/consul/](../template/vagrant/conf/consul/)
-- [template/vagrant/conf/nomad/](../template/vagrant/conf/nomad/)
-- [template/vagrant/conf/vault/](../template/vagrant/conf/vault/)
-
-
-Any valid configuration added to these directories will append the configuration, in lexical order.
-
-Adding a file `99-override.hcl` you will ensure it will be appended last, and 00-override.hcl will be read first.
-Any valid configuration from [https://www.consul.io/docs/agent/options.html#configuration_files](https://www.consul.io/docs/agent/options.html#configuration_files) will work.
-
-
-Examples:
-- [Consul config override example](../template/example/vagrant/conf/consul/99-override.hcl)
-- [Nomad config override example](../template/example/vagrant/conf/nomad/99-override.hcl)
-- [Vault config override example](../template/example/vagrant/conf/vault/99-override.hcl)
+It is also possible to add and/or overwrite the hashistack components' configuration files. See documentation [here](vagrant/conf/README.md).
 
 **NB! Overriding config files will take effect after any env variables prebuilt configuration. Other words Option 2 is applied after Option 1**
