@@ -27,7 +27,7 @@
     - name: Install systemd unit file minio
       template: src=minio.service.j2 dest=/etc/systemd/system/minio.service
 
-    - name: Install systemd unit file
+    - name: Install systemd unit files hashistack
       template: src={{item}}.service.j2 dest=/etc/systemd/system/{{item}}.service
       loop: "{{ hashicorp.daemons }}"
 
