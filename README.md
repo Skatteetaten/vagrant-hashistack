@@ -56,7 +56,7 @@ This repo will build a base-box for different projects to extend on. The base bo
 
 
 
-The default box will start Nomad, Vault and Consul, bound on loopback and advertising on the ip `10.0.3.10`, which should be available on your local machine.
+The default box will start Nomad, Vault, Consul, and MinIO bound on loopback and advertising on the ip `10.0.3.10`, which should be available on your local machine.
 Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should allow you to use the nomad binary to post jobs directly. Consul and Vault has also been portforwarded, and are also available on `127.0.0.1` on port `8500` and `8200` respectively.
 Minio is started on port `9000` and sharing /vagrant (your repo) from within the vagrant box.
 - Nomad ui is available on [http://10.0.3.10:4646](http://10.0.3.10:4646) and all links to services should work.
