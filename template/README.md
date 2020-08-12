@@ -18,10 +18,9 @@ Detailed documentation in [vagrant/conf/README.md](vagrant/conf/README.md)
 | default   | environment variable  |  value  |
 |:---------:|:----------------------|:-------:|
 |           | nomad_acl             |  true   |
-|           | TF_VAR_nomad_acl      |  true   |
 | x         | nomad_acl             |  false  |
-| x         | TF_VAR_nomad_acl      |  false  |
 
+NB: All lowercase variables will automatically get a corresponding TF_VAR_ prepended variant for use directly in terraform.
 To change from the default value, you may add the environment variable to [.env](.env)
 
 When ACLs in Nomad are enabled the bootstrap token will be available in vault under `secret/nomad/management-token` with the two key-value pairs `accessor-id` and `secret-id`. `secret-id` is the token itself. These can be accessed in several ways:
@@ -34,14 +33,11 @@ When ACLs in Nomad are enabled the bootstrap token will be available in vault un
 | default   | environment variable             |  value  |
 |:---------:|:---------------------------------|:-------:|
 |     x     | consul_acl                       |  true   |
-|     x     | TF_VAR_consul_acl                |  true   |
 |           | consul_acl                       |  false  |
-|           | TF_VAR_consul_acl                |  false  |
 |     x     | consul_acl_default_policy        |  allow  |
-|     x     | TF_VAR_consul_acl_default_policy |  allow  |
 |           | consul_acl_default_policy        |  deny   |
-|           | TF_VAR_consul_acl_default_policy |  deny   |
 
+NB: All lowercase variables will automatically get a corresponding TF_VAR_ prepended variant for use directly in terraform.
 To change from the default value, you may add the environment variable to [.env](.env)
 
 
