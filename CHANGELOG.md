@@ -31,6 +31,7 @@
 - Vault-Consul integration: create dev/admin custom policies, roles and tokens
 - Test matrix. relevant box feature permutations will now be tested by default.
 - Added healthchecks to the [countdash-job](template/example/nomad/countdash.hcl).
+- Added [minio](https://min.io) as a running service on port 9000
 
 ## [0.2.2]
 

@@ -58,9 +58,11 @@ This repo will build a base-box for different projects to extend on. The base bo
 
 The default box will start Nomad, Vault and Consul, bound on loopback and advertising on the ip `10.0.3.10`, which should be available on your local machine.
 Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should allow you to use the nomad binary to post jobs directly. Consul and Vault has also been portforwarded, and are also available on `127.0.0.1` on port `8500` and `8200` respectively.
+Minio is started on port `9000` and sharing /vagrant (your repo) from within the vagrant box. This is used to present build artifacts to nomad over s3.
 - Nomad ui is available on [http://10.0.3.10:4646](http://10.0.3.10:4646) and all links to services should work.
 - Consul ui is available on [http://10.0.3.10:8500](http://10.0.3.10:8500)
 - Vault ui is available on [http://10.0.3.10:8200](http://10.0.3.10:8200)
+- minio ui is available on [http://10.0.3.10:9000](http://10.0.3.10:9000) (minioadmin:minioadmin)
 
 ### Starting a plain default box
 To get a running VM using the lastest release of this box run `vagrant init fredrikhgrelland/hashistack` then `vagrant up`. The first command will add a file called `Vagrantfile` to your directory, and `vagrant up` will start a box based on the specifications of that file.
@@ -101,6 +103,7 @@ In order to build cloud native, security minded and dependable services, there e
 - Ansible (installed)
 - Packer
 - consul-template
+- minio
 
 ## Test Configuration and Execution
 The tests are run using [Github Actions](https://github.com/features/actions) feature which makes it possible to automate, customize, and execute the software development workflows right in the repository. We utilize the **matrix testing strategy** to cover all the possible and logical combinations of the different properties and values that the components support.The [.env_override](template/example/.env_override) file is used by the tests to override the values that are available in the .env_default file.
