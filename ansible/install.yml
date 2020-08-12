@@ -2,47 +2,13 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Create /etc/ansible directory if it does not exist
-      file:
-        path: /etc/ansible
-        state: directory
+    - name: Copy ansible directory
+      copy:
+        src: ./
+        dest: /etc/ansible/
+        remote_src: yes
+        directory_mode: yes
         mode: '0755'
-
-    - name: Create /etc/ansible/templates directory if it does not exist
-      file:
-        path: /etc/ansible/templates
-        state: directory
-        mode: '0755'
-
-    - name: Copy ansible config
-      copy:
-        src: ansible.cfg
-        dest: /etc/ansible/ansible.cfg
-
-    - name: Copy ansible startup playbook
-      copy:
-        src: bootstrap.yml
-        dest: /etc/ansible/bootstrap.yml
-
-    - name: Copy ansible nomad acl bootstrap playbook
-      copy:
-        src: nomad_acl_bootstrap.yml
-        dest: /etc/ansible/nomad_acl_bootstrap.yml
-
-    - name: Copy ansible nomad vault integration playbook
-      copy:
-        src: vault_nomad_integration.yml
-        dest: /etc/ansible/vault_nomad_integration.yml
-
-    - name: Copy ansible consul vault integration playbook
-      copy:
-        src: vault_consul_integration.yml
-        dest: /etc/ansible/vault_consul_integration.yml
-
-    - name: Copy ansible hosts file
-      copy:
-        src: hosts
-        dest: /etc/ansible/hosts
 
     - name: Install ansible galaxy roles
       command: "ansible-galaxy install {{ item }} -p /etc/ansible/roles/"
@@ -135,16 +101,6 @@
     - name: Install Docker SDK for Python
       pip:
         name: docker
-
-# Additional config for conditional startup
-    - name: Copy acl template config for consul
-      copy:
-        src: templates/consul-acl.hcl.j2
-        dest: /etc/ansible/templates/consul-acl.hcl.j2
-    - name: Copy acl template config for nomad
-      copy:
-        src: templates/nomad-acl.hcl.j2
-        dest: /etc/ansible/templates/nomad-acl.hcl.j2
 
 # Add change to bash.bashrc in order to use environment in vagrant and ansible (non interactive)
     - name: Copy .env_default
