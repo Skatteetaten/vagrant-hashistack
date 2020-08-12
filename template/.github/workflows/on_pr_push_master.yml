@@ -1,14 +1,77 @@
-name: CI
-
+name: CI/CD
 on:
   pull_request:
     branches: [ master ]
+    types: [opened, synchronize, reopened, edited, closed]
   push:
     branches: [ master ]
+
 jobs:
-  test:
-    runs-on: macos-latest
+  linter:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run vagrant box with tests
+      - name: Super-Linter
+        uses: github/super-linter@v2.0.0
+
+  test:
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        consul_acl: ["consul_acl_enabled", "consul_acl_disabled"]
+        consul_acl_default_policy: ["consul_acl_allow", "consul_acl_deny"]
+        nomad_acl: ["nomad_acl_enabled", "nomad_acl_disabled"]
+        exclude:
+          - consul_acl: "consul_acl_disabled"
+            consul_acl_default_policy: "consul_acl_deny"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: set consul acl (enabled/disabled)
+        id: consul_acl
+        run: |
+          if [ "$test_consul_acl" == 'consul_acl_enabled' ]
+          then
+              echo "::set-output name=consul_acl::true"
+          else
+              echo "::set-output name=consul_acl::false"
+          fi
+        env:
+          test_consul_acl: ${{ matrix.consul_acl }}
+
+      - name: set consul acl default policy (allow/deny)
+        id: consul_acl_default_policy
+        run: |
+          if [ "$test_consul_acl_default_policy" == 'consul_acl_allow' ]
+          then
+              echo "::set-output name=default_policy::allow"
+          else
+              echo "::set-output name=default_policy::deny"
+          fi
+        env:
+          test_consul_acl_default_policy: ${{ matrix.consul_acl_default_policy }}
+
+      - name: set nomad acl (enabled/disabled)
+        id: nomad_acl
+        run: |
+          if [ "$test_nomad_acl" == 'nomad_acl_enabled' ]
+          then
+              echo "::set-output name=nomad_acl::true"
+          else
+              echo "::set-output name=nomad_acl::false"
+          fi
+        env:
+          test_nomad_acl: ${{ matrix.nomad_acl }}
+
+      - name: Make .env_override in order to matrix test
+        run: python .github/action/create-env.py
+        env:
+          ENVKEY_consul_acl: ${{ steps.consul_acl.outputs.consul_acl }}
+          ENVKEY_consul_acl_default_policy: ${{ steps.consul_acl_default_policy.outputs.default_policy }}
+          ENVKEY_nomad_acl: ${{ steps.nomad_acl.outputs.nomad_acl }}
+          FILE_NAME: .env_override
+
+      - name: Run make test
         run: make test
