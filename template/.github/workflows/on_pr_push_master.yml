@@ -1,6 +1,4 @@
 name: CI/CD
-env:
-  GITHUB_TOKEN: ${{ secrets.PAT_GITHUB_TOKEN }}
 on:
   pull_request:
     branches: [ master ]
