@@ -104,10 +104,10 @@
 
 # Add change to bash.bashrc in order to use environment in vagrant and ansible (non interactive)
     - name: Copy .env_default
-      copy:
+      template:
         src: templates/.env_default.j2
         dest: /home/vagrant/.env_default
-    # TODO: add script tasked with creating TF_VAR copies of all env files and run it in the next task
+
     - name: source .env_default .env .env_override
       blockinfile:
         path: /etc/bash.bashrc
@@ -116,6 +116,17 @@
         block: |
           set -a
           . /home/vagrant/.env_default
-          . /vagrant/.env
-          . /vagrant/.env_override
+          # Read file and match variables starting with lowercase - prepend with TF_VAR_ and export.
+          while read p || [[ -n $p ]]; do [[ $p =~ ^[[:lower:]].*=.*$ ]] && export TF_VAR_$p; done < /home/vagrant/.env_default
+
+          if [[ -f "/vagrant/.env" ]]; then
+              . /vagrant/.env
+              # Read file and match variables starting with lowercase - prepend with TF_VAR_ and export.
+              while read p || [[ -n $p ]]; do [[ $p =~ ^[[:lower:]].*=.*$ ]] && export TF_VAR_$p; done < /vagrant/.env
+          fi
+          if [[ -f "/vagrant/.env_override" ]]; then
+              . /vagrant/.env_override
+              # Read file and match variables starting with lowercase - prepend with TF_VAR_ and export.
+              while read p || [[ -n $p ]]; do [[ $p =~ ^[[:lower:]].*=.*$ ]] && export TF_VAR_$p; done < /vagrant/.env_override
+          fi
           set +a

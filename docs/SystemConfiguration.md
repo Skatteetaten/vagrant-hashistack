@@ -29,8 +29,6 @@ For example, in order to override the **consul acl default policy** from **allow
 **consul_acl_default_policy=deny**
 
 
-**TF_VAR_consul_acl_default_policy=deny**
-
 ### Option 2 - config files
 **Override of config files**
 It is also possible to add and/or overwrite the hashistack components' configuration files. See documentation [here](vagrant/conf/README.md).
