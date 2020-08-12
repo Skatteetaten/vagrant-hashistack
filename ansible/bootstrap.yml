@@ -40,6 +40,9 @@
       template: src=/etc/ansible/templates/nomad-acl.hcl.j2 dest=/etc/nomad.d/config-acl.hcl
       when: lookup('env', 'nomad_acl') | bool
 
+    - name: Start minio
+      systemd: name=minio state=started
+
     - name: Start hashistack
       systemd: name={{item}} state=started
       loop: "{{ daemons }}"

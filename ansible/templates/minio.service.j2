@@ -1,0 +1,27 @@
+[Unit]
+Description=MinIO
+Documentation=https://docs.min.io
+Wants=network-online.target
+After=network-online.target
+AssertFileIsExecutable=/usr/local/bin/minio
+
+[Service]
+WorkingDirectory=/usr/local/
+
+User=vagrant
+Group=vagrant
+
+ExecStart=/usr/local/bin/minio server /vagrant
+
+# Let systemd restart this service always
+Restart=always
+
+# Specifies the maximum file descriptor number that can be opened by this process
+LimitNOFILE=65536
+
+# Disable timeout logic and wait until process is stopped
+TimeoutStopSec=infinity
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
