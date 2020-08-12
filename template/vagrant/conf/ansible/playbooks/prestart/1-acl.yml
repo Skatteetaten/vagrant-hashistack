@@ -1,8 +1,0 @@
-## Option 2 how to turn on ACL
-
-## [ACL] Set 'deny' default policy for consul agent
-#- name: Set consul acl default policy to deny
-#  set_fact: consul_agent_acl_default_policy="deny"
-
-#- name: Set nomad acl to "true"
-#  set_fact: nomad_agent_acl_enable=true

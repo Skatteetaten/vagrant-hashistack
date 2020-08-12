@@ -7,7 +7,7 @@
 - Pre- and post steps runs in lexical order.
 - make install: lacking binaries
 - make install: missing else statement
-- [main.tf](template/test/terraform/main.tf) now runs successfully with and without nomad ACLs enabled
+- [main.tf](template/example/terraform/main.tf) now runs successfully with and without nomad ACLs enabled
 - `Make build` will not leave virtualbox vm in halted state.
 
 ### Changed
@@ -19,7 +19,7 @@
 - consul-template: 0.25.0 -> 0.25.1
 - packer: 1.6.0 -> 1.6.1
 - terraform: 0.12.26 -> 1.12.29
-- nomad ACLs: the toggle is now done on the basis of nomad_acl from  [env.yml](template/test/env_default.yml).
+- nomad ACLs: the toggle is now done on the basis of nomad_acl from  [env.yml](template/example/env_default.yml).
 - Moved installation of unzip from [install.yml](ansible/install.yml) to [bootstrap.sh](packer/bootstrap.sh).
 - cleanup and zero out disk before box output in order to reduce time and space consumption.
 - box features can now be controlled by environment variables in `.env`

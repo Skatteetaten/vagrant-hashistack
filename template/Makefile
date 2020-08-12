@@ -2,7 +2,7 @@ include .env
 export
 export PATH := $(shell pwd)/tmp:$(PATH)
 
-.ONESHELL .PHONY: up update-box destroy-box remove-tmp clean copy-consul test
+.ONESHELL .PHONY: up update-box destroy-box remove-tmp clean example
 .DEFAULT_GOAL := up
 
 #### Development ####
@@ -22,8 +22,8 @@ remove-tmp:
 
 clean: destroy-box remove-tmp
 
-copy-consul:
-	if [ ! -f "./tmp/consul" ]; then mkdir -p ./tmp; vagrant ssh -c "cp /usr/local/bin/consul /vagrant/tmp/consul"; fi;
+example:
+	cd example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
 
-test:
-	$(MAKE) -C test
+build:
+	echo "building docker image"
