@@ -16,4 +16,4 @@ client {
 }
 ```
 
-See [example](../../../example/vagrant/conf/nomad/99-override.hcl)
+See [example](../../../../test/dev/vagrant/conf/nomad/99-override.hcl)

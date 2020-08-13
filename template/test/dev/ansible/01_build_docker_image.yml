@@ -20,5 +20,5 @@
   docker_image:
     name: docker_image
     tag: local
-    archive_path: /vagrant/tmp/docker_image.tar
+    archive_path: /vagrant/dev/tmp/docker_image.tar
     source: local
