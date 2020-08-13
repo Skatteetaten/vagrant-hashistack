@@ -33,8 +33,6 @@ jobs:
           VALIDATE_TERRAFORM: true
           VALIDATE_TERRAFORM_TERRASCAN: true
           VALIDATE_XML: true
-/1
-
 
   build:
     # Macos includes virtualbox and vagrant.
