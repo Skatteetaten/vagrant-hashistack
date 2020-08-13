@@ -24,8 +24,16 @@ job "countdash" {
 
     task "web" {
       driver = "docker"
+      artifact {
+        source = "s3::http://127.0.0.1:9000/tmp/docker_image.tar"
+        options {
+          aws_access_key_id     = "minioadmin"
+          aws_access_key_secret = "minioadmin"
+        }
+      }
       config {
-        image = "hashicorpnomad/counter-api:v1"
+        load = "docker_image.tar"
+        image = "docker_image:local"
       }
     }
   }
