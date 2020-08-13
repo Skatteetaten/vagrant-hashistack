@@ -4,7 +4,7 @@
   tasks:
     - name: Terraform
       terraform:
-        project_path: ../terraform
+        project_path: ../example
         force_init: true
         state: present
       register: terraform
