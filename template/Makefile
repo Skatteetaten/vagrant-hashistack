@@ -2,7 +2,7 @@ include .env
 export
 export PATH := $(shell pwd)/tmp:$(PATH)
 
-.ONESHELL .PHONY: up update-box destroy-box remove-tmp clean test
+.ONESHELL .PHONY: up update-box destroy-box remove-tmp clean example
 .DEFAULT_GOAL := up
 
 #### Development ####

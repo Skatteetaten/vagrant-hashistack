@@ -21,11 +21,11 @@ There are two primary cases for customization.
 
 ### Add or override hashistack configurations
 
-- [nomad/](nomad/README.md)
-- [consul/](consul/README.md)
-- [vault/](vault/README.md)
+- [nomad/](./nomad/README.md)
+- [consul/](./consul/README.md)
+- [vault/](./vault/README.md)
 
 ### Add pre and post bootstrap tasks
 
-- [pre_bootstrap](pre_bootstrap/README.md)
-- [post_bootstrap](post_bootstrap/README.md)
+- [pre_bootstrap](./pre_bootstrap/README.md)
+- [post_bootstrap](./post_bootstrap/README.md)
