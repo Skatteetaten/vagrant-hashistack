@@ -1,0 +1,24 @@
+- name: Remove docker image
+  docker_image:
+    name: docker_image
+    tag: local
+    force_absent: true
+    state: absent
+
+- name: Build docker image
+  docker_image:
+    name: docker_image
+    tag: local
+    build:
+      path: /vagrant/docker
+      pull: false
+      args:
+        TEST_DOWNLOAD_BUILD_ARGUMENT: https://nrk.no
+    source: build
+
+- name: Archive docker image
+  docker_image:
+    name: docker_image
+    tag: local
+    archive_path: /vagrant/dev/tmp/docker_image.tar
+    source: local

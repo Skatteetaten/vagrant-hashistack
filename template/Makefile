@@ -1,4 +1,4 @@
-include .env
+include dev/.env
 export
 export PATH := $(shell pwd)/tmp:$(PATH)
 
@@ -31,7 +31,4 @@ else
 endif
 
 example:
-	cd example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
-
-build:
-	echo "building docker image"
+	cd test_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision

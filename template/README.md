@@ -10,11 +10,11 @@ Documentation on [parent repository](https://github.com/fredrikhgrelland/vagrant
 
 ## Customizing and using the vagrant box
 ### Where to start
-The vagrant box ships with a default startup scheme. `make` from this directory will start the box, and it will look for an ansible playbook called `playbook.yml` and start it after the bootstrap-process for the hashistack is done. In the [example](example/ansible/playbook.yml) we use it to start terraform which then starts a nomad-job.
+The vagrant box ships with a default startup scheme. `make` from this directory will start the box, and it will look for an ansible playbook called `playbook.yml` and start it after the bootstrap-process for the hashistack is done. In the [example](test_example/dev/ansible/playbook.yml) we use it to start terraform which then starts a nomad-job.
 
 ### Pre and post hashistack procedure
 You may change the hashistack configuration or add aditional pre and post steps to the startup procedure to match your needs.
-Detailed documentation in [vagrant/conf/README.md](vagrant/conf/README.md)
+Detailed documentation in [dev/vagrant/conf/README.md](dev/vagrant/conf/README.md)
 
 ### Nomad ACLs
 
@@ -24,7 +24,7 @@ Detailed documentation in [vagrant/conf/README.md](vagrant/conf/README.md)
 | x         | nomad_acl             |  false  |
 
 NB: All lowercase variables will automatically get a corresponding TF_VAR_ prepended variant for use directly in terraform.
-To change from the default value, you may add the environment variable to [.env](.env)
+To change from the default value, you may add the environment variable to [.env](dev/.env)
 
 When ACLs in Nomad are enabled the bootstrap token will be available in vault under `secret/nomad/management-token` with the two key-value pairs `accessor-id` and `secret-id`. `secret-id` is the token itself. These can be accessed in several ways:
 - From inside the vagrant box with `vault kv get secret/nomad-bootstrap-token`
@@ -41,7 +41,7 @@ When ACLs in Nomad are enabled the bootstrap token will be available in vault un
 |           | consul_acl_default_policy        |  deny   |
 
 NB: All lowercase variables will automatically get a corresponding TF_VAR_ prepended variant for use directly in terraform.
-To change from the default value, you may add the environment variable to [.env](.env)
+To change from the default value, you may add the environment variable to [.env](dev/.env)
 
 
 
