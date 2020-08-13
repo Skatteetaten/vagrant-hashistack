@@ -138,4 +138,5 @@
               # Read file and match variables starting with lowercase - prepend with TF_VAR_ and export.
               while read p || [[ -n $p ]]; do [[ $p =~ ^[[:lower:]].*=.*$ ]] && export TF_VAR_$p; done < /vagrant/.env_override
           fi
+          unset p
           set +a
