@@ -14,7 +14,8 @@ jobs:
       - name: Super-Linter
         uses: github/super-linter@latest
         env:
-          VALIDATE_ENV: false
+          #VALIDATE_ENV: false
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     # Macos includes virtualbox and vagrant.
