@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "Running /vagrant/vagrant/conf/post_ansible.sh"
+echo "Running /vagrant/dev/vagrant/conf/post_ansible.sh"
