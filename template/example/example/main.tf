@@ -1,3 +1,3 @@
 module "countdash" {
-  source = ".."
+  source = "./.."
 }
