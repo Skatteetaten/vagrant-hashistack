@@ -16,6 +16,14 @@
         TEST_DOWNLOAD_BUILD_ARGUMENT: https://nrk.no
     source: build
 
+- name: Create tmp if it does not exist
+  file:
+    path: /vagrant/dev/tmp
+    state: directory
+    mode: '0755'
+    owner: vagrant
+    group: vagrant
+
 - name: Archive docker image
   docker_image:
     name: docker_image
