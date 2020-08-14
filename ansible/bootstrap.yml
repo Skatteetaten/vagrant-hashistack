@@ -50,13 +50,26 @@
         state: link
       loop: "{{ query('dict', hashicorp.tools) }}"
 
-    - name: Override symlink with enterprise hashistack, if enterpise enabled
+    - name: Consul - override symlink with Enterprise
       file:
-        src: "/usr/local/bin/ent/{{ item.key }}"
-        dest: "/usr/local/bin/{{ item.key }}"
+        src: "/usr/local/bin/ent/consul"
+        dest: "/usr/local/bin/consul"
         state: link
-      loop: "{{ query('dict', hashicorp.tools_enterprise) }}"
-      when: lookup('env', 'consul_enterprise') | bool
+      when: lookup('env', "consul_enterprise") | bool
+
+    - name: Nomad - override symlink with Enterprise
+      file:
+        src: "/usr/local/bin/ent/nomad"
+        dest: "/usr/local/bin/nomad"
+        state: link
+      when: lookup('env', "nomad_enterprise") | bool
+
+    - name: Vault - override symlink with Enterprise
+      file:
+        src: "/usr/local/bin/ent/vault"
+        dest: "/usr/local/bin/vault"
+        state: link
+      when: lookup('env', "vault_enterprise") | bool
 
     - name: Start hashistack
       systemd: name={{item}} state=started
