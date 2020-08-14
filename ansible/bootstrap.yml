@@ -10,7 +10,7 @@
   tasks:
     - name: Check if .env_override is provided
       debug:
-        msg: "We are running in remote_test mode and .env_override is not set"
+        msg: "We are running in CI and .env_override is set"
       failed_when: not local_test | bool and not lookup( 'env', 'TF_VAR_env_override') | bool
       tags: test
 
