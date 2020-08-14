@@ -1,2 +1,7 @@
 # Docker build directory
-TODO: write doc
+Put your Dockerfile and other files relating to a docker-build here. 
+### Building docker image locally
+`make build-docker [IMAGE_NAME=<name>:<tag>]` will look for a Dockerfile in [docker/](docker/) and build an image tagged with `IMAGE_NAME`. If `IMAGE_NAME` is not supplied it will be tagged `template:latest`.
+
+### Building and testing the docker-image within the vagrant-hashistack box
+We advise you to build and test your docker image within the hashistack eco-system. Running `make test` will launch the [default playbook](../dev/ansible/playbook.yml) inside the box, and [test_example/](../test_example/) shows a simple build process for building and running the docker image using this. Refer to books in [test_example/dev/ansible](../test_example/dev/ansible) to see details. 
