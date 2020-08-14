@@ -1,3 +1,6 @@
+- debug:
+    var:
+
 - name: some test should not run
   debug:
     msg: asd
