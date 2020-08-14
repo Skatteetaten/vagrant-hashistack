@@ -21,7 +21,7 @@ remote_test: clean local_test_up
 test: clean local_test_up
 
 example:
-	cd test_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--extra-vars "local_test=true"' vagrant up --provision
+	cd test_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
 
 # clean commands
 destroy-box:
