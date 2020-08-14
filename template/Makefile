@@ -15,9 +15,6 @@ test: clean up
 example:
 	cd test_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
 
-build-docker: check-dockerfile
-	cd docker; docker build -t $(IMAGE_NAME) .
-
 # clean commands
 destroy-box:
 	vagrant destroy -f
@@ -28,12 +25,6 @@ remove-tmp:
 clean: destroy-box remove-tmp
 
 # helper commands
-
-check-dockerfile:
-ifeq (,$(wildcard docker/Dockerfile))
-	echo ERROR: There is no Dockerfile available in docker/ && exit 2
-endif
-
 update-box:
 	@SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant box update || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy. \nMore info https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/README.md#if-you-are-behind-a-transparent-proxy\n\n' && exit 2)
 
