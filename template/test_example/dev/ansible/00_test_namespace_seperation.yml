@@ -1,0 +1,11 @@
+- name: some test should not run
+  debug:
+    msg: asd
+  when: lookup( 'env', 'consul_acl' ) and lookup( 'env', 'consul_enterprise' )
+  tags: test
+
+- name: some test should run
+  debug:
+    msg: asd
+  when: not lookup( 'env', 'nomad_acl' )
+  tags: test

@@ -7,13 +7,21 @@ export PATH := $(shell pwd)/tmp:$(PATH)
 
 #### Development ####
 # start commands
-up: update-box
+dev: update-box
+	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--skip-tags "test"' vagrant up --provision
+
+local_test_up: update-box
+	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--extra-vars "local_test=true"' vagrant up --provision
+
+remote_test_up: update-box
 	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
 
-test: clean up
+remote_test: clean local_test_up
+
+test: clean local_test_up
 
 example:
-	cd test_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
+	cd test_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--extra-vars "local_test=true"' vagrant up --provision
 
 # clean commands
 destroy-box:

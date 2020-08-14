@@ -107,6 +107,7 @@ jobs:
       - name: Make .env_override in order to matrix test
         run: python .github/action/create-env.py
         env:
+          ENVKEY_env_override: true
           ENVKEY_consul_acl: ${{ steps.consul_acl.outputs.consul_acl }}
           ENVKEY_consul_acl_default_policy: ${{ steps.consul_acl_default_policy.outputs.default_policy }}
           ENVKEY_nomad_acl: ${{ steps.nomad_acl.outputs.nomad_acl }}
