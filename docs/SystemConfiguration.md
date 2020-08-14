@@ -1,13 +1,6 @@
 # Default System Configuration
 
-The following versions of Hashistack components are used for creating the system:
-
-- **consul-template: 0.25.1**
-- **consul: 1.8.1**
-- **vault: 1.5.0**
-- **nomad: 0.12.1**
-
-The file holding the current version can be looked up [here](../ansible/group_vars/all/variables.yml)
+The system is built using the following version of hashistack components: [hashistack component versions](../ansible/group_vars/all/variables.yml)
 
 **Nomad policies** added can be looked up in the following location: [nomad policies](../ansible/templates/nomad-policies)
 
@@ -31,6 +24,6 @@ For example, in order to override the **consul acl default policy** from **allow
 
 ### Option 2 - config files
 **Override of config files**
-It is also possible to add and/or overwrite the hashistack components' configuration files. See documentation [here](vagrant/conf/README.md).
+It is also possible to add and/or overwrite the hashistack components' configuration files. See documentation [here](../template/dev/vagrant/conf/README.md).
 
 **NB! Overriding config files will take effect after any env variables prebuilt configuration. Other words Option 2 is applied after Option 1**

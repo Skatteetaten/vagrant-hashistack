@@ -5,6 +5,8 @@ on:
   pull_request:
     branches: [ master ]
     types: [opened, synchronize, reopened, edited, closed]
+  push:
+    branches: [ hashicorp_enterprise_github_action_changes ]
 
 jobs:
   linter:
@@ -59,11 +61,9 @@ jobs:
     strategy:
       matrix:
         consul_acl: ["consul_acl_enabled", "consul_acl_disabled"]
-        consul_acl_default_policy: ["consul_acl_allow", "consul_acl_deny"]
+        consul_acl_default_policy: ["consul_acl_deny"]
         nomad_acl: ["nomad_acl_enabled", "nomad_acl_disabled"]
-        exclude:
-          - consul_acl: "consul_acl_disabled"
-            consul_acl_default_policy: "consul_acl_deny"
+        hashicorp_binary: ["hashicorp_oss", "hashicorp_enterprise"]
 
     steps:
       - uses: actions/checkout@v2
@@ -104,6 +104,22 @@ jobs:
         env:
           test_nomad_acl: ${{ matrix.nomad_acl }}
 
+      - name: set hashicorp binary (oss/enterprise)
+        id: hashicorp_binary
+        run: |
+          if [ "$test_hashicorp_binary" == 'hashicorp_oss' ]
+          then
+              echo "::set-output name=consul_enterprise::false"
+              echo "::set-output name=nomad_enterprise::false"
+              echo "::set-output name=vault_enterprise::false"
+          else
+              echo "::set-output name=consul_enterprise::true"
+              echo "::set-output name=nomad_enterprise::true"
+              echo "::set-output name=vault_enterprise::true"
+          fi
+        env:
+          test_hashicorp_binary: ${{ matrix.hashicorp_binary }}
+
       - name: Make .env_override in order to matrix test
         run: python .github/action/create-env.py
         env:
@@ -111,6 +127,9 @@ jobs:
           ENVKEY_consul_acl: ${{ steps.consul_acl.outputs.consul_acl }}
           ENVKEY_consul_acl_default_policy: ${{ steps.consul_acl_default_policy.outputs.default_policy }}
           ENVKEY_nomad_acl: ${{ steps.nomad_acl.outputs.nomad_acl }}
+          ENVKEY_consul_enterprise: ${{ steps.hashicorp_binary.outputs.consul_enterprise }}
+          ENVKEY_nomad_enterprise: ${{ steps.hashicorp_binary.outputs.nomad_enterprise }}
+          ENVKEY_vault_enterprise: ${{ steps.hashicorp_binary.outputs.vault_enterprise }}
           FILE_NAME: template/test_example/.env_override
 
       - uses: actions/download-artifact@v2

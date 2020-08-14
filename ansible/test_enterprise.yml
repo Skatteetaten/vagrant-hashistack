@@ -1,0 +1,20 @@
+# Verify enterprise versions
+- name: Consul verify version
+  shell: consul --version | grep +ent
+  register: consul_ent_version_result
+  failed_when: consul_ent_version_result.rc != 0
+  when: lookup('env', "consul_enterprise") | bool
+
+- name: Nomad verify version
+  shell: nomad --version | grep +ent
+  register: nomad_ent_version_result
+  failed_when: nomad_ent_version_result.rc != 0
+  when: lookup('env', "nomad_enterprise") | bool
+
+- name: Vault verify version
+  shell: vault --version | grep +ent
+  register: vault_ent_version_result
+  failed_when: vault_ent_version_result.rc != 0
+  when: lookup('env', "vault_enterprise") | bool
+
+# Enterprise features
