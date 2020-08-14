@@ -1,8 +1,3 @@
-# Terraform
+# Development and test code and configuration
 
-Any configuration of the hashistack is best performed through terraform providers.
-- [nomad](https://www.terraform.io/docs/providers/nomad/index.html)
-- [vault](https://www.terraform.io/docs/providers/vault/index.html)
-- [consul](https://www.terraform.io/docs/providers/consul/index.html)
-
-You put them in this directory and use [../ansible/playbook.yml](ansible/playbook.yml) to init and run terraform. `make up` will provision the box and run the playbooks inside the box.
+This directory contains code related to building, testing and developing in the vagrant box
