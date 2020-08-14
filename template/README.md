@@ -14,7 +14,7 @@ Documentation on [parent repository](https://github.com/fredrikhgrelland/vagrant
 See docker [README.md](docker/README.md).
 
 ### Starting a box
-The vagrant box ships with a default startup scheme. `make` from this directory will start the box, and it will run all books in [dev/ansible]() in lexical order (NB: `playbook.yml` is run first, but is only used to run all other playbooks) after the bootstrap-process for the hashistack is done. In the [example](test_example/dev/ansible/playbook.yml) we use it to start terraform which then starts a nomad-job.
+The vagrant box ships with a default startup scheme. `make` from this directory will start the box, and it will run all books in [dev/ansible](dev/ansible) in lexical order (NB: `playbook.yml` is run first, but is only used to run all other playbooks) after the bootstrap-process for the hashistack is done. In the [example](test_example/dev/ansible/playbook.yml) we use it to start terraform which then starts a nomad-job.
 
 ### Pre and post hashistack procedure
 You may change the hashistack configuration or add aditional pre and post steps to the startup procedure to match your needs.
