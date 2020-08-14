@@ -11,7 +11,7 @@
     - name: Check if .env_override is provided
       debug:
         msg: "We are running in remote_test mode and .env_override is not set"
-      failed_when: not lookup( 'env', 'local_test') and not lookup( 'env', 'TF_VAR_env_override')
+      failed_when: not local_test and not lookup( 'env', 'TF_VAR_env_override')
       tags: test
 
     - name: Include consul configuration override files
