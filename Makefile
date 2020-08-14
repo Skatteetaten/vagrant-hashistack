@@ -12,3 +12,9 @@ ifeq (,$(wildcard ./packer/output-hashistack/package.box))
 	$(MAKE) build
 endif
 	$(MAKE) -C test
+
+ssh:
+	(cd template; vagrant ssh)
+
+destroy:
+	(cd template; vagrant destroy -f)

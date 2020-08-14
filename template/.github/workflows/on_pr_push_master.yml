@@ -12,7 +12,26 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Super-Linter
-        uses: github/super-linter@v2.0.0
+        uses: github/super-linter@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ANSIBLE: true
+          VALIDATE_BASH: true
+          VALIDATE_DOCKER: true
+          VALIDATE_DOCKER_HADOLINT: true
+          VALIDATE_GO: true
+          VALIDATE_HTML: true
+          VALIDATE_JAVA: true
+          VALIDATE_JSON: true
+          VALIDATE_MD: true
+          VALIDATE_OPENAPI: true
+          VALIDATE_PYTHON: true
+          VALIDATE_PYTHON_PYLINT: true
+          VALIDATE_PYTHON_FLAKE8: true
+          VALIDATE_RUBY: true
+          VALIDATE_SQL: true
+          VALIDATE_TERRAFORM: true
+          VALIDATE_XML: true
 
   test:
     runs-on: macos-latest
@@ -68,6 +87,7 @@ jobs:
       - name: Make .env_override in order to matrix test
         run: python .github/action/create-env.py
         env:
+          ENVKEY_env_override: true
           ENVKEY_consul_acl: ${{ steps.consul_acl.outputs.consul_acl }}
           ENVKEY_consul_acl_default_policy: ${{ steps.consul_acl_default_policy.outputs.default_policy }}
           ENVKEY_nomad_acl: ${{ steps.nomad_acl.outputs.nomad_acl }}

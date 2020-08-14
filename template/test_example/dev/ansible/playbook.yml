@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Include and run tasks
+      include_tasks: "{{ item }}"
+      loop: "{{ query('fileglob', \"/vagrant/dev/ansible/*.yml\", wantlist=true) | reject('search','playbook.yml') | list | sort }}"

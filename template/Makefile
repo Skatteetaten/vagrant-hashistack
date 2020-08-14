@@ -1,4 +1,4 @@
-include .env
+include dev/.env
 export
 export PATH := $(shell pwd)/tmp:$(PATH)
 
@@ -7,11 +7,24 @@ export PATH := $(shell pwd)/tmp:$(PATH)
 
 #### Development ####
 # start commands
-up: clean update-box
-	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
+dev: update-box
+	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--skip-tags "test"' vagrant up --provision
 
-update-box:
-	@SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant box update || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy. \nMore info https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/README.md#if-you-are-behind-a-transparent-proxy\n\n' && exit 2)
+up: update-box
+ifdef CI # CI is set in Github Actions
+	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
+else
+	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--extra-vars "local_test=true"' vagrant up --provision
+endif
+
+test: clean up
+
+example:
+ifdef CI # CI is set in Github Actions
+	cd test_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
+else
+	cd test_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--extra-vars "local_test=true"' vagrant up --provision
+endif
 
 # clean commands
 destroy-box:
@@ -22,16 +35,7 @@ remove-tmp:
 
 clean: destroy-box remove-tmp
 
-test:
-ifeq (,$(wildcard ansible/playbook.yml))
-	echo ERROR: There is no playbook.yml available in ansible/ && exit 2
-else
-	make clean
-	make up
-endif
+# helper commands
+update-box:
+	@SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant box update || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy. \nMore info https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/README.md#if-you-are-behind-a-transparent-proxy\n\n' && exit 2)
 
-example:
-	cd example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
-
-build:
-	echo "building docker image"

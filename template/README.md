@@ -9,12 +9,16 @@ If you found this in `fredrikhgrelland/vagrant-hashistack`, you may be intereste
 Documentation on [parent repository](https://github.com/fredrikhgrelland/vagrant-hashistack#usage).
 
 ## Customizing and using the vagrant box
-### Where to start
-The vagrant box ships with a default startup scheme. `make` from this directory will start the box, and it will look for an ansible playbook called `playbook.yml` and start it after the bootstrap-process for the hashistack is done. In the [example](example/ansible/playbook.yml) we use it to start terraform which then starts a nomad-job.
+
+### Building and testing docker image
+See docker [README.md](docker/README.md).
+
+### Starting a box
+The vagrant box ships with a default startup scheme. `make` from this directory will start the box, and it will run all books in [dev/ansible](dev/ansible) in lexical order (NB: `playbook.yml` is run first, but is only used to run all other playbooks) after the bootstrap-process for the hashistack is done. In the [example](test_example/dev/ansible/playbook.yml) we use it to start terraform which then starts a nomad-job.
 
 ### Pre and post hashistack procedure
 You may change the hashistack configuration or add aditional pre and post steps to the startup procedure to match your needs.
-Detailed documentation in [vagrant/conf/README.md](vagrant/conf/README.md)
+Detailed documentation in [dev/vagrant/conf/README.md](dev/vagrant/conf/README.md)
 
 ### Nomad ACLs
 
@@ -24,7 +28,7 @@ Detailed documentation in [vagrant/conf/README.md](vagrant/conf/README.md)
 | x         | nomad_acl             |  false  |
 
 NB: All lowercase variables will automatically get a corresponding TF_VAR_ prepended variant for use directly in terraform.
-To change from the default value, you may add the environment variable to [.env](.env)
+To change from the default value, you may add the environment variable to [.env](dev/.env)
 
 When ACLs in Nomad are enabled the bootstrap token will be available in vault under `secret/nomad/management-token` with the two key-value pairs `accessor-id` and `secret-id`. `secret-id` is the token itself. These can be accessed in several ways:
 - From inside the vagrant box with `vault kv get secret/nomad-bootstrap-token`
@@ -41,7 +45,7 @@ When ACLs in Nomad are enabled the bootstrap token will be available in vault un
 |           | consul_acl_default_policy        |  deny   |
 
 NB: All lowercase variables will automatically get a corresponding TF_VAR_ prepended variant for use directly in terraform.
-To change from the default value, you may add the environment variable to [.env](.env)
+To change from the default value, you may add the environment variable to [.env](dev/.env)
 
 
 
@@ -61,12 +65,12 @@ vagrant ssh -c 'vault read consul/creds/admin-team'
 *Tokens can be used to access UI (different access level depends on role)
 
 ## Vagrant box life-cycle
-1. `.env_default` - _preloaded_ - default variables
-1. `.env` - _user provided_ - variables override
-1. `.env_override` - _system provided_ - variables are overridden for test purposes
-1. `vagrant/conf/pre_ansible.sh` - _user provided_ - script running before ansible bootstrap procedure
-1. `vagrant/conf/pre_bootstrap/*.yml` - _user provided_ - pre bootstrap tasks, running before hashistack software runs and ready
+1. `/home/vagrant/.env_default` - _preloaded_ - default variables
+1. `vagrant/.env` - _user provided_ - variables override
+1. `vagrant/.env_override` - _system provided_ - variables are overridden for test purposes
+1. `vagrant/dev/vagrant/conf/pre_ansible.sh` - _user provided_ - script running before ansible bootstrap procedure
+1. `vagrant/dev/vagrant/conf/pre_bootstrap/*.yml` - _user provided_ - pre bootstrap tasks, running before hashistack software runs and ready
 1. `/etc/ansible/bootstrap.yml` - _preloaded_ - verify ansible variables and software configuration, run hashistack software & verify that it started correctly
 1. `vagrant/conf/post_bootstrap/*.yml` - _user provided_ - poststart scripts, running after hasistack software runs and ready
-
-TODO: 8. `vagrant/ansible/playbook.yml` - _user provided_ - user's provisioning playbook
+1. `vagrant/dev/conf/pre_ansible.sh` - _user provided_ - script running after ansible bootstrap procedure
+1. `vagrant/ansible/*.yml` - _user provided_ - ansible tasks included in playbook
