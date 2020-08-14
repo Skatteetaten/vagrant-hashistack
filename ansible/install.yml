@@ -74,7 +74,6 @@
         state: directory
         owner: root
         group: root
-#        mode: 0775
       with_items:
         - /usr/local/bin/oss
         - /usr/local/bin/ent
