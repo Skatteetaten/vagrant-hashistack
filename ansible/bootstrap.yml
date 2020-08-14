@@ -135,6 +135,9 @@
       retries: 60
       delay: 1
 
+    - name: Verify enterprise features
+      include_tasks: enterprise.yml
+
     - name: Run the nomad acl bootstrap process
       include_tasks: nomad_acl_bootstrap.yml
       when: lookup('env', 'nomad_acl') | bool
