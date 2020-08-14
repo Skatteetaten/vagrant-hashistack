@@ -43,6 +43,21 @@
     - name: Start minio
       systemd: name=minio state=started
 
+    - name: Create symlink open source hashistack
+      file:
+        src: "/usr/local/bin/oss/{{ item.key }}"
+        dest: "/usr/local/bin/{{ item.key }}"
+        state: link
+      loop: "{{ query('dict', hashicorp.tools) }}"
+
+    - name: Override symlink with enterprise hashistack, if enterpise enabled
+      file:
+        src: "/usr/local/bin/ent/{{ item.key }}"
+        dest: "/usr/local/bin/{{ item.key }}"
+        state: link
+      loop: "{{ query('dict', hashicorp.tools_enterprise) }}"
+      when: lookup('env', 'consul_enterprise') | bool
+
     - name: Start hashistack
       systemd: name={{item}} state=started
       loop: "{{ daemons }}"
