@@ -31,7 +31,6 @@ jobs:
           VALIDATE_RUBY: true
           VALIDATE_SQL: true
           VALIDATE_TERRAFORM: true
-          VALIDATE_TERRAFORM_TERRASCAN: true
           VALIDATE_XML: true
 
   build:
