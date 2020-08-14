@@ -93,5 +93,5 @@ jobs:
           ENVKEY_nomad_acl: ${{ steps.nomad_acl.outputs.nomad_acl }}
           FILE_NAME: .env_override
 
-      - name: Run make remote_test
-        run: make remote_test
+      - name: Run make test
+        run: make test

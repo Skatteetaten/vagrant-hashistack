@@ -12,3 +12,5 @@ clean:
 	vagrant box remove local/hashistack --force || true
 
 test: clean up clean
+
+remote_test:

@@ -3,7 +3,7 @@ FROM hashicorpnomad/counter-api:v1
 # Allow buildtime config
 ARG TEST_DOWNLOAD_BUILD_ARGUMENT
 
-# Test download
+# Test download TODO: Add certificate trust
 RUN \
     apk --no-cache add curl=~7 && \
-    curl -s -I -o /dev/null $TEST_DOWNLOAD_BUILD_ARGUMENT
+    curl -s -I -o /dev/null $TEST_DOWNLOAD_BUILD_ARGUMENT || true

@@ -10,7 +10,7 @@
   tasks:
     - name: Check if .env_override is provided
       debug:
-        msg: "We are running in test mode and .env_override is set"
+        msg: "We are running in remote_test mode and .env_override is not set"
       failed_when: not lookup( 'env', 'local_test') and (not lookup( 'env', 'env_override') and not lookup( 'env', 'TF_VAR_env_override'))
       tags: test
 
