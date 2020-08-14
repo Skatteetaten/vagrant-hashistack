@@ -10,6 +10,10 @@ hashicorp:
     vault: 1.5.0
     nomad: 0.12.3
     packer: 1.6.1
+  tools_enterprise:
+    consul: 1.8.3+ent
+    nomad: 0.12.3+ent
+    vault: 1.5.0+ent
 ansible:
   galaxy:
     roles:

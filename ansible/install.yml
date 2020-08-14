@@ -68,13 +68,33 @@
     - name: systemd reload
       systemd: daemon_reload=yes
 
-    - name: Install hashistack
+    - name: Create directories for hashistack
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+      with_items:
+        - /usr/local/bin/oss
+        - /usr/local/bin/ent
+
+    - name: Install open source hashistack
       include_role:
         name: hashistack
       vars:
         software: "{{ item.key }}"
         version: "{{ item.value }}"
+        destination_dir: /usr/local/bin/oss
       loop: "{{ query('dict', hashicorp.tools) }}"
+
+    - name: Install enterprise hashistack
+      include_role:
+        name: hashistack
+      vars:
+        software: "{{ item.key }}"
+        version: "{{ item.value }}"
+        destination_dir: /usr/local/bin/ent
+      loop: "{{ query('dict', hashicorp.tools_enterprise) }}"
 
     - name:  Update message of the day
       template:

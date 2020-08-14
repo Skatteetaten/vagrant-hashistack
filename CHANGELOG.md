@@ -33,6 +33,7 @@
 - Added healthchecks to the [countdash-job](template/test_example/conf/nomad/countdash.hcl).
 - Added [minio](https://min.io) as a running service on port 9000
 - Template and test redesign to make Terraform modules center of the template
+- Added enterprise binaries: consul, nomad, vault
 
 ## [0.2.2]
 
