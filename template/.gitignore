@@ -5,3 +5,4 @@ terraform.tfstate*
 .terraform
 .minio.sys
 tmp
+docker/conf/certificates/*.crt
