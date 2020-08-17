@@ -27,6 +27,9 @@ The box comes standard with a set of environment switches to simplify testing of
 NB: All lowercase variables will automatically get a corresponding TF_VAR_ prepended variant for use directly in terraform.
 To change from the default value, you may add the environment variable to [.env](dev/.env)
 
+#### Enterprise vs Open Source Software (OSS)
+As long as Enterprise is not set to `true` the box will utilise OSS version of the binaries.
+
 #### Nomad
 
 | default   | environment variable  |  value  |
