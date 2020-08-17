@@ -20,36 +20,50 @@ The vagrant box ships with a default startup scheme. `make` from this directory 
 You may change the hashistack configuration or add aditional pre and post steps to the startup procedure to match your needs.
 Detailed documentation in [dev/vagrant/conf/README.md](dev/vagrant/conf/README.md)
 
-### Nomad ACLs
+### Pre packaged configuration switches
 
-| default   | environment variable  |  value  |
-|:---------:|:----------------------|:-------:|
-|           | nomad_acl             |  true   |
-| x         | nomad_acl             |  false  |
+The box comes standard with a set of environment switches to simplify testing of different scenarios and enable staged development efforts.
 
 NB: All lowercase variables will automatically get a corresponding TF_VAR_ prepended variant for use directly in terraform.
 To change from the default value, you may add the environment variable to [.env](dev/.env)
+
+#### Enterprise vs Open Source Software (OSS)
+As long as Enterprise is not set to `true` the box will utilise OSS version of the binaries.
+
+#### Nomad
+
+| default   | environment variable  |  value  |
+|:---------:|:----------------------|:-------:|
+|           | nomad_enterprise      |  true   |
+|     x     | nomad_enterprise      |  false  |
+|           | nomad_acl             |  true   |
+|     x     | nomad_acl             |  false  |
 
 When ACLs in Nomad are enabled the bootstrap token will be available in vault under `secret/nomad/management-token` with the two key-value pairs `accessor-id` and `secret-id`. `secret-id` is the token itself. These can be accessed in several ways:
 - From inside the vagrant box with `vault kv get secret/nomad-bootstrap-token`
 - From local machine with `vagrant ssh -c vault kv get secret/nomad-bootstrap-token"`
 - By going to vault's UI on `localhost:8200`, and signing in with the root token.
 
-### Consul ACLs and policies
+#### Consul
 
 | default   | environment variable             |  value  |
 |:---------:|:---------------------------------|:-------:|
+|           | consul_enterprise                |  true   |
+|     x     | consul_enterprise                |  false  |
 |     x     | consul_acl                       |  true   |
 |           | consul_acl                       |  false  |
 |     x     | consul_acl_default_policy        |  allow  |
 |           | consul_acl_default_policy        |  deny   |
 
-NB: All lowercase variables will automatically get a corresponding TF_VAR_ prepended variant for use directly in terraform.
-To change from the default value, you may add the environment variable to [.env](dev/.env)
+#### Vault
 
+| default   | environment variable             |  value  |
+|:---------:|:---------------------------------|:-------:|
+|           | vault_enterprise                 |  true   |
+|     x     | vault_enterprise                 |  false  |
 
+##### Consul secrets engine
 
-### Consul secrets engine
 If `consul_acl_default_policy` has value `deny`, it will also enable [consul secrets engine](https://www.vaultproject.io/docs/secrets/consul) in vault.  
 Ansible will provision additional custom roles (admin-team, dev-team), [policies](../ansible/templates/consul-policies) and tokens for test purpose with different access level.
 
