@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.1 UNRELEASED]
+
+### Fixed
+
+- Wrong path in dev/ansible/playbook.yml #213
+- Template Vagrantfile wrong paths #218
+- Wrong version constraint on 0.3 template #216
+
 ## [0.3.0]
 
 ### Fixed
