@@ -7,6 +7,7 @@
 - Wrong path in dev/ansible/playbook.yml #213
 - Template Vagrantfile wrong paths #218
 - Wrong version constraint on 0.3 template #216
+- `make test` in template prints errors on pre_ansible.sh and post_ansible.sh #224
 
 ## [0.3.0]
 
