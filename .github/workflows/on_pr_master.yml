@@ -31,6 +31,7 @@ jobs:
           VALIDATE_SQL: true
           VALIDATE_TERRAFORM: true
           VALIDATE_XML: true
+
   enforce-changelog:
     runs-on: ubuntu-latest
     steps:
