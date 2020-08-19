@@ -16,6 +16,8 @@
         TEST_DOWNLOAD_BUILD_ARGUMENT: https://nrk.no
     source: build
 
+# NB! Folder /vagrant is mounted to Minio
+# Folder `dev` is going to be a bucket name
 - name: Create tmp if it does not exist
   file:
     path: /vagrant/dev/tmp

@@ -5,6 +5,9 @@
 ### Added
 
 - Changelog enforcer
+- Minio section(definition and usage) in template/README.md
+- Terraform module documentation in template/README.md
+- Template license - Apache 2.0
 
 ## [0.3.1]
 
