@@ -39,7 +39,7 @@ jobs:
       - uses: dangoslen/changelog-enforcer@v1.1.1
         with:
           changeLogPath: 'CHANGELOG.md'
-          skipLabel: 'Skip-Changelog'
+          skipLabel: 'skip-changelog'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

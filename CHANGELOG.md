@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.2 UNRELEASED]
+
+### Added
+
+- Changelog enforcer
+
 ## [0.3.1]
 
 ### Fixed
