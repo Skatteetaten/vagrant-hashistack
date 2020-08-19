@@ -78,6 +78,60 @@ vagrant ssh -c 'vault read consul/creds/admin-team'
 
 *Tokens can be used to access UI (different access level depends on role)
 
+## Minio
+Minio S3 can be used as a general artifact repository while building and testing within the scope of the vagrantbox to push, pull and store resources for further deployments.
+
+`NOTE` - Directory `/vagrant` is mounted to minio. Only first level of sub-directories become bucket names.
+
+Resource examples:
+- docker images
+- compiled binaries
+- jar files
+- etc...
+
+### Pushing resources to Minio with Ansible [Docker image]
+Push(archive) of docker image.
+```yaml
+# NB! Folder /vagrant is mounted to Minio
+# Folder `dev` is going to be a bucket name
+- name: Create tmp if it does not exist
+  file:
+    path: /vagrant/dev/tmp
+    state: directory
+    mode: '0755'
+    owner: vagrant
+    group: vagrant
+
+- name: Archive docker image
+  docker_image:
+    name: docker_image
+    tag: local
+    archive_path: /vagrant/dev/tmp/docker_image.tar
+    source: local
+```
+[Full example](./test_example/dev/ansible/01_build_docker_image.yml)
+
+### Fetching resources from Minio with Nomad [Docker image]
+> [The artifact stanza](https://www.nomadproject.io/docs/job-specification/artifact) instructs Nomad to fetch and unpack a remote resource, such as a file, tarball, or binary.
+
+Example:
+```hcl
+task "web" {
+  driver = "docker"
+  artifact {
+    source = "s3::http://127.0.0.1:9000/dev/tmp/docker_image.tar"
+    options {
+      aws_access_key_id     = "minioadmin"
+      aws_access_key_secret = "minioadmin"
+    }
+  }
+  config {
+    load = "docker_image.tar"
+    image = "docker_image:local"
+  }
+}
+```
+[Full example](./test_example/conf/nomad/countdash.hcl)
 ## Vagrant box life-cycle
 1. `/home/vagrant/.env_default` - _preloaded_ - default variables
 1. `vagrant/.env` - _user provided_ - variables override
