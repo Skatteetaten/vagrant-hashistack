@@ -1,7 +1,10 @@
 # Starter template for `fredrikhgrelland/hashistack`
 
 This repository can be used as a base for developing services on the hashistack.
-On github, you may use the ["Use this template"](https://github.com/fredrikhgrelland/vagrant-hashistack-template/generate) button to generate a new repository from this template.
+On github, you may use the
+<a href="https://github.com/fredrikhgrelland/vagrant-hashistack-template/generate" alt="Use this template">
+<img src="https://img.shields.io/badge/Use this template-2ea44f"/></a>
+ button to generate a new repository from this template.
 
 If you found this in `fredrikhgrelland/vagrant-hashistack`, you may be interested in this separate repository [vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template/generate) button to start a new repository from this repo
 .
