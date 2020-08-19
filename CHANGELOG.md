@@ -13,6 +13,13 @@
 - Minio section(definition and usage) in template/README.md
 - Terraform module documentation in template/README.md
 - Template license - Apache 2.0
+- Sections to template/README.md
+  - "Where to start"
+  - "Goals of this template"
+  - "Default startup scheme"
+  - "Commands"
+  - "Terraform Module Requirements"
+  - "Accessing Consul, Nomad and Vault"
 - `make install` add to template #238
 
 ### Fixed
