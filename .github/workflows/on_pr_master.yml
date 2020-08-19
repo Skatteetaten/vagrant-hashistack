@@ -31,6 +31,16 @@ jobs:
           VALIDATE_SQL: true
           VALIDATE_TERRAFORM: true
           VALIDATE_XML: true
+  enforce-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: dangoslen/changelog-enforcer@v1.1.1
+        with:
+          changeLogPath: 'CHANGELOG.md'
+          skipLabel: 'Skip-Changelog'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     # Macos includes virtualbox and vagrant.
