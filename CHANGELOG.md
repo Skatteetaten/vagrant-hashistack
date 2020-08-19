@@ -2,6 +2,10 @@
 
 ## [0.3.2 UNRELEASED]
 
+### Changed
+
+- Changed "Use this template" to button in template/README.md
+
 ### Added
 
 - Changelog enforcer
