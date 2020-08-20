@@ -30,7 +30,8 @@ You will need to have pre-installed:
 
 - [Make](https://man7.org/linux/man-pages/man1/make.1.html)
 
-The rest of the prerequisites are system-dependent:
+Then, run `make install` (ubuntu 18.04 or macos) to download and install all prerequisites (virtualbox, vagrant, packer)
+Some prerequisites are system-dependent:
 
 ### Linux
 - Virtualisation must be enabled. [Error if it is not.](https://github.com/fredrikhgrelland/vagrant-hashistack/issues/136)
@@ -41,10 +42,6 @@ The rest of the prerequisites are system-dependent:
 - [Homebrew](https://brew.sh/) must be installed.
 
 ## Build & Test
-
-
-`make install` (ubuntu 18.04 or macos) will download and install all prerequisites (virtualbox, vagrant, packer)
-
 `make build` will build a vagrant box based on hashicorp/bionic64. The packaged box will be locally available at ´packer/output-hashistack/package.box´
 
 `make test` run tests by starting the [countdash](https://www.nomadproject.io/docs/integrations/consul-connect/) consul-connect example. If ´packer/output-hashistack/package.box´ does not exist, it will run ´make build´
