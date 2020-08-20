@@ -5,6 +5,10 @@ export PATH := $(shell pwd)/tmp:$(PATH)
 .ONESHELL .PHONY: up update-box destroy-box remove-tmp clean example
 .DEFAULT_GOAL := up
 
+#### Pre requisites ####
+install:
+	 mkdir -p tmp;(cd tmp; git clone --depth=1 https://github.com/fredrikhgrelland/vagrant-hashistack.git; cd vagrant-hashistack; make install); rm -rf tmp/vagrant-hashistack
+
 #### Development ####
 # start commands
 dev: update-box
