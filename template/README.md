@@ -11,6 +11,11 @@ If you found this in `fredrikhgrelland/vagrant-hashistack`, you may be intereste
 
 Documentation on [parent repository](https://github.com/fredrikhgrelland/vagrant-hashistack#usage).
 
+## Prerequisites
+
+To run this box you will need Make, Vagrant, Virtualbox.
+`make install` will install all that is needed and is provided as a convenience for Ubuntu 18.04 and MacOS.
+
 ## Customizing and using the vagrant box
 
 ### Building and testing docker image
