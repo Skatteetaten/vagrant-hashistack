@@ -5,6 +5,7 @@
 ### Changed
 
 - Changed "Use this template" to button in template/README.md
+- Update prereqs to latest versions #247
 
 ### Added
 
@@ -12,10 +13,12 @@
 - Minio section(definition and usage) in template/README.md
 - Terraform module documentation in template/README.md
 - Template license - Apache 2.0
+- `make install` add to template #238
 
 ### Fixed
 
 - `make test` fail. Certificates for docker image #239
+- Move `make install` to prerequisites #236
 
 ## [0.3.1]
 
