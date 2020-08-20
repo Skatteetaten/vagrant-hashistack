@@ -34,6 +34,7 @@ jobs:
 
   enforce-changelog:
     runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
     steps:
       - uses: actions/checkout@v1
       - uses: dangoslen/changelog-enforcer@v1.1.1
