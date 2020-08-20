@@ -28,7 +28,7 @@ example: custom_ca
 ifdef CI # CI is set in Github Actions
 	cd test_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
 else
-	cp -f docker/conf/certificates/*.crt test_example/docker/conf/certificates
+	if [ -f "docker/conf/certificates/*.crt" ]; then cp -f docker/conf/certificates/*.crt test_example/docker/conf/certificates; fi
 	cd test_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} CUSTOM_CA=${CUSTOM_CA} ANSIBLE_ARGS='--extra-vars "local_test=true"' vagrant up --provision
 endif
 

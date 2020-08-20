@@ -13,6 +13,10 @@
 - Terraform module documentation in template/README.md
 - Template license - Apache 2.0
 
+### Fixed
+
+- `make test` fail. Certificates for docker image #239
+
 ## [0.3.1]
 
 ### Fixed
