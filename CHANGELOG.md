@@ -9,6 +9,7 @@
 - Use base box for build #231
 - Refactor root README.md
 - CI improvements #226 #227 #260
+- Removed Personal Access Token from CI context
 
 ### Added
 
