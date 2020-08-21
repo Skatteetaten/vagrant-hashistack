@@ -42,7 +42,7 @@ Some prerequisites are system-dependent:
 - [Homebrew](https://brew.sh/) must be installed.
 
 ## Build & Test
-`make build` will build a vagrant box based on fredrikhgrelland/bionic64-ansible-docker. The packaged box will be locally available at ´packer/output-hashistack/package.box´
+`make build` will build a vagrant box based on [fredrikhgrelland/bionic64-ansible-docker](https://app.vagrantup.com/fredrikhgrelland/boxes/bionic64-ansible-docker). The packaged box will be locally available at ´packer/output-hashistack/package.box´
 
 `make test` run tests by starting the [countdash](https://www.nomadproject.io/docs/integrations/consul-connect/) consul-connect example. If ´packer/output-hashistack/package.box´ does not exist, it will run ´make build´
 - Note: You can refer to [SystemConfigurationDoc](docs/SystemConfiguration.md) in order to get a comprehensive overview of the default configurations with which the system is set up. The document also provides information about steps for overriding the default system configuration.
