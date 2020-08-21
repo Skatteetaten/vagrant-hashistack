@@ -21,6 +21,7 @@
   - "Commands"
   - "Terraform Module Requirements"
   - "Accessing Consul, Nomad and Vault"
+  - "Test Configuration and Execution"
 - `make install` add to template #238
 
 ### Fixed
