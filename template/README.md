@@ -239,6 +239,44 @@ task "web" {
 ```
 [Full example](./test_example/conf/nomad/countdash.hcl)
 
+### Iteration of the development process
+
+Once you start the box with one of the commands `make dev`, `make up` or `make example`,
+you need a simple way how to continuously deploy development changes.
+
+There are several options:
+
+1. **From the local machine**. You can install Hashicorp binaries on the local machine, such as terraform and nomad.
+Then you can deploy changes to the vagrant-box using these binaries.
+
+Example terraform:
+```text
+terraform init
+terraform apply
+```
+
+Example nomad:
+```text
+nomad job run countdash.hcl
+```
+
+2. **Using vagrant**. Box instance has all binaries are installed and available in the PATH.
+You can use ´vagrant ssh´ to place yourself inside of the vagrantbox and run commands.
+
+```text
+# remote command execution
+vagrant ssh default -c 'cd /vagrant; terraform init; terraform apply'
+
+# ssh inside the box, local command execution
+vagrant ssh default
+cd /vagrant
+terraform init
+terraform apply
+```
+
+Note: `default` is the name of running VM. You could also use VM `id`.
+To get vm `id` check `vagrant global-status`.
+
 ## Test Configuration and Execution
 The tests are run using [Github Actions](https://github.com/features/actions) feature which makes it possible to automate, customize, and execute the software development workflows right in the repository. We utilize the **matrix testing strategy** to cover all the possible and logical combinations of the different properties and values that the components support. The .env_override file is used by the tests to override the values that are available in the .env_default file, as well as the user configurable .env file.
 
