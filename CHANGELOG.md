@@ -8,6 +8,7 @@
 - Update prereqs to latest versions #247
 - Use base box for build #231
 - Refactor root README.md
+- CI improvements #226 #227 #260
 
 ### Added
 
