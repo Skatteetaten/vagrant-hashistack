@@ -7,6 +7,7 @@
 - Changed "Use this template" to button in template/README.md
 - Update prereqs to latest versions #247
 - Use base box for build #231
+- Refactor root README.md
 
 ### Added
 
