@@ -14,9 +14,3 @@ hashicorp:
     consul: 1.8.3+ent
     nomad: 0.12.3+ent
     vault: 1.5.0+ent
-ansible:
-  galaxy:
-    roles:
-      - geerlingguy.docker
-docker_users:
-  - vagrant
