@@ -7,6 +7,12 @@ on:
     types: [opened, synchronize, reopened, edited, closed]
 
 jobs:
+  cancel-redundant-jobs:
+    runs-on: ubuntu-latest
+    steps:
+      # Use this GitHub Actions at least once in this workflow as soon as possible.
+      - uses: technote-space/auto-cancel-redundant-job@v1
+
   changes:
     runs-on: ubuntu-latest
     # Set job outputs to values from filter step
@@ -26,7 +32,7 @@ jobs:
               - '**/!(*.md)'
   linter:
     runs-on: ubuntu-latest
-    if: github.event.action in ('opened','synchronize','reopened')
+    if: github.event.action != 'closed'
     steps:
       - uses: actions/checkout@v2
       - name: Super-Linter
@@ -52,7 +58,7 @@ jobs:
 
   enforce-changelog:
     runs-on: ubuntu-latest
-    if: github.event.action in ('opened','synchronize','reopened')
+    if: github.event.action != 'closed'
     steps:
       - uses: actions/checkout@v1
       - uses: dangoslen/changelog-enforcer@v1.1.1
@@ -66,7 +72,7 @@ jobs:
     needs: changes
     # Macos includes virtualbox and vagrant.
     runs-on: macos-latest
-    if: ( ( github.event.action == 'closed' && github.event.pull_request.merged == true ) && contains(github.event.pull_request.labels.*.name, 'major')||contains(github.event.pull_request.labels.*.name, 'minor')||contains(github.event.pull_request.labels.*.name, 'patch') ) || ( github.event.action in ('opened','synchronize','reopened') && needs.changes.outputs.not-doc == 'true' )
+    if: ( ( github.event.action == 'closed' && github.event.pull_request.merged == true ) && contains(github.event.pull_request.labels.*.name, 'major')||contains(github.event.pull_request.labels.*.name, 'minor')||contains(github.event.pull_request.labels.*.name, 'patch') ) || ( github.event.action != 'closed' && needs.changes.outputs.not-doc == 'true' )
     steps:
       - uses: actions/checkout@v2
 
