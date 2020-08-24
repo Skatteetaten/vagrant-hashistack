@@ -6,7 +6,7 @@
 
 This vagrant box aims to make it dead simple to start a hashistack emulating how services will deploy to production.
 
-This repository will release a new [template](template/README.md) into [fredrikhgrelland/vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template) on every release.
+This repository will release a new [template](template/TEMPLATE_README.md) into [fredrikhgrelland/vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template) on every release.
 
 ---
 
