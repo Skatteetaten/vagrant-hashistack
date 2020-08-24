@@ -70,7 +70,21 @@ jobs:
     needs: changes
     # Macos includes virtualbox and vagrant.
     runs-on: macos-latest
-    if: ( ( github.event.action == 'closed' && github.event.pull_request.merged == true ) && contains(github.event.pull_request.labels.*.name, 'major')||contains(github.event.pull_request.labels.*.name, 'minor')||contains(github.event.pull_request.labels.*.name, 'patch') ) || ( github.event.action != 'closed' && needs.changes.outputs.not-doc == 'true' )
+    if: |
+      (
+        ( github.event.action == 'closed' &&
+          github.event.pull_request.merged == true
+        )
+        && (
+          contains(github.event.pull_request.labels.*.name, 'major') ||
+          contains(github.event.pull_request.labels.*.name, 'minor') ||
+          contains(github.event.pull_request.labels.*.name, 'patch')
+        )
+        || (
+          github.event.action != 'closed' &&
+          needs.changes.outputs.not-doc == 'true'
+        )
+      )
     steps:
       - uses: actions/checkout@v2
 
@@ -173,7 +187,10 @@ jobs:
         run: make test
 
   release-prerequisites:
-    if: contains(github.event.pull_request.labels.*.name, 'major')||contains(github.event.pull_request.labels.*.name, 'minor')||contains(github.event.pull_request.labels.*.name, 'patch')
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'major') ||
+      contains(github.event.pull_request.labels.*.name, 'minor') ||
+      contains(github.event.pull_request.labels.*.name, 'patch')
     runs-on: macos-latest
     outputs:
       bump: ${{ steps.bump.outputs.match }}
