@@ -11,6 +11,7 @@ You may add a `pre_ansible.sh` script file to this directory to run any alterati
 
 This might come handy if you need to change or replace that bootstrap process. For example you replacing the entire `/etc/ansible` directory.
 For most cases, you are probably looking to add configuration in [pre/poststart bootstrap](pre_bootstrap/README.md)
+
 #### Post
 If you need to run additional commands after ansible bootstrap has happened, you may add a `post_ansible.sh`.
 This might come in handy if you would like to pat your self on tha back or test a recent configuration change before anything you might add to your own Vagrantfile.

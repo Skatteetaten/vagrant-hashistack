@@ -1,137 +1,163 @@
-# Starter template for `fredrikhgrelland/hashistack`
+<!-- markdownlint-disable MD041 -->
+<p align="center">
+ <img width="100px" src="https://www.svgrepo.com/show/58111/cube.svg" align="center" alt="Vagrant-hashistack" />
+ <h2 align="center">Vagrant-hashistack Template</h2>
+ <p align="center">Starter template for <a href="https://github.com/fredrikhgrelland/vagrant-hashistack">fredrikhgrelland/vagrant-hashistack</a></p>
+<p align="center">
+    <a href="https://github.com/fredrikhgrelland/vagrant-hashistack-template/actions">
+      <img alt="Build" src="https://github.com/fredrikhgrelland/vagrant-hashistack-template/workflows/CI/CD/badge.svg" />
+    </a>
+    <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/releases">
+      <img alt="Releases" src="https://img.shields.io/github/v/release/fredrikhgrelland/vagrant-hashistack?label=latest%20version" />
+    </a>
+    <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/commits">
+      <img alt="Updated" src="https://img.shields.io/github/last-commit/fredrikhgrelland/vagrant-hashistack-template?label=last%20updated" />
+    </a>
+    <br />
+    <br />
+    <p align="center">
+      <a href="https://github.com/fredrikhgrelland/vagrant-hashistack-template/generate" alt="Clone Template">
+            <img src="https://img.shields.io/badge/Github-Clone%20template-blue?style=for-the-badge&logo=github" />
+        </a>
+    </p>
+</p>
 
-This repository can be used as a base for developing services on the hashistack.
-On github, you may use the
-<a href="https://github.com/fredrikhgrelland/vagrant-hashistack-template/generate" alt="Use this template">
-<img src="https://img.shields.io/badge/Use this template-2ea44f"/></a>
- button to generate a new repository from this template.
+## Content
+1. [Description - What & Why](#description---what--why)
+   1. [Why Does This Exist?](#why-does-this-exist)
+   2. [Services](#services)
+2. [Install Prerequisites](#install-prerequisites)
+   1. [Packages that needs to be pre-installed](#packages-that-needs-to-be-pre-installed)
+      1. [MacOS Specific](#macos-specific)
+      2. [Ubuntu Specific](#ubuntu-specific)
+3. [Configuration](#configuration)
+   1. [Startup Scheme](#startup-scheme)
+      1. [Detailed Startup Procedure](#detailed-startup-procedure)
+   2. [Pre and Post Hashistack Startup Procedure](#pre-and-post-hashistack-startup-procedure)
+      1. [Ansible Pre and Post Hashistack Startup Playbooks](#ansible-pre-and-post-hashistack-startup-playbooks)
+      2. [Bash Scripts Pre and Post Ansible Playbook](#bash-scripts-pre-and-post-ansible-playbook)
+   3. [Pre-packaged Configuration Switches](#pre-packaged-configuration-switches)
+      1. [Enterprise vs Open Source Software (OSS)](#enterprise-vs-open-source-software-oss)
+      2. [Nomad](#nomad)
+      3. [Consul](#consul)
+      4. [Vault](#vault)
+         1. [Consul Secrets Engine](#consul-secrets-engine)
+4. [Usage](#usage)
+   1. [Commands](#commands)
+   2. [MinIO](#minio)
+      1. [Pushing Resources To MinIO With Ansible (Docker image)](#pushing-resources-to-minio-with-ansible-docker-image)
+      2. [Fetching Resources From MinIO With Nomad (Docker image)](#fetching-resources-from-minio-with-nomad-docker-image)
+   3. [Iteration of the Development Process](#iteration-of-the-development-process)
+5. [Test Configuration and Execution](#test-configuration-and-execution)
 
-If you found this in `fredrikhgrelland/vagrant-hashistack`, you may be interested in this separate repository [vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template/generate) button to start a new repository from this repo
-.
 
-Documentation on [parent repository](https://github.com/fredrikhgrelland/vagrant-hashistack#usage).
+## Description - What & Why
+This template is a starting point, and example, on how to take advantage of the [Hashistack vagrant-box](https://app.vagrantup.com/fredrikhgrelland/boxes/hashistack) to create, develop, and test Terraform-modules within the Hashistack ecosystem.
 
-## Prerequisites
+**Hashistack**, in current repository context, is a set of software products by [HashiCorp](https://www.hashicorp.com/).
 
-To use this template you will need Make, Vagrant, and Virtualbox.
-`make install` will install all that is needed and is provided as a convenience for Ubuntu 18.04 and MacOS.
 
-## Goals of this template
-This template provides a developer with the tools necessary to do three things:
-- Build a docker image
-- Build a terraform module
-- Test and develop these two within a hashistack ecosystem
+> :bulb: If you found this in `fredrikhgrelland/vagrant-hashistack`, you may be interested in the separate repository [vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template/).
 
-To achieve this we utilise a vagrant-box built from [fredrikhgrelland/vagrant-hashistack](https://github.com/fredrikhgrelland/vagrant-hashistack/).
+### Why Does This Exist?
+ This template aims to standardize workflow for building and testing terraform-nomad-modules, using the [fredrikhgrelland/hashistack](https://github.com/fredrikhgrelland/vagrant-hashistack) vagrant-box.
 
-## Where do I start?
-First of all I would recommend you read the section ["Using the template and box"](#using-the-template-and-box) for a detailed look at the box's features and configurations. Below is a rough step-by-step going from a fresh template to a functioning terraform module. You can find example-code of everything below in [test_example/](test_example/).
 
-Step-by-step:
-1. Create a [Dockerfile](https://docs.docker.com/engine/reference/builder/) and put it in `docker/`.
-1. Use the box's startup playbooks to build and make the image available within the box. [Startup scheme](#default-startup-scheme). [Example building image](test_example/dev/ansible/01_build_docker_image.yml).
-1. Create a [Nomad job specification](https://www.nomadproject.io/docs/job-specification). This should be placed in [conf/nomad/](conf/nomad/README.md). [Example hcl-file](test_example/conf/nomad/countdash.hcl)
-1. Use terraform to deploy this job to Nomad. Refer to ["Terraform module requirements"](#terraform-module-requirements) on how to do this. [Example](test_example/example)
+### Services
+The default box will start Nomad, Vault, Consul and MinIO bound to loopback and advertising on the IP `10.0.3.10`, which should be available on your local machine.
+Port-forwarding for `nomad` on port `4646` should bind to `127.0.0.1` and should allow you to use the nomad binary to post jobs directly.
+Consul and Vault have also been port-forwarded and are available on `127.0.0.1` on ports `8500` and `8200` respectively.
+Minio is started on port `9000` and shares the `/vagrant` (your repo) from within the vagrant box.
 
-## File structure
+|Service|URL|Token(s)|
+|:---|:---:|:---:|
+|Nomad| [http://10.0.3.10:4646](http://10.0.3.10:4646)||
+|Consul| [http://10.0.3.10:8500](http://10.0.3.10:8500)|master|
+|Vault| [http://10.0.3.10:8200](http://10.0.3.10:8200)|master|
+|Minio| [http://10.0.3.10:9000](http://10.0.3.10:9000)|minioadmin : minioadmin|
+
+
+## Install Prerequisites
+
 ```text
-|-- conf/
-|     |-- nomad/        # nomad job specifications
-|
-|-- dev/                # files used to control testing and development
-|   |-- ansible/        # playbooks run at startup
-|   |-- vagrant/        # files altering the vagrant-box
-|       |-- conf/
-|
-|-- docker/             # files used to build docker-image
-|
-|-- example/            # terraform-files using the terraform-module
-|
-|-- test_example/       # a copy of template, filled with example-code
+make install
 ```
 
-## Terraform module requirements
-[Hashiscorp documentation](https://www.terraform.io/docs/modules/index.html)
+The command, will install:
+- [VirtualBox](https://www.virtualbox.org/)
+- [Packer](https://www.packer.io/)
+- [Vagrant](https://www.vagrantup.com/) with additional plugins
+- [Additional software dependent on the OS (Linux, MacOS)](../install/Makefile)
 
- This template follows Hashicorp's standards for terraform modules. In short the root should contain a `main.tf`, `variables.tf` and `outputs.tf`. These three form a module. In addition to this there should be an `example/` folder that uses the module. To get a feel for how to use this effectively in our case you can look at the files [main.tf](test_example/main.tf), [variables.tf](test_example/variables.tf), and [outputs.tf](test_example/outputs.tf) from [test_example/](test_example/).
+### Packages that needs to be pre-installed
 
- Project structure:
- ```text
-|-- main.tf
-|-- variables.tf
-|-- outputs.tf
-|
-|-- example/
-|   |-- main.tf
-|   |-- variables.tf
-|   |-- outputs.tf
-```
+- [Make](https://man7.org/linux/man-pages/man1/make.1.html)
+- [Git CLI](https://git-scm.com/book/en/v2/Getting-Started-The-Command-Line)
 
-## Using the template and box
+#### MacOS Specific
+- Virtualization must be enabled. [This is enabled by default on MacOS.](https://support.apple.com/en-us/HT203296)
+- [Homebrew](https://brew.sh/) must be installed.
 
-### Commands
-There are several commands that help to run the vagrant-box:
-- `make install` installs all prerequisites
+#### Ubuntu Specific
+- Virtualization must be enabled. [Error if it is not.](https://github.com/fredrikhgrelland/vagrant-hashistack/issues/136)
+- Packages [gpg](http://manpages.ubuntu.com/manpages/xenial/man1/gpg.1.html) and [apt](http://manpages.ubuntu.com/manpages/bionic/man8/apt.8.html) must be installed.
 
-- `make up` provisions a [vagrant-hashistack](https://github.com/fredrikhgrelland/vagrant-hashistack/) box on your machine. After the machine and hashistack are set up it will run the default [startup scheme](#default-startup-scheme).
+---
 
-- `make clean` take down the provisioned box if there is any.
+`NB` _Post installation you might need to reboot your system in order to start the virtual-provider (VirtualBox)_
 
-- `make update` downloads the newest version of the [vagrant-hashistack box](https://github.com/fredrikhgrelland/vagrant-hashistack/) from [vagrantcloud](https://vagrantcloud.com/fredrikhgrelland/hashistack).
+---
 
-- `make example` runs the example in [test_example/](test_example/)
 
-For full info, check `template/Makefile`
+## Configuration
 
-`!Note` - Makefile commands are not idempotent in the context of vagrant-box.  You could face the error of port collisions. Most of the cases it could happen because of the vagrant box has already been running.
+### Startup Scheme
+From a thousand foot view the startup scheme will:
+1. Start the hashistack and MinIO
+2. Run [playbook.yml](dev/ansible/playbook.yml), which in turn runs all ansible-playbooks inside [dev/ansible/](dev/ansible).
 
-Once vagrant-box is running, you can use other options like the Nomad- and Terraform-CLIs to iterate over the deployment in the development stage.
+> :bulb: Vagrantfile lines 8-11 run the first playbook on startup, and can be changed.
 
-### Building and testing docker image
-See docker [README.md](docker/README.md).
+> :bulb: Below is a detailed description of the _whole_ startup procedure, both user changeable and not.
 
-### Default startup scheme
-The default startup scheme will first start the hashistack and MinIO, then run [playbook.yml](dev/ansible/playbook.yml), which in turn will run all ansible-playbooks inside [dev/ansible/](dev/ansible). For more details go [here](dev/ansible/README.md). The code that runs the first playbook can be found in [Vagrantfile](Vagrantfile). Although this is the default we have supplied you with a plethora of options to customize and alter these processes. Below is a detailed description of the __whole__ startup procedure and details.
+---
 
-#### Detailed startup procedure
-__Preloaded__ - Comes bundled with the box, not possible to change
+#### Detailed Startup Procedure
+_box_ - Comes bundled with the box, not possible to change
 
-__System provided__ - Provided by the system in automated processes, not possible to change
+_system_ - Provided by the system in automated processes, not possible to change
 
-__User provided__ - Provided by the user to alter the box or template in some way
+_user_ - Provided by the user to alter the box or template in some way
 
-1. `/home/vagrant/.env_default` - _preloaded_ - default variables
-1. `vagrant/.env` - _user provided_ - variables override [details](#pre-packaged-configuration-switches)
-1. `vagrant/.env_override` - _system provided_ - variables are overridden for test purposes
-1. `vagrant/dev/vagrant/conf/pre_ansible.sh` - _user provided_ - script running before ansible bootstrap procedure, [details](dev/vagrant/conf/pre_bootstrap/README.md)
-1. `vagrant/dev/vagrant/conf/pre_bootstrap/*.yml` - _user provided_ - pre bootstrap tasks, running before hashistack software starts, [details](dev/vagrant/conf/README.md)
-1. `/etc/ansible/bootstrap.yml` - _preloaded_ - verify ansible variables and software configuration, run hashistack software and MinIO, & verify that it started correctly
-1. `vagrant/conf/post_bootstrap/*.yml` - _user provided_ - poststart scripts, running after hashistack software has started, [details](dev/vagrant/conf/pre_bootstrap/README.md)
-1. `vagrant/dev/conf/pre_ansible.sh` - _user provided_ - script running after ansible bootstrap procedure, [details](dev/vagrant/conf/README.md)
-1. `vagrant/ansible/*.yml` - _user provided_ - ansible tasks included in playbook, [details](#pre-and-post-hashistack-procedure)
+|Seq number| What | Provided by | Description |
+|:--:|:------------|:------------:|:-----|
+|1 |`/home/vagrant/.env_default`|[ _box_ ]| default variables |
+|2 |`/vagrant/.env`|[ _user_ ]| variables override, see [Pre-packaged Configuration Switches](#pre-packaged-configuration-switches) for details |
+|3 |`/vagrant/.env_override`|[ _system_ ]| variables are overridden for test purposes |
+|4 |`/vagrant/dev/vagrant/conf/pre_ansible.sh`|[ _user_ ]| script running before ansible bootstrap procedure, [details](dev/vagrant/conf/pre_bootstrap/README.md) |
+|5 |`/vagrant/dev/vagrant/conf/pre_bootstrap/*.yml`|[ _user_ ]| pre bootstrap tasks, running before hashistack software starts, [details](dev/vagrant/conf/README.md) |
+|6 |`/etc/ansible/bootstrap.yml`|[ _box_ ]| verify ansible variables and software configuration, run hashistack software and MinIO, & verify that it started correctly,  [link](../ansible/bootstrap.yml) |
+|7 |`/vagrant/conf/post_bootstrap/*.yml`|[ _user_ ]| poststart scripts, running after hashistack software has started, [details](dev/vagrant/conf/pre_bootstrap/README.md) |
+|8 |`/vagrant/dev/conf/post_ansible.sh`|[ _user_ ]| script running after ansible bootstrap procedure, [details](dev/vagrant/conf/README.md) |
+|9 |`/vagrant/ansible/*.yml`|[ _user_ ]| ansible tasks included in playbook, see [Pre-packaged Configuration Switches](#pre-packaged-configuration-switches) for details |
 
-### Starting a box
-The vagrant box ships with a default startup scheme. `make` from this directory will start the box, and run all books in [dev/ansible](dev/ansible) in lexical order (NB: `playbook.yml` is run first, but is only used to run all other playbooks) after the bootstrap-process for the hashistack is done. In the [example](test_example/dev/ansible/playbook.yml) we use it to start terraform which then starts a nomad-job.
+---
 
-### Accessing Consul, Vault, Nomad, and MinIO
-The default box will start Nomad, Vault, Consul, and MinIO bound on loopback and advertising on the ip `10.0.3.10`, which should be available on your local machine.
-Portforwarding for nomad on port `4646` should bind to `127.0.0.1` and should allow you to use the nomad binary to post jobs directly. Consul and Vault has also been portforwarded, and are also available on `127.0.0.1` on port `8500` and `8200` respectively.
-Minio is started on port `9000` and sharing /vagrant (your repo) from within the vagrant box.
-- Nomad ui is available on [http://10.0.3.10:4646](http://10.0.3.10:4646) and all links to services should work.
-- Consul ui is available on [http://10.0.3.10:8500](http://10.0.3.10:8500)
-- Vault ui is available on [http://10.0.3.10:8200](http://10.0.3.10:8200)
-- minio ui is available on [http://10.0.3.10:9000](http://10.0.3.10:9000) (minioadmin:minioadmin)
-
-### Pre and post hashistack procedure
-You may change the hashistack configuration or add additional pre and post steps to the startup procedure to match your needs.
+### Pre and Post Hashistack Startup Procedure
+#### Ansible Playbooks Pre and Post Hashistack Startup
+You may change the hashistack configuration or add additional pre and post steps to the ansible startup procedure to match your needs.
 Detailed documentation in [dev/vagrant/conf/README.md](dev/vagrant/conf/README.md)
 
-### Pre packaged configuration switches
+#### Bash Scripts Pre and Post Ansible Playbook
+In addition to ansible playbooks, you can also add bash-scripts that will be run before and/or after the ansible provisioning step. This is useful for doing deeper changes to the box pertaining to your needs. Detailed documentation in [dev/vagrant/conf/README.md](dev/vagrant/conf/README.md)
 
-The box comes standard with a set of environment switches to simplify testing of different scenarios and enable staged development efforts.
+
+### Pre-packaged Configuration Switches
+
+The box comes [with a set of configuration switches controlled by env variables](https://github.com/fredrikhgrelland/vagrant-hashistack#configuration) to simplify testing of different scenarios and enable staged development efforts.
 To change any of these values from their defaults, you may add the environment variable to [.env](dev/.env).
 
-NB: All lowercase variables will automatically get a corresponding TF_VAR_ prepended variant for use directly in terraform.
+NB: All lowercase variables will automatically get a corresponding  `TF_VAR_` prepended variant for use directly in terraform. [Script](../.github/action/create-env.py)
 
 #### Enterprise vs Open Source Software (OSS)
 To use enterprise versions of the hashistack components set the software's corresponding Enterprise-variable to `true` (see below).
@@ -168,7 +194,7 @@ When ACLs are enabled in Nomad the bootstrap token will be available in vault un
 |           | vault_enterprise                 |  true   |
 |     x     | vault_enterprise                 |  false  |
 
-##### Consul secrets engine
+##### Consul Secrets Engine
 
 If `consul_acl_default_policy` has value `deny`, it will also enable [consul secrets engine](https://www.vaultproject.io/docs/secrets/consul) in vault.  
 Ansible will provision additional custom roles (admin-team, dev-team), [policies](../ansible/templates/consul-policies) and tokens for test purpose with different access level.
@@ -182,12 +208,31 @@ vagrant ssh -c 'vault read consul/creds/dev-team'
 vagrant ssh -c 'vault read consul/creds/admin-team'
 ```
 
-*Tokens can be used to access UI (different access level depends on role)
+> :bulb: Tokens can be used to access UI (different access level depends on policy attached to the token)
 
-## Minio
+
+## Usage
+### Commands
+There are several commands that help to run the vagrant-box:
+- `make install` installs all prerequisites. Run once.
+
+- `make up` provisions a [vagrant-hashistack](https://github.com/fredrikhgrelland/vagrant-hashistack/) box on your machine. After the machine and hashistack are set up it will run the [Startup Scheme](#startup-scheme).
+
+- `make clean` takes down the provisioned box if there is any.
+
+- `make update` downloads the newest version of the [vagrant-hashistack box](https://github.com/fredrikhgrelland/vagrant-hashistack/) from [vagrantcloud](https://vagrantcloud.com/fredrikhgrelland/hashistack).
+
+- `make example` runs the example in [template_example/](template_example)
+
+> :bulb: For full info, check [`template/Makefile`](./Makefile).
+> :warning: Makefile commands are not idempotent in the context of vagrant-box.  You could face the error of port collisions. Most of the cases it could happen because of the vagrant box has already been running. Run `vagrant destroy -f` to destroy the box.
+
+Once vagrant-box is running, you can use other [options like the Nomad- and Terraform-CLIs to iterate over the deployment in the development stage](#iteration-of-the-development-process).
+
+### MinIO
 Minio S3 can be used as a general artifact repository while building and testing within the scope of the vagrantbox to push, pull and store resources for further deployments.
 
-`NOTE` - Directory `/vagrant` is mounted to minio. Only first level of sub-directories become bucket names.
+> :warning: Directory `/vagrant` is mounted to minio. Only first level of sub-directories become bucket names.
 
 Resource examples:
 - docker images
@@ -195,7 +240,7 @@ Resource examples:
 - jar files
 - etc...
 
-### Pushing resources to Minio with Ansible [Docker image]
+#### Pushing Resources To MinIO With Ansible (Docker image)
 Push(archive) of docker image.
 ```yaml
 # NB! Folder /vagrant is mounted to Minio
@@ -215,10 +260,10 @@ Push(archive) of docker image.
     archive_path: /vagrant/dev/tmp/docker_image.tar
     source: local
 ```
-[Full example](./test_example/dev/ansible/01_build_docker_image.yml)
+[Full example](template_example/dev/ansible/01_build_docker_image.yml)
 
-### Fetching resources from Minio with Nomad [Docker image]
-> [The artifact stanza](https://www.nomadproject.io/docs/job-specification/artifact) instructs Nomad to fetch and unpack a remote resource, such as a file, tarball, or binary.
+#### Fetching Resources From MinIO With Nomad (Docker image)
+> :bulb: [The artifact stanza](https://www.nomadproject.io/docs/job-specification/artifact) instructs Nomad to fetch and unpack a remote resource, such as a file, tarball, or binary.
 
 Example:
 ```hcl
@@ -237,9 +282,9 @@ task "web" {
   }
 }
 ```
-[Full example](./test_example/conf/nomad/countdash.hcl)
+[Full example](./template_example/conf/nomad/countdash.hcl)
 
-### Iteration of the development process
+### Iteration of the Development Process
 
 Once you start the box with one of the commands `make dev`, `make up` or `make example`,
 you need a simple way how to continuously deploy development changes.
@@ -260,8 +305,10 @@ Example nomad:
 nomad job run countdash.hcl
 ```
 
+> :warning: _Your local binaries and the binaries in the box might not be the same versions, and may behave differently. [Box versions.](../ansible/group_vars/all/variables.yml)
+
 2. **Using vagrant**. Box instance has all binaries are installed and available in the PATH.
-You can use ´vagrant ssh´ to place yourself inside of the vagrantbox and run commands.
+You can use `vagrant ssh` to place yourself inside of the vagrantbox and run commands.
 
 ```text
 # remote command execution
@@ -274,7 +321,7 @@ terraform init
 terraform apply
 ```
 
-Note: `default` is the name of running VM. You could also use VM `id`.
+> :bulb: `default` is the name of running VM. You could also use VM `id`.
 To get vm `id` check `vagrant global-status`.
 
 ## Test Configuration and Execution

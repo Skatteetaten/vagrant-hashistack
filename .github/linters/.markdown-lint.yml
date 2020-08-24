@@ -27,6 +27,7 @@ MD024:
   allow_different_nesting: true # Multiple headers with the same content
 MD026:
   punctuation: ".,;:!。，；:"  # List of not allowed
+MD028: false                  # No blank lines inside blockquote
 MD029: false                  # Ordered list item prefix
 MD033: false                  # Allow inline HTML
 MD036: false                  # Emphasis used instead of a heading
