@@ -1,14 +1,36 @@
 name: CI/CD
-env:
-  GITHUB_TOKEN: ${{ secrets.PAT_GITHUB_TOKEN }}
 on:
   pull_request:
     branches: [ master ]
-    types: [opened, synchronize, reopened, edited, closed]
+    types: [opened, synchronize, reopened, edited, closed, labeled]
 
 jobs:
+  cancel-redundant-jobs:
+    runs-on: ubuntu-latest
+    steps:
+      # Use this GitHub Actions at least once in this workflow as soon as possible.
+      - uses: technote-space/auto-cancel-redundant-job@v1
+
+  changes:
+    runs-on: ubuntu-latest
+    # Set job outputs to values from filter step
+    outputs:
+      doc: ${{ steps.filter.outputs.doc }}
+      not-doc: ${{ steps.filter.outputs.not-doc }}
+    steps:
+      # For pull requests it's not necessary to checkout the code
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2.2.1
+        id: filter
+        with:
+          filters: |
+            doc:
+              - '**/*.md'
+            not-doc:
+              - '**/!(*.md)'
   linter:
     runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
     steps:
       - uses: actions/checkout@v2
       - name: Super-Linter
@@ -45,9 +67,24 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
+    needs: changes
     # Macos includes virtualbox and vagrant.
     runs-on: macos-latest
-
+    if: |
+      (
+        ( github.event.action == 'closed' &&
+          github.event.pull_request.merged == true
+        )
+        && (
+          contains(github.event.pull_request.labels.*.name, 'major') ||
+          contains(github.event.pull_request.labels.*.name, 'minor') ||
+          contains(github.event.pull_request.labels.*.name, 'patch')
+        )
+        || (
+          github.event.action != 'closed' &&
+          needs.changes.outputs.not-doc == 'true'
+        )
+      )
     steps:
       - uses: actions/checkout@v2
 
@@ -150,10 +187,10 @@ jobs:
         run: make test
 
   release-prerequisites:
-    needs:
-      - test
-      - linter
-    if: contains(github.event.pull_request.labels.*.name, 'major')||contains(github.event.pull_request.labels.*.name, 'minor')||contains(github.event.pull_request.labels.*.name, 'patch')
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'major') ||
+      contains(github.event.pull_request.labels.*.name, 'minor') ||
+      contains(github.event.pull_request.labels.*.name, 'patch')
     runs-on: macos-latest
     outputs:
       bump: ${{ steps.bump.outputs.match }}
@@ -180,14 +217,14 @@ jobs:
           dry_run: true
           bump: ${{ steps.bump.outputs.match }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-        
+
       - name: Get Changelog Entry
         id: changelog_reader
         uses: mindsers/changelog-reader-action@v1.1.0
         with:
           version: ${{ steps.next_version.outputs.version }}
           path: CHANGELOG.md
-      
+
       - name: Print current version of vagrantbox
         run: |
           echo "Current version on vagrant cloud: ${{ fromJson(steps.current_version.outputs.output).data.current_version.version }}"
@@ -207,10 +244,10 @@ jobs:
         with:
           name: vagrantbox
           path: packer/output-hashistack
-      
+
       - name: Authenticate to vagrant cloud
         run: vagrant cloud auth login --token ${{ secrets.VAGRANT_CLOUD_TOKEN }}
-        
+
       - name: Upload and release vagrantbox on vagrant cloud
         uses: nick-invision/retry@v1
         with:
