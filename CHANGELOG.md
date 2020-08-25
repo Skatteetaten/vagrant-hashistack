@@ -10,6 +10,7 @@
 - Refactor root README.md
 - CI improvements #226 #227 #260
 - Removed Personal Access Token from CI context
+- Changed Vagrantfile in template to make use of DRY(Don't Repeat Yourself) principles
 
 ### Added
 
