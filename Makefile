@@ -5,7 +5,7 @@ install:
 	$(MAKE) -C install
 
 build:
-	(cd packer; rm -rf output-hashistack; packer build -force .)
+	(cd packer; rm -rf output-hashistack; packer build -force .) || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy. \nMore info https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/README.md#proxy\n\n' && exit 2)
 
 test:
 ifeq (,$(wildcard ./packer/output-hashistack/package.box))
