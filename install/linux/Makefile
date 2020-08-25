@@ -34,6 +34,7 @@ install_virtualbox:
 	curl -L -s https://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/${VIRTUALBOX_FULLNAME} -o /var/tmp/${VIRTUALBOX_FULLNAME}
 	(cd /var/tmp; sha256sum --ignore-missing -c virtualbox_SHA256SUMS)
 	sudo apt-get install -y gcc make perl
+	sudo apt-get remove -y 'virtualbox-*' --auto-remove
 	sudo dpkg -i /var/tmp/${VIRTUALBOX_FULLNAME}
 	sudo apt --fix-broken install -y
 	rm /var/tmp/virtualbox_SHA256SUMS /var/tmp/${VIRTUALBOX_FULLNAME}
