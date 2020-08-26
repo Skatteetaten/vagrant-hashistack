@@ -28,7 +28,7 @@ endif
 
 test: clean up
 
-example: custom_ca
+template-example: custom_ca
 ifdef CI # CI is set in Github Actions
 	cd template_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant up --provision
 else
