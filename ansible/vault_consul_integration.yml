@@ -133,3 +133,11 @@
       X-Consul-Token: "{{ dev_team_token.stdout }}"
     status_code: 403
     return_content: yes
+
+- name: Add a fact file - consul.fact
+  blockinfile:
+    path:  /etc/ansible/facts.d/consul.fact
+    block: |
+      [vault_integration]
+      completed=true
+    create: yes
