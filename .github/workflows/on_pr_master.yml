@@ -228,7 +228,9 @@ jobs:
 
   release:
     if: github.event.action == 'closed' && github.event.pull_request.merged == true
-    needs: release-prerequisites
+    needs: 
+      - release-prerequisites
+      - test
 
     runs-on: macos-latest
     steps:
