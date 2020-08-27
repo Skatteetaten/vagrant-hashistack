@@ -119,6 +119,7 @@
 - Tests now run based on template ( see Added )
 - Updated documentation to be more user focused.
 - Vagrant box can now be used without any special config. `vagrant init fredrikhgrelland/hashistack`
+- Target `example` in `template/Makefile` to `template-example`
 
 ### Added
 
@@ -126,6 +127,7 @@
 - Support for extending and altering configuration of the hashistack
 - Support for running pre and post steps on startup
 - Starts all services by default on `vagrant up`
+- README_template.md
 
 ## [0.1.2]
 
