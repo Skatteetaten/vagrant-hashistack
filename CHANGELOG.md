@@ -31,6 +31,7 @@
   - "Accessing Consul, Nomad and Vault"
   - "Test Configuration and Execution"
   - "Iteration of the development process"
+  - "Vagrant box resources"
 - `make install` add to template #238
 
 ### Fixed
