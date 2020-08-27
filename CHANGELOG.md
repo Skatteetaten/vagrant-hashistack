@@ -37,6 +37,7 @@
 
 - `make test` fail. Certificates for docker image #239
 - Move `make install` to prerequisites #236
+- Make bootstrap process idempotent
 
 ## [0.3.1]
 

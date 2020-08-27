@@ -38,6 +38,10 @@
       debug:
         var: ansible_env
 
+    - name: Debug ansible local vars
+      debug:
+        var: ansible_local
+
     - name: Render consul acl configuration
       template: src=/etc/ansible/templates/consul-acl.hcl.j2 dest=/etc/consul.d/config-acl.hcl
       when: lookup('env', 'consul_acl') | bool
@@ -146,15 +150,15 @@
 
     - name: Run the nomad acl bootstrap process
       include_tasks: nomad_acl_bootstrap.yml
-      when: lookup('env', 'nomad_acl') | bool
+      when: lookup('env', 'nomad_acl') | bool and ansible_local.nomad_acl.bootstrap.completed is not defined
 
     - name: Create roles for nomad in vault
       include_tasks: vault_nomad_integration.yml
-      when: lookup('env', 'nomad_acl') | bool
+      when: lookup('env', 'nomad_acl') | bool and ansible_local.nomad.vault_integration.completed is not defined
 
     - name: Vault enable consul secret engine
       include_tasks: vault_consul_integration.yml
-      when: lookup('env', 'consul_acl') | bool
+      when: lookup('env', 'consul_acl') | bool and ansible_local.consul.vault_integration.completed is not defined
 
     - name: Running poststart books
       include_tasks: "{{ item }}"

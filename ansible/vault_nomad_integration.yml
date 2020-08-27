@@ -40,3 +40,11 @@
 - name: create roles corresponding to nomad's policies
   shell:
     cmd: vault write nomad/role/read policies=read-default && vault write nomad/role/write policies=write-default
+
+- name: Add a fact file - nomad.fact
+  blockinfile:
+    path:  /etc/ansible/facts.d/nomad.fact
+    block: |
+      [vault_integration]
+      completed=true
+    create: yes
