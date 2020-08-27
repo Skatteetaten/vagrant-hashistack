@@ -34,7 +34,7 @@
    1. [Startup Scheme](#startup-scheme)
       1. [Detailed Startup Procedure](#detailed-startup-procedure)
    2. [Pre and Post Hashistack Startup Procedure](#pre-and-post-hashistack-startup-procedure)
-      1. [Ansible Pre and Post Hashistack Startup Playbooks](#ansible-pre-and-post-hashistack-startup-playbooks)
+      1. [Ansible Playbooks Pre and Post Hashistack Startup](#ansible-playbooks-pre-and-post-hashistack-startup)
       2. [Bash Scripts Pre and Post Ansible Playbook](#bash-scripts-pre-and-post-ansible-playbook)
    3. [Pre-packaged Configuration Switches](#pre-packaged-configuration-switches)
       1. [Enterprise vs Open Source Software (OSS)](#enterprise-vs-open-source-software-oss)
@@ -42,6 +42,7 @@
       3. [Consul](#consul)
       4. [Vault](#vault)
          1. [Consul Secrets Engine](#consul-secrets-engine)
+   2. [Vagrant Box Resources](#vagrant-box-resources)
 4. [Usage](#usage)
    1. [Commands](#commands)
    2. [MinIO](#minio)
@@ -211,6 +212,21 @@ vagrant ssh -c 'vault read consul/creds/admin-team'
 ```
 
 > :bulb: Tokens can be used to access UI (different access level depends on policy attached to the token)
+
+### Vagrant Box Resources
+If you get the error message `Dimension memory exhausted on 1 node` or `Dimension CPU exhausted on 1 node`, you might want to increase resources dedicated to your vagrant-box.
+To overwrite the default resource-configuration you can add the lines
+```hcl
+Vagrant.configure("2") do |config|
+    config.vm.provider "virtualbox" do |vb|
+        vb.memory = 2048
+        vb.cpu = 2
+    end
+end
+```
+to the bottom of your [Vagrantfile](Vagrantfile), and change `vb.memory` and `vb.cpu` to suit your needs. Any configuration in [Vagrantfile](Vagrantfile) will overwrite the defaults if there is any. [More configuration options](https://www.vagrantup.com/docs/providers/virtualbox/configuration.html).
+
+> :bulb: The defaults can be found in [Vagrantfile.default](Vagrantfile.default).
 
 
 ## Usage
