@@ -16,6 +16,9 @@
 - `test_example` should be renamed to a more appropriate `template_example` #246
 - Strict naming convention for domain features #269
 - Increase timeout [Task - Archive docker image] #279
+- vault: 1.5.0 -> 1.5.2 (1.5.2.1+ent)
+- terraform: 0.13.0 -> 0.13.1
+- vagrant (make install): 2.2.9 -> 2.2.10
 
 ### Added
 
