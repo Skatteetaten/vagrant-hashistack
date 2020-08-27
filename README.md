@@ -184,10 +184,10 @@ Scenarios for customization:
 3. vault(enterprise), unsealed and integrated with nomad and consul, the way that it manages their secrets/tokens
 ```
 
-In order to simplify making such changes in the configuration, we provide `toggles`.
+In order to simplify making such changes in the configuration, we provide `switches`.
 These are sort of switches which are controlled by `env` variables and provide the user with the opportunity to quickly switch between the configuration setup.
 
-Supported toggles are listed under `# Control box features` section in the following [file](ansible/templates/.env_default.j2)
+Supported switches are listed under `# Control box features` section in the following [file](ansible/templates/.env_default.j2)
 
 ---
 
@@ -216,7 +216,7 @@ Supported toggles are listed under `# Control box features` section in the follo
 
 #### Option 1 - env variables
 
-**Use env to toggle prebuild configuration on/off**
+**Use env to switch prebuild configuration on/off**
 
 When the vagrant box is provisioned, it reads the data from the following environment file `/home/vagrant/.env_default` in order to set up the system.
 If you wish to override any of the default values then you can do so by adding that variable name and value in [.env](template/dev/.env) file.
