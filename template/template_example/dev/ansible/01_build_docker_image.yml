@@ -30,5 +30,6 @@
   docker_image:
     name: docker_image
     tag: local
+    http_timeout: 120
     archive_path: /vagrant/dev/tmp/docker_image.tar
     source: local

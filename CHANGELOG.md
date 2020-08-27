@@ -15,6 +15,7 @@
 - Uninstall virtualbox before installation #263
 - `test_example` should be renamed to a more appropriate `template_example` #246
 - Strict naming convention for domain features #269
+- Increase timeout [Task - Archive docker image] #279
 
 ### Added
 
