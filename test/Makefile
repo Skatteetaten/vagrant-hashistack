@@ -6,7 +6,7 @@ export
 
 up:
 	@echo "Running example in template as vagrant's working directory, with its Vagrantfile overriden by: ${VAGRANT_VAGRANTFILE}"
-	$(MAKE) -C ../template example
+	$(MAKE) -C ../template template_example
 
 clean:
 	vagrant box remove local/hashistack --force || true
