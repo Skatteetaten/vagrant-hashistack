@@ -11,7 +11,7 @@
 - Refactor template README.md
 - CI improvements #226 #227 #260
 - Removed Personal Access Token from CI context
-- Changed Vagrantfile in template to make use of DRY(Don't Repeat Yourself) principles
+- Changed Vagrantfile in template to make use of DRY(Dont Repeat Yourself) principles
 - Uninstall virtualbox before installation #263
 - `test_example` should be renamed to a more appropriate `template_example` #246
 - Strict naming convention for domain features #269
