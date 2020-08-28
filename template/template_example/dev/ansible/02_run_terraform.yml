@@ -1,6 +1,6 @@
 - name: Terraform
   terraform:
-    project_path: ../../example
+    project_path: ../../example/standalone
     force_init: true
     state: present
   register: terraform

@@ -1,5 +1,5 @@
 module "countdash" {
-  source = "./.."
+  source = "../.."
 }
 
 provider "vault" {

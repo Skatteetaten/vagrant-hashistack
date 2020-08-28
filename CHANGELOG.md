@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.1 Unreleased]
+
+### Changed
+- Renamed nomad_acl_test.tf to nomad_acl.tf
+
+### Added
+- Directories for `example` and `template_example/example`
+- `nomad_acl.tf` from `template_example/example/` added to `example/vagrant_box_example/`
+
+### Fixed
+
 ## [0.4.0]
 
 ### Changed
