@@ -218,6 +218,13 @@ jobs:
           bump: ${{ steps.bump.outputs.match }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Find and replace
+        run: python .github/action/find-replace.py
+        env:
+          FIND: "'"
+          REPLACE: "'\\''"
+          FILE_TO_MODIFY: CHANGELOG.md
+
       - name: Get Changelog Entry
         id: changelog_reader
         uses: mindsers/changelog-reader-action@v1.1.0
