@@ -58,8 +58,7 @@ This template is a starting point, and example, on how to take advantage of the 
 **Hashistack**, in current repository context, is a set of software products by [HashiCorp](https://www.hashicorp.com/).
 
 
-> :bulb: If you found this in `fredrikhgrelland/vagrant-hashistack`, you may be interested in the separate repository [vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template/).
-
+> :bulb: If you found this in `fredrikhgrelland/vagrant-hashistack`, you may be interested in the separate repository [vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template/).  
 > :warning: If you are reading this in your own repository, go to [If This Is in Your Own Repository](#if-this-is-in-your-own-repository)
 
 ### Why Does This Exist?
@@ -119,8 +118,7 @@ From a thousand foot view the startup scheme will:
 1. Start the hashistack and MinIO
 2. Run [playbook.yml](dev/ansible/playbook.yml), which in turn runs all ansible-playbooks inside [dev/ansible/](dev/ansible).
 
-> :bulb: Vagrantfile lines 8-11 run the first playbook on startup, and can be changed.
-
+> :bulb: Vagrantfile lines 8-11 run the first playbook on startup, and can be changed.  
 > :bulb: Below is a detailed description of the _whole_ startup procedure, both user changeable and not.
 
 ---

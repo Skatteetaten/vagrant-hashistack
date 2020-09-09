@@ -14,6 +14,9 @@ install:
 dev: update-box
 	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--skip-tags "test"' vagrant up --provision
 
+linter:
+	docker run -e RUN_LOCAL=true -v "${PWD}:/tmp/lint/" github/super-linter
+
 custom_ca:
 ifdef CUSTOM_CA
 	cp -f ${CUSTOM_CA} docker/conf/certificates/
@@ -36,6 +39,9 @@ else
 	cd template_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} CUSTOM_CA=${CUSTOM_CA} ANSIBLE_ARGS='--extra-vars "local_test=true"' vagrant up --provision
 endif
 
+status:
+	vagrant global-status
+
 # clean commands
 destroy-box:
 	vagrant destroy -f
@@ -48,4 +54,3 @@ clean: destroy-box remove-tmp
 # helper commands
 update-box:
 	@SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant box update || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy. \nMore info https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/README.md#if-you-are-behind-a-transparent-proxy\n\n' && exit 2)
-

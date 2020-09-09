@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.2 Unreleased]
+
+### Changed
+
+- Makefile to contain status and linter
+- .gitignore file to ignore super-linter.log
+
+### Added
+
+### Fixed
+
+- Linter errors in various files
+
 ## [0.4.1 Unreleased]
 
 ### Changed

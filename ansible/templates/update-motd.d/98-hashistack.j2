@@ -1,6 +1,6 @@
 #!/bin/sh
-echo "Hashistack versions:"
-echo "Consul:\t\t$(consul -version)"
-echo "Vault:\t\t$(vault -version)"
-echo "Terraform:\t$(terraform -version)"
-echo "Nomad:\t\t$(nomad -version)"
+printf "Hashistack versions:"
+printf "Consul:\t\t%s" "$(consul -version)"
+printf "Vault:\t\t%s" "$(vault -version)"
+printf "Terraform:\t%s" "$(terraform -version)"
+printf "Nomad:\t\t%s" "$(nomad -version)"

@@ -35,7 +35,7 @@ COPY conf/certificates /usr/local/share/ca-certificates
 # hadolint ignore=DL3015
 RUN \
     #Update CA_Certs
-    apt-get update && apt-get install -y curl=7.52.1-5+deb9u11 && rm -rf /var/lib/apt/lists/* \
+    apt-get update && apt-get install --no-install-recommends -y curl=7.52.1-5+deb9u11 && rm -rf /var/lib/apt/lists/* \
     && update-ca-certificates 2>/dev/null || true && echo "NOTE: CA warnings suppressed." \
     #Test download ( does ssl trust work )
     && curl -s -L -o /dev/null ${TEST_DOWNLOAD_BUILD_ARGUMENT} || printf "\n###############\nERROR: You are probably behind a corporate proxy. Add your custom ca .crt in the conf/certificates docker build folder\n###############\n"
