@@ -15,11 +15,11 @@ dev: update-box
 	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--skip-tags "test"' vagrant up --provision
 
 linter:
-#ifeq  ($(docker images -q github/super-linter),)
-#	@echo "Can not find 'github/super-linter'. You need to 'docker pull github/super-linter:latest'"
-#else
+ifneq ('$(shell docker images -q github/super-linter)','')
 	docker run -e RUN_LOCAL=true -v "${PWD}:/tmp/lint/" github/super-linter
-#endif
+else
+	@echo "Can not find 'github/super-linter'. You need to 'docker pull github/super-linter:latest'"
+endif
 
 custom_ca:
 ifdef CUSTOM_CA
@@ -42,6 +42,9 @@ else
 	if [ -f "docker/conf/certificates/*.crt" ]; then cp -f docker/conf/certificates/*.crt template_example/docker/conf/certificates; fi
 	cd template_example; SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} CUSTOM_CA=${CUSTOM_CA} ANSIBLE_ARGS='--extra-vars "local_test=true"' vagrant up --provision
 endif
+
+status:
+	vagrant global-status
 
 # clean commands
 destroy-box:
