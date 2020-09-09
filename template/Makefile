@@ -14,6 +14,13 @@ install:
 dev: update-box
 	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--skip-tags "test"' vagrant up --provision
 
+linter:
+#ifeq  ($(docker images -q github/super-linter),)
+#	@echo "Can not find 'github/super-linter'. You need to 'docker pull github/super-linter:latest'"
+#else
+	docker run -e RUN_LOCAL=true -v "${PWD}:/tmp/lint/" github/super-linter
+#endif
+
 custom_ca:
 ifdef CUSTOM_CA
 	cp -f ${CUSTOM_CA} docker/conf/certificates/
