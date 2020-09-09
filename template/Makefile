@@ -15,11 +15,7 @@ dev: update-box
 	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--skip-tags "test"' vagrant up --provision
 
 linter:
-ifneq ('$(shell docker images -q github/super-linter)','')
 	docker run -e RUN_LOCAL=true -v "${PWD}:/tmp/lint/" github/super-linter
-else
-	@echo "Can not find 'github/super-linter'. You need to 'docker pull github/super-linter:latest'"
-endif
 
 custom_ca:
 ifdef CUSTOM_CA
@@ -58,4 +54,3 @@ clean: destroy-box remove-tmp
 # helper commands
 update-box:
 	@SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} vagrant box update || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy. \nMore info https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/README.md#if-you-are-behind-a-transparent-proxy\n\n' && exit 2)
-
