@@ -24,6 +24,7 @@
 
 ### Fixed
 - Escape single quotes in CHANGELOG.md file
+- source .env file
 
 ## [0.4.0]
 
