@@ -341,6 +341,17 @@ terraform apply
 To get vm `id` check `vagrant global-status`.
 
 ## Test Configuration and Execution
+
+### Linters and formatting
+#### Linters
+All PRs will run [super-linter](https://github.com/github/super-linter). You can use [this](https://github.com/github/super-linter/blob/master/docs/run-linter-locally.md) to run it locally before creating a PR.
+> :bulb: Information about rules can be found under [.github/linters/](.github/linters)
+
+#### Terraform formatting
+You can run [`terraform fmt --recursive`](https://www.terraform.io/docs/commands/fmt.html) to rewrite your terraform config-files to a [canonical format](https://www.terraform.io/docs/configuration/style.html).
+> :warning: [Terraform binary](https://www.terraform.io/downloads.html) must be available to do this.
+
+### Testing the module
 The tests are run using [Github Actions](https://github.com/features/actions) feature which makes it possible to automate, customize, and execute the software development workflows right in the repository. We utilize the **matrix testing strategy** to cover all the possible and logical combinations of the different properties and values that the components support. The .env_override file is used by the tests to override the values that are available in the .env_default file, as well as the user configurable .env file.
 
 
