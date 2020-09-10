@@ -23,6 +23,7 @@
 - `nomad_acl.tf` from `template_example/example/` added to `example/vagrant_box_example/`
 
 ### Fixed
+- Escape single quotes in CHANGELOG.md file
 
 ## [0.4.0]
 
