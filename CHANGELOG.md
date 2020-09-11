@@ -19,6 +19,7 @@
 
 ### Changed
 - Renamed nomad_acl_test.tf to nomad_acl.tf
+- Added description for make dev and make test in template README.md #243
 
 ### Added
 - Directories for `example` and `template_example/example`
