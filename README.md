@@ -59,8 +59,11 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
         1. [ENV variables](#option-1---env-variables)
         2. [Config files](#option-2---config-files)
 5. [Usage](#usage)
-    1. [Starting a plain default box](#option-1-starting-a-plain-default-box)
-    2. [Starting a new project based on the template](#option-2-starting-a-new-project-based-on-the-template)
+   1. [Starting a plain default box](#option-1-starting-a-plain-default-box)
+      1. [Port collisions](#port-collisions)
+         1. [Shut down the running machine](#shut-down-the-running-machine)
+         2. [Use the `auto_correct` feature to dynamically allocate ports](#use-the-auto-correct-feature-to-dynamically-allocate-ports)
+   2. [Starting a new project based on the template](#option-2-starting-a-new-project-based-on-the-template)
 6. [Test](#test)
     1. [Local run](#local-run)
     2. [CI pipeline run](#ci-pipeline-run)
@@ -258,6 +261,43 @@ ANSIBLE_ARGS='--extra-vars "local_test=true"' vagrant up --provision
 The first command will add a file called `Vagrantfile` to your directory, and `vagrant up` will start a box based on the specifications of that file.
 
 `NB` **If you are behind a transparent proxy, follow [proxy documentation](#proxy)**
+
+#### Port collisions
+If you get the error message
+```text
+Vagrant cannot forward the specified ports on this VM, since they
+would collide with some other application that is already listening
+on these ports. The forwarded port to 8500 is already in use
+on the host machine.
+```
+you do most likely have another version of the vagrant-box already running and using the ports. You can solve this in one of two ways:
+
+##### Option 1 Shut down the running machine
+Run
+```bash
+vagrant status
+```
+to see all running boxes. Then run
+```bash
+vagrant destroy <box-name>
+```
+to take it down. [Doc on what `vagrant destroy` does](https://www.vagrantup.com/docs/cli/destroy).
+
+##### Option 2 Use the `auto_correct` feature to dynamically allocate ports
+Vagrant has a configuration option called [auto_correct](https://www.vagrantup.com/docs/networking/forwarded_ports#auto_correct) which will use another port if the port specified is already taken. To enable it you can add the lines below to the bottom of your `Vagrantfile`.
+```hcl
+Vagrant.configure("2") do |config|
+    # Hashicorp consul ui
+    config.vm.network "forwarded_port", guest: 8500, host: 8500, host_ip: "127.0.0.1", auto_correct: true
+    # Hashicorp nomad ui
+    config.vm.network "forwarded_port", guest: 4646, host: 4646, host_ip: "127.0.0.1", auto_correct: true
+    # Hashicorp vault ui
+    config.vm.network "forwarded_port", guest: 8200, host: 8200, host_ip: "127.0.0.1", auto_correct: true
+end
+```
+This will enable the autocorrect-feature on the ports used by consul, nomad, and vault.
+
+> :bulb: You can find out more about Vagrantfiles [here](https://www.vagrantup.com/docs/vagrantfile)
 
 ### Option-2 Starting a new project based on the template
 
