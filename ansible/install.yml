@@ -131,10 +131,10 @@
           # Read file and match variables starting with lowercase - prepend with TF_VAR_ and export.
           while read p || [[ -n $p ]]; do [[ $p =~ ^[[:lower:]].*=.*$ ]] && export TF_VAR_$p; done < /home/vagrant/.env_default
 
-          if [[ -f "/vagrant/.env" ]]; then
-              . /vagrant/.env
+          if [[ -f "/vagrant/dev/.env" ]]; then
+              . /vagrant/dev/.env
               # Read file and match variables starting with lowercase - prepend with TF_VAR_ and export.
-              while read p || [[ -n $p ]]; do [[ $p =~ ^[[:lower:]].*=.*$ ]] && export TF_VAR_$p; done < /vagrant/.env
+              while read p || [[ -n $p ]]; do [[ $p =~ ^[[:lower:]].*=.*$ ]] && export TF_VAR_$p; done < /vagrant/dev/.env
           fi
           if [[ -f "/vagrant/.env_override" ]]; then
               . /vagrant/.env_override
