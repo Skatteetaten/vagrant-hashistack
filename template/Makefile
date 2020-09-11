@@ -12,7 +12,7 @@ install:
 #### Development ####
 # start commands
 dev: update-box custom_ca
-	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} ANSIBLE_ARGS='--skip-tags "test"' vagrant up --provision
+	SSL_CERT_FILE=${SSL_CERT_FILE} CURL_CA_BUNDLE=${CURL_CA_BUNDLE} CUSTOM_CA=${CUSTOM_CA} ANSIBLE_ARGS='--skip-tags "test"' vagrant up --provision
 
 linter:
 	docker run -e RUN_LOCAL=true -v "${PWD}:/tmp/lint/" github/super-linter
