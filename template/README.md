@@ -49,6 +49,7 @@
       1. [Pushing Resources To MinIO With Ansible (Docker image)](#pushing-resources-to-minio-with-ansible-docker-image)
       2. [Fetching Resources From MinIO With Nomad (Docker image)](#fetching-resources-from-minio-with-nomad-docker-image)
    3. [Iteration of the Development Process](#iteration-of-the-development-process)
+   4. [Changelog](#changelog)
 5. [Test Configuration and Execution](#test-configuration-and-execution)
 
 
@@ -339,6 +340,9 @@ terraform apply
 
 > :bulb: `default` is the name of running VM. You could also use VM `id`.
 To get vm `id` check `vagrant global-status`.
+
+### Changelog
+The CHANGELOG.md should follow this [syntax](https://keepachangelog.com/en/1.0.0/).
 
 ## Test Configuration and Execution
 The tests are run using [Github Actions](https://github.com/features/actions) feature which makes it possible to automate, customize, and execute the software development workflows right in the repository. We utilize the **matrix testing strategy** to cover all the possible and logical combinations of the different properties and values that the components support. The .env_override file is used by the tests to override the values that are available in the .env_default file, as well as the user configurable .env file.
