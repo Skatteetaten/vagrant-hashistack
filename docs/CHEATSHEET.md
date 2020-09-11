@@ -61,15 +61,52 @@ Be sure, you are in the same directory as the Vagrantfile when running these com
 - If you are using [VVV](https://github.com/varying-vagrant-vagrants/vvv/), you can enable xdebug by running `vagrant ssh` and then `xdebug_on` from the virtual machine's CLI.
 
 # Terraform
-`plan`  
-`apply`  
-`init`?  
+For installation see [Install Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli).
+
+## Run `.tf` files
+- `terraform init`     -- automatically downloads and install any Providers binary for the providers in use in the config
+- `terraform plan`     -- see the execution plan before applying it (if run again with no changes in config it will tell you no changes made)
+- `terraform apply`    -- will apply and create resources. IMPORTANT! Generates a 'terraform.tfstate' file that keeps track of IDs of created resources
+
+## Destroy resources
+- `terraform destroy`  -- behaves like 'apply' but only as all of the resources have been removed from config
+- `terraform taint <resource.id>` -- to manually destroy and recreate a resource ('resource.id' could be 'aws_instance.example')
+
+## Check output
+- `terraform output` -- query the output data that is usually generated when 'apply' is called. _NB! Migth need to run `terraform refresh` to update the state with new output variables_.
+
+## Tips
+- `terraform version`  -- get terraform version. `version` can be replaced with `-v`.
+- `terraform show`     -- to inspect the current the state of resources. Can also be manually done with 'terraform state'
+- `terraform fmt`      -- formatting file (prettify)
+- `terraform validate` -- checking the file for errors in syntax
+- `terraform refresh`  -- update the state file of your infrastructure with metadata that matches the physical resources they are tracking.
 
 # Nomad
 
 
 # Consul
+For installation see [Install Consul](https://www.consul.io/docs/install).
 
+## Validation
+`consule validate`                  --performs a thorough sanity test on Consul configuration files.
+- `consul validate /etc/consul.d/*` -- validates the config
+
+## Interaction
+- `consul members`                             -- show all cluster members
+- `consul members --http-addr=172.17.0.1:8500` -- check a specific cluster member
+
+- `consul catalog datacenters` -- lists all known datacenters
+- `consul catalog nodes`       -- lists all nodes in the given datacenter
+- `consul catalog services`    -- lists all registered services in a datacenter
+
+## Proxy
+One way to connect to a [Nomad service](https://www.nomadproject.io/docs/job-specification/service) that uses a [`sidecar_service`](https://www.nomadproject.io/docs/job-specification/sidecar_service) is to use a proxy.
+- `consul connect proxy -service=<any-costum-name> -upstream=<nomad-service-name:<port> -log-level=TRACE` -- using a proxy to connect to a service which will be available on the defined `<port>`. 
+
+## Tips
+- `consul version` -- get the consul version. `version` can be replaced with `-v`.
+- `consul info`                   -- provides debugging information for operators.
 
 # Vault
 
