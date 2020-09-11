@@ -49,7 +49,7 @@
       1. [Pushing Resources To MinIO With Ansible (Docker image)](#pushing-resources-to-minio-with-ansible-docker-image)
       2. [Fetching Resources From MinIO With Nomad (Docker image)](#fetching-resources-from-minio-with-nomad-docker-image)
    3. [Iteration of the Development Process](#iteration-of-the-development-process)
-   4. [Module versioning](#module-versioning)
+   4. [Changelog](#changelog)
 5. [Test Configuration and Execution](#test-configuration-and-execution)
 
 
