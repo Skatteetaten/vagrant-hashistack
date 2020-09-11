@@ -123,4 +123,13 @@ One way to connect to a [Nomad service](https://www.nomadproject.io/docs/job-spe
 - `consul info`                   -- provides debugging information for operators.
 
 # Vault
+- `vault server -dev`                                   --start server in dev mode
+- `vault write secret/<name of secret> <data kv pairs>` --write key value pair
+- `vault read secret/<name of secret>`                  --read secret
+- `vault delete secret/<name of secret>`                --delete secret
+- `vault mounts`                                        --list mounts
+- `vault token-create`                                  --create token
+- `vault token-revoke`                                  --revoke token
+- `vault auth <token>`                                  --authenticate token
+
 
