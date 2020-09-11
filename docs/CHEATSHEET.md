@@ -66,7 +66,21 @@ Be sure, you are in the same directory as the Vagrantfile when running these com
 `init`?  
 
 # Nomad
-
+- `nomad agent -dev`                    --start agent in dev mode
+- `nomad agent -config server.hcl`      --config server only
+- `nomad agent -config client.hcl`      --config client only
+- `nomad node-status`                   --inspect clients
+- `nomad server-members`                --inspect servers
+- `nomad server-members -detailed`      --inspect servers detailed
+- `nomad plan`                          --plan a nomad job
+- `nomad run`                           --run a nomad job
+- `nomad stop`                          --stop a nomad job
+- `nomad status`                        --get job status
+- `nomad status -evals`                 --get job status
+- `nomad eval-status`                   --get evaluation status
+- `nomad logs`                          --get allocated logs
+- `sudo systemctl restart nomad`        --start service
+- `journalctl -u nomad`                 --check logs
 
 # Consul
 
