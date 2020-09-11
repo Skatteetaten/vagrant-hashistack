@@ -236,7 +236,7 @@ There are several commands that help to run the vagrant-box:
 
 - `make clean` takes down the provisioned box if there is any.
 
-- `make dev` same as `make up` but skips all task within ansible playbook with the tag `test` and custom_ca. Read more about ansible tags [here](https://docs.ansible.com/ansible/latest/user_guide/playbooks_tags.html).
+- `make dev` is same as `make up` except that it skips all the tasks within ansible playbook that have the tag `test` and custom_ca. Read more about ansible tags [here](https://docs.ansible.com/ansible/latest/user_guide/playbooks_tags.html).
 
 - `make test`  takes down the provisioned box if there is any and remove tmp files then runs `make up`.
 
