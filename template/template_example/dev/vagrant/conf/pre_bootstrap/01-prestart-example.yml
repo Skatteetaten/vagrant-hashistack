@@ -1,3 +1,0 @@
-- name: Task that shows usage of prestart
-  debug:
-    msg: This is the second prestart task ( 01-poststart-example.yml )

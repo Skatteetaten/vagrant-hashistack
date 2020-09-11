@@ -1,2 +1,0 @@
-default_vagrantfile = "Vagrantfile.default"
-load default_vagrantfile if File.exists?(default_vagrantfile)

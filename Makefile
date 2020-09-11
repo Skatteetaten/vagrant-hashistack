@@ -18,3 +18,10 @@ ssh:
 
 destroy:
 	(cd template; vagrant destroy -f)
+
+# submodules
+# https://www.vogella.com/tutorials/GitSubmodules/article.html
+add-template:
+	git submodule add -b master --name template git@github.com:fredrikhgrelland/vagrant-hashistack-template.git template
+update-template:
+	git submodule update
