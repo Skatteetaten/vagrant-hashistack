@@ -115,7 +115,7 @@ For installation see [Install Consul](https://www.consul.io/docs/install).
 
 ### Proxy
 One way to connect to a [Nomad service](https://www.nomadproject.io/docs/job-specification/service) that uses a [`sidecar_service`](https://www.nomadproject.io/docs/job-specification/sidecar_service) is to use a proxy.
-- `consul connect proxy -service=<any-costum-name> -upstream=<nomad-service-name:<port> -log-level=TRACE` -- using a proxy to connect to a service which will be available on the defined `<port>`. 
+- `consul connect proxy -service=<any-costum-name> -upstream=<nomad-service-name:<port> -log-level=TRACE` -- using a proxy to connect to a service which will be available on the defined `<port>`.
 
 ### Tips
 - `consul version` -- get the consul version. `version` can be replaced with `-v`.
