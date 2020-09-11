@@ -263,7 +263,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB_TOKEN }} # Using Personal Access Token to mitigate the issue mentioned in https://github.com/actions/create-release/issues/52
         with:
           tag_name: ${{ needs.release-prerequisites.outputs.next_version }}
           release_name: Release v${{ needs.release-prerequisites.outputs.next_version }}

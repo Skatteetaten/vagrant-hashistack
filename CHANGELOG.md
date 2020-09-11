@@ -25,6 +25,7 @@
 ### Fixed
 - Escape single quotes in CHANGELOG.md file #296
 - Source .env file #308
+- Automatically trigger on_release workflow #215
 
 ## [0.4.0]
 
