@@ -6,6 +6,7 @@
 
 - Makefile to contain status and linter
 - .gitignore file to ignore super-linter.log
+- Segregate template/ from vagrant-hashistack. Set template/ as submodule #217
 
 ### Added
 
