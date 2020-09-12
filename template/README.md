@@ -26,6 +26,9 @@
 1. [Description - What & Why](#description---what--why)
    1. [Why Does This Exist?](#why-does-this-exist)
    2. [Services](#services)
+      1. [Port collisions](#port-collisions)
+         1. [Shut down the running machine](#shut-down-the-running-machine)
+         2. [Use the `auto_correct` feature to dynamically allocate ports](#use-the-auto-correct-feature-to-dynamically-allocate-ports)
 2. [Install Prerequisites](#install-prerequisites)
    1. [Packages that needs to be pre-installed](#packages-that-needs-to-be-pre-installed)
       1. [MacOS Specific](#macos-specific)
@@ -79,6 +82,42 @@ Minio is started on port `9000` and shares the `/vagrant` (your repo) from withi
 |Vault| [http://10.0.3.10:8200](http://10.0.3.10:8200)|master|
 |Minio| [http://10.0.3.10:9000](http://10.0.3.10:9000)|minioadmin : minioadmin|
 
+#### Port collisions
+If you get the error message
+```text
+Vagrant cannot forward the specified ports on this VM, since they
+would collide with some other application that is already listening
+on these ports. The forwarded port to 8500 is already in use
+on the host machine.
+```
+you do most likely have another version of the vagrant-box already running and using the ports. You can solve this in one of two ways:
+
+##### Option 1 Shut down the running machine
+Run
+```bash
+vagrant status
+```
+to see all running boxes. Then run
+```bash
+vagrant destroy <box-name>
+```
+to take it down. [Doc on what `vagrant destroy` does](https://www.vagrantup.com/docs/cli/destroy).
+
+##### Option 2 Use the `auto_correct` feature to dynamically allocate ports
+Vagrant has a configuration option called [auto_correct](https://www.vagrantup.com/docs/networking/forwarded_ports#auto_correct) which will use another port if the port specified is already taken. To enable it you can add the lines below to the bottom of your `Vagrantfile`.
+```hcl
+Vagrant.configure("2") do |config|
+    # Hashicorp consul ui
+    config.vm.network "forwarded_port", guest: 8500, host: 8500, host_ip: "127.0.0.1", auto_correct: true
+    # Hashicorp nomad ui
+    config.vm.network "forwarded_port", guest: 4646, host: 4646, host_ip: "127.0.0.1", auto_correct: true
+    # Hashicorp vault ui
+    config.vm.network "forwarded_port", guest: 8200, host: 8200, host_ip: "127.0.0.1", auto_correct: true
+end
+```
+This will enable the autocorrect-feature on the ports used by consul, nomad, and vault.
+
+> :bulb: You can find out more about Vagrantfiles [here](https://www.vagrantup.com/docs/vagrantfile)
 
 ## Install Prerequisites
 
