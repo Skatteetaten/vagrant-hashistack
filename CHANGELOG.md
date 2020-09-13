@@ -7,6 +7,10 @@
 - Makefile to contain status and linter
 - .gitignore file to ignore super-linter.log
 - Enabled more [tflint rules](https://github.com/terraform-linters/tflint/tree/master/docs/rules#terraform-rules) #301
+- vault: 1.5.2 -> 1.5.3
+- terraform: 0.13.1 -> 0.13.2
+- consul: 1.8.3 -> 1.8.4
+- nomad: 0.12.3 -> 0.12.4
 
 ### Added
 - Section about linters and terraform formatting to [CONTRIBUTING.md](docs/CONTRIBUTING.md) and [template/README.md](template/README.md)
