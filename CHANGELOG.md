@@ -1,9 +1,10 @@
 # Changelog
 
-## [0.4.2 Unreleased]
+## [0.4.1 Unreleased]
 
 ### Changed
-
+- Renamed nomad_acl_test.tf to nomad_acl.tf
+- Added description for make dev and make test in template README.md #243
 - Makefile to contain status and linter
 - .gitignore file to ignore super-linter.log
 - Enabled more [tflint rules](https://github.com/terraform-linters/tflint/tree/master/docs/rules#terraform-rules) #301
@@ -13,29 +14,18 @@
 - nomad: 0.12.3 -> 0.12.4
 
 ### Added
-- Section about linters and terraform formatting to [CONTRIBUTING.md](docs/CONTRIBUTING.md) and [template/README.md](template/README.md)
-
-### Fixed
-
-- Linter errors in various files
-
-## [0.4.1 Unreleased]
-
-### Changed
-- Renamed nomad_acl_test.tf to nomad_acl.tf
-- Added description for make dev and make test in template README.md #243
-
-### Added
 - Directories for `example` and `template_example/example`
 - `nomad_acl.tf` from `template_example/example/` added to `example/vagrant_box_example/`
 - Added CHEATSHEET.md to docs, a list of commands for the CLIs #268
 - Section `Port collisions` to both template and root readme #289 #274
 - Added CHANGELOG.md in template #277
+- Section about linters and terraform formatting to [CONTRIBUTING.md](docs/CONTRIBUTING.md) and [template/README.md](template/README.md)
 
 ### Fixed
 - Escape single quotes in CHANGELOG.md file #296
 - Source .env file #308
 - Automatically trigger on_release workflow #215
+- Linter errors in various files
 
 ## [0.4.0]
 
