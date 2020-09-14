@@ -2,7 +2,7 @@ name: CI/CD
 on:
   pull_request:
     branches: [ master ]
-    types: [opened, synchronize, reopened, edited, closed, labeled]
+    types: [opened, synchronize, reopened, edited, closed, labeled, unlabeled]
 
 jobs:
   cancel-redundant-jobs:
