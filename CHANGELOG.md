@@ -21,6 +21,7 @@
 ### Added
 - Directories for `example` and `template_example/example`
 - `nomad_acl.tf` from `template_example/example/` added to `example/vagrant_box_example/`
+- Added CHEATSHEET.md to docs, a list of commands for the services
 
 ### Fixed
 - Escape single quotes in CHANGELOG.md file #296

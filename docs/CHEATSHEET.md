@@ -7,6 +7,8 @@
 4. [Consul](#consul)
 5. [Vault](#vault)
 
+###### Disclaimer: These are some of the most useful commands for the services mentioned above, but not all are necessarily used during the development process.
+
 
 # Vagrant
 [Source](https://gist.github.com/wpscholar/a49594e2e2b918f4d0c4#file-vagrant-cheat-sheet-md)
@@ -131,5 +133,7 @@ One way to connect to a [Nomad service](https://www.nomadproject.io/docs/job-spe
 - `vault token-create`                                  --create token
 - `vault token-revoke`                                  --revoke token
 - `vault auth <token>`                                  --authenticate token
+
+
 
 
