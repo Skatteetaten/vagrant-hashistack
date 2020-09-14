@@ -24,6 +24,7 @@
 ### Added
 - Directories for `example` and `template_example/example`
 - `nomad_acl.tf` from `template_example/example/` added to `example/vagrant_box_example/`
+- Added CHEATSHEET.md to docs, a list of commands for the CLIs #268
 - Section `Port collisions` to both template and root readme #289 #274
 - Added CHANGELOG.md in template #277
 
