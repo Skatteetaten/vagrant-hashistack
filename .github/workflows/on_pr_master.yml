@@ -20,6 +20,8 @@ jobs:
     steps:
       # For pull requests it's not necessary to checkout the code
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - uses: dorny/paths-filter@v2.2.1
         id: filter
         with:
@@ -33,6 +35,8 @@ jobs:
     if: github.event.action != 'closed'
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: Super-Linter
         uses: github/super-linter@latest
         env:
@@ -87,7 +91,8 @@ jobs:
       )
     steps:
       - uses: actions/checkout@v2
-
+        with:
+          submodules: recursive
       - name: Versions on runner
         run: make -C install versions
 
@@ -114,7 +119,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: 'true'
+          submodules: recursive
 
       - name: set consul acl (enabled/disabled)
         id: consul_acl
@@ -201,6 +206,8 @@ jobs:
       log_entry: ${{ steps.changelog_reader.outputs.log_entry }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - id: current_version
         uses: satak/webrequest-action@v1.2.3
         with:
@@ -244,7 +251,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-
+        with:
+          submodules: recursive
       - name: Get vagrantbox artifact
         uses: actions/download-artifact@v2
         with:
