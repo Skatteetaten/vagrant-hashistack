@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.4.1 Unreleased]
+## [0.4.1]
 
 ### Changed
 - Renamed nomad_acl_test.tf to nomad_acl.tf
