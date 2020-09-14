@@ -113,6 +113,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+          submodules: 'true'
 
       - name: set consul acl (enabled/disabled)
         id: consul_acl
