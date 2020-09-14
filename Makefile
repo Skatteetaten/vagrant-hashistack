@@ -21,7 +21,6 @@ destroy:
 
 # submodules
 # https://www.vogella.com/tutorials/GitSubmodules/article.html
-add-template:
-	git submodule add -b master --name template git@github.com:fredrikhgrelland/vagrant-hashistack-template.git template
+## Point to latest commit in remote submodule
 update-template:
 	git submodule update --remote
