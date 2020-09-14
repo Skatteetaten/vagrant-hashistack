@@ -62,7 +62,7 @@ jobs:
       - uses: dangoslen/changelog-enforcer@v1.1.1
         with:
           changeLogPath: 'CHANGELOG.md'
-          skipLabel: 'skip-changelog'
+          skipLabel: 'pr/skip-changelog'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -76,9 +76,9 @@ jobs:
           github.event.pull_request.merged == true
         )
         && (
-          contains(github.event.pull_request.labels.*.name, 'major') ||
-          contains(github.event.pull_request.labels.*.name, 'minor') ||
-          contains(github.event.pull_request.labels.*.name, 'patch')
+          contains(github.event.pull_request.labels.*.name, 'pr/major') ||
+          contains(github.event.pull_request.labels.*.name, 'pr/minor') ||
+          contains(github.event.pull_request.labels.*.name, 'pr/patch')
         )
         || (
           github.event.action != 'closed' &&
@@ -188,9 +188,9 @@ jobs:
 
   release-prerequisites:
     if: |
-      contains(github.event.pull_request.labels.*.name, 'major') ||
-      contains(github.event.pull_request.labels.*.name, 'minor') ||
-      contains(github.event.pull_request.labels.*.name, 'patch')
+      contains(github.event.pull_request.labels.*.name, 'pr/major') ||
+      contains(github.event.pull_request.labels.*.name, 'pr/minor') ||
+      contains(github.event.pull_request.labels.*.name, 'pr/patch')
     runs-on: macos-latest
     outputs:
       bump: ${{ steps.bump.outputs.match }}
@@ -209,7 +209,7 @@ jobs:
         id: bump
         uses: zwaldowski/match-label-action@v1
         with:
-          allowed: major,minor,patch
+          allowed: pr/major,pr/minor,pr/patch
 
       - id: next_version
         uses: zwaldowski/semver-release-action@v1
@@ -263,7 +263,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB_TOKEN }} # Using Personal Access Token to resolve the issue mentioned in https://github.com/actions/create-release/issues/52
         with:
           tag_name: ${{ needs.release-prerequisites.outputs.next_version }}
           release_name: Release v${{ needs.release-prerequisites.outputs.next_version }}

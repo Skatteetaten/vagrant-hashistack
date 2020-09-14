@@ -26,6 +26,9 @@
 1. [Description - What & Why](#description---what--why)
    1. [Why Does This Exist?](#why-does-this-exist)
    2. [Services](#services)
+      1. [Port collisions](#port-collisions)
+         1. [Shut down the running machine](#shut-down-the-running-machine)
+         2. [Use the `auto_correct` feature to dynamically allocate ports](#use-the-auto-correct-feature-to-dynamically-allocate-ports)
 2. [Install Prerequisites](#install-prerequisites)
    1. [Packages that needs to be pre-installed](#packages-that-needs-to-be-pre-installed)
       1. [MacOS Specific](#macos-specific)
@@ -49,6 +52,7 @@
       1. [Pushing Resources To MinIO With Ansible (Docker image)](#pushing-resources-to-minio-with-ansible-docker-image)
       2. [Fetching Resources From MinIO With Nomad (Docker image)](#fetching-resources-from-minio-with-nomad-docker-image)
    3. [Iteration of the Development Process](#iteration-of-the-development-process)
+   4. [Changelog](#changelog)
 5. [Test Configuration and Execution](#test-configuration-and-execution)
 
 
@@ -78,6 +82,42 @@ Minio is started on port `9000` and shares the `/vagrant` (your repo) from withi
 |Vault| [http://10.0.3.10:8200](http://10.0.3.10:8200)|master|
 |Minio| [http://10.0.3.10:9000](http://10.0.3.10:9000)|minioadmin : minioadmin|
 
+#### Port collisions
+If you get the error message
+```text
+Vagrant cannot forward the specified ports on this VM, since they
+would collide with some other application that is already listening
+on these ports. The forwarded port to 8500 is already in use
+on the host machine.
+```
+you do most likely have another version of the vagrant-box already running and using the ports. You can solve this in one of two ways:
+
+##### Option 1 Shut down the running machine
+Run
+```bash
+vagrant status
+```
+to see all running boxes. Then run
+```bash
+vagrant destroy <box-name>
+```
+to take it down. [Doc on what `vagrant destroy` does](https://www.vagrantup.com/docs/cli/destroy).
+
+##### Option 2 Use the `auto_correct` feature to dynamically allocate ports
+Vagrant has a configuration option called [auto_correct](https://www.vagrantup.com/docs/networking/forwarded_ports#auto_correct) which will use another port if the port specified is already taken. To enable it you can add the lines below to the bottom of your `Vagrantfile`.
+```hcl
+Vagrant.configure("2") do |config|
+    # Hashicorp consul ui
+    config.vm.network "forwarded_port", guest: 8500, host: 8500, host_ip: "127.0.0.1", auto_correct: true
+    # Hashicorp nomad ui
+    config.vm.network "forwarded_port", guest: 4646, host: 4646, host_ip: "127.0.0.1", auto_correct: true
+    # Hashicorp vault ui
+    config.vm.network "forwarded_port", guest: 8200, host: 8200, host_ip: "127.0.0.1", auto_correct: true
+end
+```
+This will enable the autocorrect-feature on the ports used by consul, nomad, and vault.
+
+> :bulb: You can find out more about Vagrantfiles [here](https://www.vagrantup.com/docs/vagrantfile)
 
 ## Install Prerequisites
 
@@ -236,9 +276,13 @@ There are several commands that help to run the vagrant-box:
 
 - `make clean` takes down the provisioned box if there is any.
 
+- `make dev` is same as `make up` except that it skips all the tasks within ansible playbook that have the tag `test` and custom_ca. Read more about ansible tags [here](https://docs.ansible.com/ansible/latest/user_guide/playbooks_tags.html).
+
+- `make test`  takes down the provisioned box if there is any, removes tmp files and then runs `make up`.
+
 - `make update` downloads the newest version of the [vagrant-hashistack box](https://github.com/fredrikhgrelland/vagrant-hashistack/) from [vagrantcloud](https://vagrantcloud.com/fredrikhgrelland/hashistack).
 
-- `make example` runs the example in [template_example/](template_example)
+- `make template_example` runs the example in [template_example/](template_example)
 
 > :bulb: For full info, check [`template/Makefile`](./Makefile).
 > :warning: Makefile commands are not idempotent in the context of vagrant-box.  You could face the error of port collisions. Most of the cases it could happen because of the vagrant box has already been running. Run `vagrant destroy -f` to destroy the box.
@@ -340,7 +384,21 @@ terraform apply
 > :bulb: `default` is the name of running VM. You could also use VM `id`.
 To get vm `id` check `vagrant global-status`.
 
+### Changelog
+The CHANGELOG.md should follow this [syntax](https://keepachangelog.com/en/1.0.0/).
+
 ## Test Configuration and Execution
+
+### Linters and formatting
+#### Linters
+All PRs will run [super-linter](https://github.com/github/super-linter). You can use [this](https://github.com/github/super-linter/blob/master/docs/run-linter-locally.md) to run it locally before creating a PR.
+> :bulb: Information about rules can be found under [.github/linters/](.github/linters)
+
+#### Terraform formatting
+You can run [`terraform fmt --recursive`](https://www.terraform.io/docs/commands/fmt.html) to rewrite your terraform config-files to a [canonical format](https://www.terraform.io/docs/configuration/style.html).
+> :warning: [Terraform binary](https://www.terraform.io/downloads.html) must be available to do this.
+
+### Testing the module
 The tests are run using [Github Actions](https://github.com/features/actions) feature which makes it possible to automate, customize, and execute the software development workflows right in the repository. We utilize the **matrix testing strategy** to cover all the possible and logical combinations of the different properties and values that the components support. The .env_override file is used by the tests to override the values that are available in the .env_default file, as well as the user configurable .env file.
 
 

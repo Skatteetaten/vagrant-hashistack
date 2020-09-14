@@ -43,3 +43,11 @@ This repository will run Github actions all on pull requests against `master`. F
 
 - **release-prerequisites:** If PR passes build- and test stages and is designated for release, this step sets up variables for `release`-stage
 - **release:** Upload vagrant box to vagrant-cloud, release a version and tag release on github.
+
+### Linters
+All PRs will run [super-linter](https://github.com/github/super-linter). You can use [this](https://github.com/github/super-linter/blob/master/docs/run-linter-locally.md) to run it locally before creating a PR.
+> :bulb: Information about rules can be found under [/.github/linters/](../.github/linters)
+
+### Terraform formatting
+You can run [`terraform fmt --recursive`](https://www.terraform.io/docs/commands/fmt.html) to rewrite your terraform config-files to a [canonical format](https://www.terraform.io/docs/configuration/style.html).
+> :warning: [Terraform binary](https://www.terraform.io/downloads.html) must be available to do this.
