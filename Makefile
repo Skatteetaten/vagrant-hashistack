@@ -24,4 +24,4 @@ destroy:
 add-template:
 	git submodule add -b master --name template git@github.com:fredrikhgrelland/vagrant-hashistack-template.git template
 update-template:
-	git submodule update
+	git submodule update --remote
