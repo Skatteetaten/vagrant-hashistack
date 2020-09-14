@@ -2,7 +2,7 @@ name: CI/CD
 on:
   pull_request:
     branches: [ master ]
-    types: [opened, synchronize, reopened, edited, closed, labeled]
+    types: [opened, synchronize, reopened, edited, closed, labeled, unlabeled]
 
 jobs:
   cancel-redundant-jobs:
@@ -62,7 +62,7 @@ jobs:
       - uses: dangoslen/changelog-enforcer@v1.1.1
         with:
           changeLogPath: 'CHANGELOG.md'
-          skipLabel: 'pr/skip-changelog'
+          skipLabel: 'skip-changelog'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -76,9 +76,9 @@ jobs:
           github.event.pull_request.merged == true
         )
         && (
-          contains(github.event.pull_request.labels.*.name, 'pr/major') ||
-          contains(github.event.pull_request.labels.*.name, 'pr/minor') ||
-          contains(github.event.pull_request.labels.*.name, 'pr/patch')
+          contains(github.event.pull_request.labels.*.name, 'major') ||
+          contains(github.event.pull_request.labels.*.name, 'minor') ||
+          contains(github.event.pull_request.labels.*.name, 'patch')
         )
         || (
           github.event.action != 'closed' &&
@@ -188,9 +188,9 @@ jobs:
 
   release-prerequisites:
     if: |
-      contains(github.event.pull_request.labels.*.name, 'pr/major') ||
-      contains(github.event.pull_request.labels.*.name, 'pr/minor') ||
-      contains(github.event.pull_request.labels.*.name, 'pr/patch')
+      contains(github.event.pull_request.labels.*.name, 'major') ||
+      contains(github.event.pull_request.labels.*.name, 'minor') ||
+      contains(github.event.pull_request.labels.*.name, 'patch')
     runs-on: macos-latest
     outputs:
       bump: ${{ steps.bump.outputs.match }}
@@ -209,7 +209,7 @@ jobs:
         id: bump
         uses: zwaldowski/match-label-action@v1
         with:
-          allowed: pr/major,pr/minor,pr/patch
+          allowed: major,minor,patch
 
       - id: next_version
         uses: zwaldowski/semver-release-action@v1
