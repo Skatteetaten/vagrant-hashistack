@@ -20,8 +20,6 @@ jobs:
     steps:
       # For pull requests it's not necessary to checkout the code
       - uses: actions/checkout@v2
-        with:
-          submodules: recursive
       - uses: dorny/paths-filter@v2.2.1
         id: filter
         with:
@@ -35,8 +33,6 @@ jobs:
     if: github.event.action != 'closed'
     steps:
       - uses: actions/checkout@v2
-        with:
-          submodules: recursive
       - name: Super-Linter
         uses: github/super-linter@latest
         env:
@@ -91,8 +87,6 @@ jobs:
       )
     steps:
       - uses: actions/checkout@v2
-        with:
-          submodules: recursive
       - name: Versions on runner
         run: make -C install versions
 
