@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.4.2 UNRELEASED]
+## [0.4.2]
 
 ### Changed
 - Segregate template/ from vagrant-hashistack. Set template/ as submodule #217 #299
@@ -24,7 +24,7 @@
 - Added CHEATSHEET.md to docs, a list of commands for the CLIs #268
 - Section `Port collisions` to both template and root readme #289 #274
 - Added CHANGELOG.md in template #277
-- Section about linters and terraform formatting to [CONTRIBUTING.md](docs/CONTRIBUTING.md) and [template/README.md](template/README.md)
+- Section about linters and terraform formatting to [CONTRIBUTING.md](https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/docs/CONTRIBUTING.md) and [template/README.md](https://github.com/fredrikhgrelland/vagrant-hashistack-template/blob/master/README.md)
 
 ### Fixed
 - Escape single quotes in CHANGELOG.md file #296
@@ -103,8 +103,8 @@
 - consul-template: 0.25.0 -> 0.25.1
 - packer: 1.6.0 -> 1.6.1
 - terraform: 0.12.26 -> 1.13.0
-- nomad ACLs: the toggle is now done on the basis of nomad_acl from  [env.yml](template/test_example/env_default.yml).
-- moved installation of unzip from [install.yml](ansible/install.yml) to [bootstrap.sh](packer/bootstrap.sh).
+- nomad ACLs: the toggle is now done on the basis of nomad_acl from  [env.yml](https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/ansible/templates/.env_default.j2)
+- moved installation of unzip from [install.yml](https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/ansible/install.yml) to bootstrap.sh
 - cleanup and zero out disk before box output in order to reduce time and space consumption.
 - box features can now be controlled by environment variables in `.env`
 - super-linter version set to latest and only relevant linters is running.
@@ -115,7 +115,7 @@
 - Vault-Consul integration: enable consul secrets engine
 - Vault-Consul integration: create dev/admin custom policies, roles and tokens
 - Test matrix. relevant box feature permutations will now be tested by default.
-- Added healthchecks to the [countdash-job](template/test_example/conf/nomad/countdash.hcl).
+- Added healthchecks to the [countdash-job](https://github.com/fredrikhgrelland/vagrant-hashistack-template/blob/master/template_example/conf/nomad/countdash.hcl).
 - Added [minio](https://min.io) as a running service on port 9000
 - Template and test redesign to make Terraform modules center of the template
 - Added enterprise binaries: consul, nomad, vault
@@ -160,7 +160,7 @@
 
 ### Added
 
-- Publishes a starter repository as [template](template)
+- Publishes a starter repository as [template](https://github.com/fredrikhgrelland/vagrant-hashistack-template)
 - Support for extending and altering configuration of the hashistack
 - Support for running pre and post steps on startup
 - Starts all services by default on `vagrant up`
@@ -194,7 +194,7 @@
 ### Changed
 
 - First beta version. Should be ready for consumption.
-- [startup.yml](ansible/start_hashistack.yml) waits until all services are up
+- `startup.yml` waits until all services are up
 
 ## [0.0.8] - 2020-06-22
 
