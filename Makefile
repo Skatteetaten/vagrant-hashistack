@@ -22,5 +22,5 @@ destroy:
 # submodules
 # https://www.vogella.com/tutorials/GitSubmodules/article.html
 ## Point to latest commit in remote submodule
-update-template:
+update-submodule:
 	git submodule update --remote

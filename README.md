@@ -83,6 +83,13 @@ Current repository contains [submodules](./.gitmodules)
 
 Check [Using submodules in Git - Tutorial](https://www.vogella.com/tutorials/GitSubmodules/article.html)
 
+Current repository points to concrete commit in submodule(s)
+
+**To point to the latest commit in submodule master**
+```text
+make update-submodule
+```
+
 ### Services
 
 The default box will start Nomad, Vault, Consul and MinIO bound to loopback and advertising on the IP `10.0.3.10`, which should be available on your local machine.
