@@ -1,0 +1,4 @@
+[submodule "template"]
+	path = template
+	url = git@github.com:fredrikhgrelland/vagrant-hashistack-template.git
+	branch = master

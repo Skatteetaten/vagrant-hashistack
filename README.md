@@ -30,9 +30,6 @@
 This vagrant box aims to make it dead simple to start a hashistack and emulate how services will be deployed to production.
 
 ---
-*This repository will publish a new [template](template/README.md) into [fredrikhgrelland/vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template) repo on every release.*
-
----
 
 > 🚧 - current vagrant box runs consul, nomad and vault in `dev` (development) mode.
 - [consul development mode](https://learn.hashicorp.com/consul/getting-started/agent)
@@ -43,9 +40,10 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
 ## Content
 
 1. [Description - what & why](#description---what--why)
-    1. [Services](#services)
-    2. [Why does this exist?](#why-does-this-exist)
-    3. [Installed stack](#installed-stack)
+    1. [Submodules](#submodules)
+    2. [Services](#services)
+    3. [Why does this exist?](#why-does-this-exist)
+    4. [Installed stack](#installed-stack)
 2. [Install prerequisites](#install-prerequisites)
     1. [General requirements](#general-requirements)
         1. [Proxy](#proxy)
@@ -77,6 +75,20 @@ This repository will build a [base-box](https://app.vagrantup.com/fredrikhgrella
 The base-box contains components, and a setup that makes it ideal for working with the hashistack.
 
 **Hashistack**, in current repository context, is a set of software products by [HashiCorp](https://www.hashicorp.com/).
+
+### Submodules
+
+Current repository contains [submodules](./.gitmodules)
+- [vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template)
+
+Check [Using submodules in Git - Tutorial](https://www.vogella.com/tutorials/GitSubmodules/article.html)
+
+Current repository points to concrete commit in submodule(s)
+
+**To point to the latest commit in submodule master**
+```text
+make update-submodule
+```
 
 ### Services
 
@@ -222,7 +234,7 @@ Supported switches are listed under `# Control box features` section in the foll
 **Use env to switch prebuild configuration on/off**
 
 When the vagrant box is provisioned, it reads the data from the following environment file `/home/vagrant/.env_default` in order to set up the system.
-If you wish to override any of the default values then you can do so by adding that variable name and value in [.env](template/dev/.env) file.
+If you wish to override any of the default values then you can do so by adding that variable name and value in [.env](https://github.com/fredrikhgrelland/vagrant-hashistack-template/blob/master/dev/.env) file.
 The property values in the `.env` file override the property values present in the `.env_default` file and thus makes it simple to provision systems that suffice the relevant development needs.
 
 
@@ -237,7 +249,7 @@ consul_acl_default_policy=deny
 
 **Overriding config files***
 
-It is possible to add and/or override the hashistack components' configuration files. See documentation [here](template/dev/vagrant/conf/README.md).
+It is possible to add and/or override the hashistack components' configuration files. See documentation [here](https://github.com/fredrikhgrelland/vagrant-hashistack-template/tree/master/dev/vagrant/conf).
 
 `NB!` *Overriding config files will take effect at last. In other words, config files(Option 2) will override any configuration which were setup by the env variables(Option 1)*
 

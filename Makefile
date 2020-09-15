@@ -16,5 +16,11 @@ endif
 ssh:
 	(cd template; vagrant ssh)
 
-destroy:
+clean:
 	(cd template; vagrant destroy -f)
+
+# submodules
+# https://www.vogella.com/tutorials/GitSubmodules/article.html
+## Point to latest commit in remote submodule
+update-submodule:
+	git submodule update --remote

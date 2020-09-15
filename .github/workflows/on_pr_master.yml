@@ -87,7 +87,6 @@ jobs:
       )
     steps:
       - uses: actions/checkout@v2
-
       - name: Versions on runner
         run: make -C install versions
 
@@ -113,6 +112,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - name: set consul acl (enabled/disabled)
         id: consul_acl
@@ -242,7 +243,6 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-
       - name: Get vagrantbox artifact
         uses: actions/download-artifact@v2
         with:
@@ -263,7 +263,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB_TOKEN }} # Using Personal Access Token to resolve the issue mentioned in https://github.com/actions/create-release/issues/52
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ needs.release-prerequisites.outputs.next_version }}
           release_name: Release v${{ needs.release-prerequisites.outputs.next_version }}

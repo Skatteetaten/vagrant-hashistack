@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.4.2 UNRELEASED]
+
+### Changed
+- Segregate template/ from vagrant-hashistack. Set template/ as submodule #217 #299
+
 ## [0.4.1]
 
 ### Changed
