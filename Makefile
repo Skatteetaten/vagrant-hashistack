@@ -16,7 +16,7 @@ endif
 ssh:
 	(cd template; vagrant ssh)
 
-destroy:
+clean:
 	(cd template; vagrant destroy -f)
 
 # submodules
