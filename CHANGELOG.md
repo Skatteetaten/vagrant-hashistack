@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.0 Unreleased]
+
+### Added
+- Switch for enabling vault's PKI backend
+
 ## [0.4.2]
 
 ### Changed

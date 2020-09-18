@@ -226,6 +226,7 @@ Supported switches are listed under `# Control box features` section in the foll
 **Vault**
 - Open source version
 - Unsealed
+- PKI enabled at `/pki`
 
 ### Override default configuration
 
