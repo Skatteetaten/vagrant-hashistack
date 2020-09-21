@@ -28,8 +28,9 @@
         state: directory
       loop: "{{ hashicorp.daemons }}"
 
-    - name: Add config.json
-      template: src={{item}}.hcl.j2 dest=/etc/{{item}}.d/config.hcl
+    # Base config hcl files have prefix `0_`, to supply merging config files in lexical order
+    - name: Add base configuration files
+      template: src={{item}}.hcl.j2 dest=/etc/{{item}}.d/0_config.hcl
       loop: "{{ hashicorp.daemons }}"
 
     - name: Create /etc/nomad.d/policies/ dir
