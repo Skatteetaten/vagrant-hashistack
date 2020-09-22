@@ -1,19 +1,14 @@
-.ONESHELL .PHONY: test clean add_local_box test_nomad_job run
-.DEFAULT_GOAL := run
+include .env
+export
 
-add_local_box:
-	vagrant box add ../packer/output-hashistack/package.box --name local/hashistack --force
+.ONESHELL .PHONY: test clean up
+.DEFAULT_GOAL := test
 
-run: add_local_box
-	vagrant up
+up:
+	@echo "Running example in template as vagrant's working directory, with its Vagrantfile overriden by: ${VAGRANT_VAGRANTFILE}"
+	$(MAKE) -C ../template template_example
 
 clean:
-	vagrant destroy -f
+	vagrant box remove local/hashistack --force || true
 
-test_nomad_job:
-	sleep 30
-	vagrant ssh -c 'cd /vagrant; nomad run countdash.hcl'
-	sleep 10
-	vagrant ssh -c 'nomad status countdash.'
-
-test: clean run test_nomad_job
+test: clean up clean

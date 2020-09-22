@@ -3,12 +3,13 @@ build {
     "source.vagrant.hashistack",
   ]
 
-  provisioner "shell" {
-    script = "bootstrap.sh"
+  provisioner "ansible-local" {
+    playbook_dir = "../ansible/"
+    playbook_file = "../ansible/install.yml"
   }
 
-  provisioner "ansible-local" {
-    playbook_dir = "../ansible"
-    playbook_file = "../ansible/playbook.yml"
+  provisioner "shell" {
+    execute_command = "echo 'packer' | sudo -S -E -H sh -c '{{ .Vars }} {{ .Path }}'"
+    script = "cleanup.sh"
   }
 }

@@ -1,0 +1,6 @@
+# This file is not used when vagrant runs the ansible provisioner from the Vagrantfile
+# This hosts file will only be used by ansible if you run an ansible playbook from inside the provisioned vagrantbox
+all:
+  hosts:
+    localhost:
+      ansible_connection: local

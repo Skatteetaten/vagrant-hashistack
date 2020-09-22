@@ -1,0 +1,50 @@
+- name: Start vault's nomad secrets backend
+  shell:
+    cmd: vault secrets enable nomad
+
+- name: fetch bootstrap token nomad
+  shell:
+    cmd: vault kv get -field=secret-id secret/nomad-bootstrap-token
+  register: bootstrap_token
+
+- name: Create management token for vault
+  shell:
+    cmd: nomad acl token create -name="Vault Management Token" -type="management" > management.token
+  environment:
+    NOMAD_TOKEN: "{{ bootstrap_token.stdout }}"
+
+- name: register accessor ID
+  shell:
+    cmd: awk '/Accessor/ {print $4}' management.token
+  register: accessor_id
+
+- name: register secret ID
+  shell:
+    cmd: awk '/Secret/ {print $4}' management.token
+  register: secret_id
+
+- name: add nomad management token to vault
+  shell:
+    cmd: vault kv put secret/nomad-management-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
+
+- name: delete management.token file
+  file:
+    path: management.token
+    state: absent
+
+- name: Write vault's nomad config
+  shell:
+    cmd: vault write nomad/config/access address=http://127.0.0.1:4646 token="{{ secret_id.stdout }}"
+  register: result
+
+- name: create roles corresponding to nomad's policies
+  shell:
+    cmd: vault write nomad/role/read policies=read-default && vault write nomad/role/write policies=write-default
+
+- name: Add a fact file - nomad.fact
+  blockinfile:
+    path:  /etc/ansible/facts.d/nomad.fact
+    block: |
+      [vault_integration]
+      completed=true
+    create: yes

@@ -1,0 +1,153 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    daemons:
+      - vault
+      - consul
+      - nomad
+    token: master
+  tasks:
+    - name: Check if .env_override is provided
+      debug:
+        msg: "Checking if env_override process was successful. Doing nothing if this is a local test"
+      failed_when: local_test is undefined and not lookup( 'env', 'TF_VAR_env_override') | bool
+      tags: test
+
+    - name: Include consul configuration override files
+      copy:
+        src: "{{ item }}"
+        dest: "/etc/consul.d/{{ item | basename }}"
+      loop: "{{ query('fileglob', \"/vagrant/dev/vagrant/conf/consul/*.hcl\") | sort }}"
+    - name: Include vault configuration override files
+      copy:
+        src: "{{ item }}"
+        dest: "/etc/vault.d/{{ item | basename }}"
+      loop: "{{ query('fileglob', \"/vagrant/dev/vagrant/conf/vault/*.hcl\") | sort }}"
+    - name: Include nomad configuration override files
+      copy:
+        src: "{{ item }}"
+        dest: "/etc/nomad.d/{{ item | basename }}"
+      loop: "{{ query('fileglob', \"/vagrant/dev/vagrant/conf/nomad/*.hcl\") | sort }}"
+
+    - name: Running prestart books
+      include_tasks: "{{ item }}"
+      loop: "{{ query('fileglob', \"/vagrant/dev/vagrant/conf/pre_bootstrap/*.yml\") | sort }}"
+
+    - name: Debug all env vars
+      debug:
+        var: ansible_env
+
+    - name: Debug ansible local vars
+      debug:
+        var: ansible_local
+
+    - name: Render consul acl configuration
+      template: src=/etc/ansible/templates/1_consul-acl.hcl.j2 dest=/etc/consul.d/1_config-acl.hcl
+      when: lookup('env', 'consul_acl') | bool
+
+    - name: Render nomad acl configuration
+      template: src=/etc/ansible/templates/nomad-acl.hcl.j2 dest=/etc/nomad.d/config-acl.hcl
+      when: lookup('env', 'nomad_acl') | bool
+
+    - name: Start minio
+      systemd: name=minio state=started
+
+    - name: Create symlink open source hashistack
+      file:
+        src: "/usr/local/bin/oss/{{ item.key }}"
+        dest: "/usr/local/bin/{{ item.key }}"
+        state: link
+      loop: "{{ query('dict', hashicorp.tools) }}"
+
+    - name: Consul - override symlink with Enterprise
+      file:
+        src: "/usr/local/bin/ent/consul"
+        dest: "/usr/local/bin/consul"
+        state: link
+      when: lookup('env', "consul_enterprise") | bool
+
+    - name: Nomad - override symlink with Enterprise
+      file:
+        src: "/usr/local/bin/ent/nomad"
+        dest: "/usr/local/bin/nomad"
+        state: link
+      when: lookup('env', "nomad_enterprise") | bool
+
+    - name: Vault - override symlink with Enterprise
+      file:
+        src: "/usr/local/bin/ent/vault"
+        dest: "/usr/local/bin/vault"
+        state: link
+      when: lookup('env', "vault_enterprise") | bool
+
+    - name: Start hashistack
+      systemd: name={{item}} state=started
+      loop: "{{ daemons }}"
+
+    - name: Wait for consul to start
+      uri:
+        url: http://127.0.0.1:8500/ui/dc1/services
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 1
+
+    - name: Wait for nomad to start - without ACLs
+      uri:
+        url: http://127.0.0.1:4646/v1/jobs
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 1
+      when: not lookup('env', 'nomad_acl') | bool
+
+    - name: Wait for nomad to start - with ACLs
+      uri:
+        url: http://127.0.0.1:4646/v1/jobs
+        status_code: 403
+      register: result
+      until: result.status == 403
+      retries: 60
+      delay: 1
+      when: lookup('env', 'nomad_acl') | bool
+
+    - name: Wait for vault to start
+      uri:
+        url: http://127.0.0.1:8200/ui/
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 1
+
+    - name: Test consul_acl
+      include_tasks: tests/consul_acl_test.yml
+
+    - name: Test enterprise features
+      include_tasks: tests/enterprise_test.yml
+
+    - name: Run the nomad acl bootstrap process
+      include_tasks: nomad_acl_bootstrap.yml
+      when: lookup('env', 'nomad_acl') | bool and ansible_local.nomad_acl.bootstrap.completed is not defined
+
+    - name: Create roles for nomad in vault
+      include_tasks: vault_nomad_integration.yml
+      when: lookup('env', 'nomad_acl') | bool and ansible_local.nomad.vault_integration.completed is not defined
+
+    - name: Vault enable consul secret engine
+      include_tasks: vault_consul_integration.yml
+      when: lookup('env', 'consul_acl') | bool and ansible_local.consul.vault_integration.completed is not defined
+
+    - name: Start Vault PKI backend
+      terraform:
+        project_path: "/etc/terraform/vault_pki"
+        state: present
+        force_init: true
+      when: lookup('env', 'vault_pki') | bool
+
+    - name: Running poststart books
+      include_tasks: "{{ item }}"
+      loop: "{{ query('fileglob', \"/vagrant/dev/vagrant/conf/post_bootstrap/*.yml\") | sort }}"

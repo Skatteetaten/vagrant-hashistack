@@ -1,17 +1,16 @@
 hashicorp:
   daemons:
+    - vault
     - consul
     - nomad
   tools:
-    terraform: 0.12.26
-    consul-template: 0.25.0
-    consul: 1.8.0-beta2
-    vault: 1.4.2
-    nomad: 0.11.2
-    packer: 1.5.6
-ansible:
-  galaxy:
-    roles:
-      - geerlingguy.docker
-docker_users:
-  - vagrant
+    terraform: 0.13.2
+    consul-template: 0.25.1
+    consul: 1.8.4
+    vault: 1.5.3
+    nomad: 0.12.4
+    packer: 1.6.1
+  tools_enterprise:
+    consul: 1.8.4+ent
+    nomad: 0.12.4+ent
+    vault: 1.5.3+ent

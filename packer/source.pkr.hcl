@@ -1,8 +1,9 @@
 source "vagrant" "hashistack" {
   communicator = "ssh"
-  source_path = "hashicorp/bionic64"
-  box_version = "1.0.282"
+  source_path = "fredrikhgrelland/bionic64-ansible-docker"
+  box_version = "0.2.0"
   box_name = "hashistack"
   provider = "virtualbox"
-  add_cacert = "/etc/ssl/certs/ca-certificates.crt"
+  teardown_method = "destroy"
+  output_vagrantfile = "Vagrantfile"
 }
