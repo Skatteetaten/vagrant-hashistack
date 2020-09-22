@@ -160,6 +160,13 @@
       include_tasks: vault_consul_integration.yml
       when: lookup('env', 'consul_acl') | bool and ansible_local.consul.vault_integration.completed is not defined
 
+    - name: Start Vault PKI backend
+      terraform:
+        project_path: "/etc/terraform/vault_pki"
+        state: present
+        force_init: true
+      when: lookup('env', 'vault_pki') | bool
+
     - name: Running poststart books
       include_tasks: "{{ item }}"
       loop: "{{ query('fileglob', \"/vagrant/dev/vagrant/conf/post_bootstrap/*.yml\") | sort }}"

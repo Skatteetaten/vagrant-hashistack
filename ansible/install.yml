@@ -10,6 +10,14 @@
         directory_mode: yes
         mode: '0755'
 
+    - name: Copy ../terraform directory
+      copy:
+        src: ./terraform/
+        dest: /etc/terraform/
+        remote_src: yes
+        directory_mode: yes
+        mode: '0755'
+
     - name: Install systemd unit files hashistack
       template: src={{item}}.service.j2 dest=/etc/systemd/system/{{item}}.service
       loop: "{{ hashicorp.daemons }}"
