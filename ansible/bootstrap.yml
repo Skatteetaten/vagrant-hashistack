@@ -43,7 +43,7 @@
         var: ansible_local
 
     - name: Render consul acl configuration
-      template: src=/etc/ansible/templates/consul-acl.hcl.j2 dest=/etc/consul.d/config-acl.hcl
+      template: src=/etc/ansible/templates/1_consul-acl.hcl.j2 dest=/etc/consul.d/1_config-acl.hcl
       when: lookup('env', 'consul_acl') | bool
 
     - name: Render nomad acl configuration
@@ -85,28 +85,6 @@
       systemd: name={{item}} state=started
       loop: "{{ daemons }}"
 
-    - name: Verify Consul ACL deny policy - access deny without token
-      uri:
-        url: http://127.0.0.1:8500/v1/acl/tokens
-        status_code: 403
-      register: result
-      until: result.status == 403
-      retries: 5
-      delay: 1
-      when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
-
-    - name: Verify Consul ACL deny policy - access granted with correct token
-      uri:
-        url: http://127.0.0.1:8500/v1/acl/tokens
-        status_code: 200
-        headers:
-          X-Consul-Token: "{{ token }}"
-      register: result
-      until: result.status == 200
-      retries: 5
-      delay: 1
-      when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
-
     - name: Wait for consul to start
       uri:
         url: http://127.0.0.1:8500/ui/dc1/services
@@ -145,8 +123,11 @@
       retries: 60
       delay: 1
 
-    - name: Verify enterprise features
-      include_tasks: test_enterprise.yml
+    - name: Test consul_acl
+      include_tasks: tests/consul_acl_test.yml
+
+    - name: Test enterprise features
+      include_tasks: tests/enterprise_test.yml
 
     - name: Run the nomad acl bootstrap process
       include_tasks: nomad_acl_bootstrap.yml

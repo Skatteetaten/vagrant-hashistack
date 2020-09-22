@@ -1,0 +1,47 @@
+- name: default_policy=deny - access deny without token
+  uri:
+    url: http://127.0.0.1:8500/v1/acl/tokens
+    status_code: 403
+  register: result
+  until: result.status == 403
+  retries: 5
+  delay: 1
+  when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
+
+- name: default_policy=deny - access granted with correct token
+  uri:
+    url: http://127.0.0.1:8500/v1/acl/tokens
+    status_code: 200
+    headers:
+      X-Consul-Token: "master"
+  register: result
+  until: result.status == 200
+  retries: 5
+  delay: 1
+  when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
+
+- name: default_policy=deny - list services without token, does not show service consul
+  uri:
+    url: http://127.0.0.1:8500/v1/catalog/services
+    status_code: 200
+    body_format: json
+  register: services_payload_1
+  until: services_payload_1.status == 200
+  retries: 5
+  delay: 1
+  failed_when: services_payload_1.json["consul"] is defined
+  when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
+
+- name: default_policy=deny - list services, with correct token, contains service consul
+  uri:
+    url: http://127.0.0.1:8500/v1/catalog/services
+    status_code: 200
+    headers:
+      X-Consul-Token: "{{ token }}"
+    body_format: json
+  register: services_payload_2
+  until: services_payload_2.status == 200
+  retries: 5
+  delay: 1
+  when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
+  failed_when: services_payload_2.json["consul"] is not defined

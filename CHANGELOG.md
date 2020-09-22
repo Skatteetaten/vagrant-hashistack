@@ -1,9 +1,14 @@
 # Changelog
 
-## [0.5.0 Unreleased]
+## [0.4.3 UNRELEASED]
 
 ### Added
+
 - Switch for enabling vault's PKI backend
+
+### Fixed
+
+- Merge sequence of consul config files #344
 
 ## [0.4.2]
 
