@@ -1,4 +1,9 @@
 # Changelog
+## [0.5.0 UNRELEASED]
+
+### Added
+
+- Consul namespace feature 
 
 ## [0.4.3]
 

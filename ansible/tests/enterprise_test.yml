@@ -18,3 +18,11 @@
   when: lookup('env', "vault_enterprise") | bool
 
 # Enterprise features
+
+# consul namespaces feature active when:
+# - consul_acl=true
+# - consul_enterprise=true
+# - consul_acl_default_policy=deny
+- name: Include consul namespaces feature
+  include_tasks: enterprise/consul_namespaces.yml
+  when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny' and lookup('env', "consul_enterprise") | bool
