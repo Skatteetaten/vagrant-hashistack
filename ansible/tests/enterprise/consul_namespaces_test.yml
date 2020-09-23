@@ -114,7 +114,7 @@
     msg: "register_service_try_3 {{ register_service_try_3 }}"
 
 - name: Try register service 'some-web' in namespace=team1 with admin token team1 - success
-  shell: ./consul services register -namespace=team1 -name=some-web -address=1.1.1.1 -port=80
+  shell: consul services register -namespace=team1 -name=some-web -address=1.1.1.1 -port=80
   register: register_service_try_4
   environment:
     CONSUL_HTTP_TOKEN: "{{ team1_namespace_admin_token.stdout }}"
