@@ -130,6 +130,22 @@ In order to build cloud native, security minded and dependable services, there e
 
 ## Install prerequisites
 
+### Installing on Windows
+Most developers are likely to be using Linux or Mac as their development box, however the install procedure should also work on Windows.
+
+You will need to first install Git on your PC, and make sure to get the GIT Bash as well. You need this to install and manage the Vagrant environment.
+The installation is based on GNU Make, so install this first:
+```text
+curl -O https://managedway.dl.sourceforge.net/project/ezwinports/make-4.3-without-guile-w32-bin.zip
+unzip -d "/c/Program Files/Git/mingw64" make-4.3-without-guile-w32-bin.zip
+```
+
+The rest should be automatic:
+```text
+make install
+```
+
+### Installing on Mac or Linux
 ```text
 make install
 ```
