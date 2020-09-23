@@ -125,6 +125,7 @@
 
     - name: Test consul_acl
       include_tasks: tests/consul_acl_test.yml
+      when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
 
     - name: Test enterprise features
       include_tasks: tests/enterprise_test.yml
