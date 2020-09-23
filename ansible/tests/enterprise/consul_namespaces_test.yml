@@ -140,6 +140,8 @@
 - name: Try list catalog namespace team1 without any token - 'some-web' not found
   shell: consul catalog services -namespace=team1
   register: list_catalog_try_2
+  environment:
+    CONSUL_HTTP_TOKEN: ""
   failed_when: list_catalog_try_2.stdout is search("some-web")
 
 - name: Try list catalog namespace=team1 with admin token namespace=team2 - 'some-web' not found
