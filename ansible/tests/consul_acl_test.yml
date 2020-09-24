@@ -6,7 +6,6 @@
   until: result.status == 403
   retries: 5
   delay: 1
-  when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
 
 - name: default_policy=deny - access granted with correct token
   uri:
@@ -18,7 +17,6 @@
   until: result.status == 200
   retries: 5
   delay: 1
-  when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
 
 - name: default_policy=deny - list services without token, does not show service consul
   uri:
@@ -30,7 +28,6 @@
   retries: 5
   delay: 1
   failed_when: services_payload_1.json["consul"] is defined
-  when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
 
 - name: default_policy=deny - list services, with correct token, contains service consul
   uri:
@@ -43,5 +40,4 @@
   until: services_payload_2.status == 200
   retries: 5
   delay: 1
-  when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
   failed_when: services_payload_2.json["consul"] is not defined
