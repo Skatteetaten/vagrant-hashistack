@@ -1,7 +1,6 @@
 include ../.env
 BINVER=windows_amd64
 INSTALLFORMAT=x86_64.msi
-VIRTUALBOX_FULLNAME=VirtualBox-6.1.12-139181-Win.exe
 VBOXMANAGE="${PROGRAMFILES}/Oracle/VirtualBox/vboxmanage.exe"
 export
 
@@ -32,11 +31,11 @@ stop_hashistack_virtualbox:
 
 install_virtualbox:
 	curl -L -s https://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/SHA256SUMS -o /tmp/virtualbox_SHA256SUMS
-	curl -L -s https://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/${VIRTUALBOX_FULLNAME} -o /tmp/${VIRTUALBOX_FULLNAME}
+	curl -L -s https://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/${VIRTUALBOX_FULLNAME_WIN} -o /tmp/${VIRTUALBOX_FULLNAME_WIN}
 
 	(cd /tmp; sha256sum --ignore-missing -c virtualbox_SHA256SUMS)
-	/tmp/${VIRTUALBOX_FULLNAME} --silent --ignore-reboot
-	rm /tmp/virtualbox_SHA256SUMS /tmp/${VIRTUALBOX_FULLNAME}
+	/tmp/${VIRTUALBOX_FULLNAME_WIN} --silent --ignore-reboot
+	rm /tmp/virtualbox_SHA256SUMS /tmp/${VIRTUALBOX_FULLNAME_WIN}
 
 hashicorp_gpg:
 	gpg --import ../../ansible/roles/hashistack/files/hashicorp.asc
