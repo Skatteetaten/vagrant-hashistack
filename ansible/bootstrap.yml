@@ -126,9 +126,11 @@
     - name: Test consul_acl
       include_tasks: tests/consul_acl_test.yml
       when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
+      tags: test
 
     - name: Test enterprise features
       include_tasks: tests/enterprise_test.yml
+      tags: test
 
     - name: Run the nomad acl bootstrap process
       include_tasks: nomad_acl_bootstrap.yml
