@@ -6,6 +6,11 @@
 
 - Consul namespace feature #346
 
+### Fixed
+
+- Make update-submodule target #350
+- Message link in the help text #341
+
 ## [0.4.3]
 
 ### Added
