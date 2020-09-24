@@ -4,7 +4,7 @@
 
 ### Added
 
-- Support for installing on windows
+- Support for installing on windows #352
 
 ## [0.4.3]
 
