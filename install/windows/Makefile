@@ -2,6 +2,7 @@ include ../.env
 BINVER=windows_amd64
 INSTALLFORMAT=x86_64.msi
 VBOXMANAGE="${PROGRAMFILES}/Oracle/VirtualBox/vboxmanage.exe"
+VIRTUALBOX_FULLNAME=${VIRTUALBOX_FULLNAME_WIN}
 export
 
 .ONESHELL .PHONY: prereq check_upgrade stop_vbox install_virtualbox hashicorp_gpg install_vagrant configure_vagrant install_packer
@@ -31,11 +32,11 @@ stop_hashistack_virtualbox:
 
 install_virtualbox:
 	curl -L -s https://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/SHA256SUMS -o /tmp/virtualbox_SHA256SUMS
-	curl -L -s https://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/${VIRTUALBOX_FULLNAME_WIN} -o /tmp/${VIRTUALBOX_FULLNAME_WIN}
+	curl -L -s https://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/${VIRTUALBOX_FULLNAME} -o /tmp/${VIRTUALBOX_FULLNAME}
 
 	(cd /tmp; sha256sum --ignore-missing -c virtualbox_SHA256SUMS)
-	/tmp/${VIRTUALBOX_FULLNAME_WIN} --silent --ignore-reboot
-	rm /tmp/virtualbox_SHA256SUMS /tmp/${VIRTUALBOX_FULLNAME_WIN}
+	/tmp/${VIRTUALBOX_FULLNAME} --silent --ignore-reboot
+	rm /tmp/virtualbox_SHA256SUMS /tmp/${VIRTUALBOX_FULLNAME}
 
 hashicorp_gpg:
 	gpg --import ../../ansible/roles/hashistack/files/hashicorp.asc
