@@ -133,12 +133,17 @@ In order to build cloud native, security minded and dependable services, there e
 ### Installing on Windows
 Most developers are likely to be using Linux or Mac as their development box, however the install procedure should also work on Windows.
 
-You will need to first install Git on your PC, and make sure to get the GIT Bash as well. You need this to install and manage the Vagrant environment.
-The installation is based on GNU Make, so install this first:
-```text
+#### Required before running the install process
+- [Git](https://git-scm.com/download/win). Use the download link and follow the steps.
+
+> :warning: Make sure to install Git Bash when installing Git
+
+- [GNU Make](https://www.gnu.org/software/make/). Run the commands below in your Git Bash, or any other terminal. 
+
+
+```shell
 curl -O https://managedway.dl.sourceforge.net/project/ezwinports/make-4.3-without-guile-w32-bin.zip
 unzip -d "/c/Program Files/Git/mingw64" make-4.3-without-guile-w32-bin.zip
-```
 
 The rest should be automatic:
 ```text
