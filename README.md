@@ -183,7 +183,7 @@ Most developers are likely to be using Linux or Mac as their development box, ho
 
 > :warning: Make sure to install Git Bash when installing Git
 
-- [GNU Make](https://www.gnu.org/software/make/). Run the commands below in your Git Bash, or any other terminal. 
+- [GNU Make](https://www.gnu.org/software/make/). Run the commands below in your Git Bash, or any other terminal.
 
 
 ```shell
