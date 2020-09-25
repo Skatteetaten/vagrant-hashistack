@@ -4,6 +4,7 @@
 
 ### Added
 
+- Vault namespace feature #353
 - Consul namespace feature #346
 
 ### Fixed
