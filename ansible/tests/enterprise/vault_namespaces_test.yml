@@ -44,13 +44,13 @@
 # 2. Create policies ["edu-admin", "training-admin"]
 
 - name: Create 'edu-admin' policy under 'education' namespace
-  shell: vault policy write -namespace=education edu-admin @/etc/ansible/tests/enterprise/vault-policy/edu-admin.hcl
+  shell: vault policy write -namespace=education edu-admin /etc/ansible/tests/enterprise/vault-policy/edu-admin.hcl
   environment:
     VAULT_TOKEN: "master"
     VAULT_ADDR: "http://127.0.0.1:8200"
 
 - name: Create 'training-admin' policy under 'education/training' namespace
-  shell: vault policy write -namespace=education/training training-admin @/etc/ansible/tests/enterprise/vault-policy/training-admin.hcl
+  shell: vault policy write -namespace=education/training training-admin /etc/ansible/tests/enterprise/vault-policy/training-admin.hcl
   environment:
     VAULT_TOKEN: "master"
     VAULT_ADDR: "http://127.0.0.1:8200"
