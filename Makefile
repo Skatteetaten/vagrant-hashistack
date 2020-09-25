@@ -23,4 +23,5 @@ clean:
 # https://www.vogella.com/tutorials/GitSubmodules/article.html
 ## Point to latest commit in remote submodule
 update-submodule:
+	git submodule update --init
 	git submodule update --remote
