@@ -13,7 +13,11 @@ endif
 ifeq ($(OS),Windows_NT)
 	$(MAKE) -C windows
 endif
+
+# For windows specific installation, the code to print versions is added in windows/Makefile
+ifneq ($(OS),Windows_NT)
 versions:
 	@echo "Virtualbox:\t`vboxmanage --version`"
 	@echo "Vagrant:\t`vagrant --version`"
 	@echo "Packer:\t\t`packer version`"
+endif
