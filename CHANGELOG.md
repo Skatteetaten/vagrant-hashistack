@@ -5,6 +5,7 @@
 ### Added
 
 - Consul namespace feature #346
+- Support for installing on windows #352
 
 ### Fixed
 

@@ -50,6 +50,8 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
     2. [Linux requirements](#linux-requirements)
     3. [MacOS requirements](#macos-requirements)
     4. [Windows requirements](#windows-requirements)
+        1. [GNU Make and Git Bash](#GNU-Make-and-Git-Bash)
+        2. [Installation](#installation)
 3. [Build](#build)
 4. [Configuration](#configuration)
     1. [Default Configuration](#default-configuration)
@@ -175,7 +177,26 @@ If you for any reason find yourself behind a transparent proxy you need to set t
 
 ### Windows requirements
 
-todo
+Most developers are likely to be using Linux or Mac as their development box, however the install procedure should also work on Windows.
+
+#### GNU Make and Git Bash
+- [Git](https://git-scm.com/download/win). Use the download link and follow the steps.
+
+> :warning: Make sure to install Git Bash when installing Git
+
+- [GNU Make](https://www.gnu.org/software/make/). Run the commands below in your Git Bash, or any other terminal.
+
+
+```shell
+curl -O https://managedway.dl.sourceforge.net/project/ezwinports/make-4.3-without-guile-w32-bin.zip
+unzip -d "/c/Program Files/Git/mingw64" make-4.3-without-guile-w32-bin.zip
+```
+
+Next, make sure to start git bash as admin shell (start > Git Bash > rightclick > Run as administrator).
+Now you are all set to run
+```shell
+make install
+```
 
 ## Build
 

@@ -10,7 +10,9 @@ endif
 ifeq ($(UNAME),Darwin)
 	$(MAKE) -C mac
 endif
-
+ifeq ($(OS),Windows_NT)
+	$(MAKE) -C windows
+endif
 versions:
 	@echo "Virtualbox:\t`vboxmanage --version`"
 	@echo "Vagrant:\t`vagrant --version`"
