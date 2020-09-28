@@ -7,6 +7,8 @@
 - Vault namespace feature #353
 - Consul namespace feature #346
 - Support for installing on windows #352
+- Add plugin_directory in vault.hcl.j2 file #359
+- Added _Bumping version of Hashistack_ section in CONTRIBUTING.md #325  
 
 ### Fixed
 
