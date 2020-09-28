@@ -7,7 +7,9 @@
 # 3. Setup entities and groups
 # 4. Test the 'Bob' entity
 # 5. Test the Training Admin group
+
 # 1. Create namespaces ["education", "education/training", "education/certification"]
+
 - name: Create namepspace education
   shell: vault namespace create education
   environment:
