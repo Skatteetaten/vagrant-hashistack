@@ -132,10 +132,12 @@ In order to build cloud native, security minded and dependable services, there e
 - [Minio](https://min.io/)
 
 ### Versions
-| vagrant-hashistack | terraform | consul | nomad  | vault  | docker  | consul-template |
-| ------------------ | :-------- |:-------|:-------|:-------| :------ |:----------------|
-| 0.4.3              |  0.13.4   | 1.8.4  | 0.12.4 | 1.5.3  | :shrug: | 0.25.1          |
-| 0.4.0              |  :shrug:  | 1.8.3  | 0.12.3 | 1.5.2  | :shrug: | 0.25.1          |
+| vagrant-hashistack | terraform | consul | nomad  | vault  | packer  | consul-template | remarks                  |
+| ------------------ | :-------- |:-------|:-------|:-------| :------ |:----------------|:-------------------------|
+| 0.4.3              |  0.13.2   | 1.8.4  | 0.12.4 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
+| 0.4.2              |  0.13.2   | 1.8.4  | 0.12.4 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
+| 0.4.1              |  0.13.2   | 1.8.4  | 0.12.3 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
+| 0.4.0              |  0.13.1   | 1.8.3  | 0.12.3 | 1.5.2  | 1.6.0   | 0.25.1          | vault 1.5.2.1+ent        |
 
 ## Install prerequisites
 
