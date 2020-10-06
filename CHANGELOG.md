@@ -10,6 +10,7 @@
 - Add plugin_directory in vault.hcl.j2 file #359
 - Added _Bumping version of Hashistack_ section in CONTRIBUTING.md #325
 - Added section version in readme #358
+- Added host_volume nomad policy #375
 
 ### Fixed
 
