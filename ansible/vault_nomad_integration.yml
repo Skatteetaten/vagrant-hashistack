@@ -50,11 +50,26 @@
   environment:
     VAULT_TOKEN: "{{ vault_master_token }}"
 
-- name: create roles corresponding to nomad's policies
-  shell:
-    cmd: vault write nomad/role/read policies=read-default && vault write nomad/role/write policies=write-default
+- name: Create read role corresponding to nomad's policies
+  shell: vault write nomad/role/read policies=read-default
   environment:
     VAULT_TOKEN: "{{ vault_master_token }}"
+
+- name: Create write role corresponding to nomad's policies
+  shell: vault write nomad/role/write policies=write-default
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
+
+- name: Example, generate token for nomad write role
+  shell:
+    cmd: vault read nomad/creds/write -format=json
+  register: nomad_write_role_token
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
+
+- name: Debug write role nomad token
+  debug:
+    msg: "{{ nomad_write_role_token }}"
 
 - name: Add a fact file - nomad.fact
   blockinfile:
