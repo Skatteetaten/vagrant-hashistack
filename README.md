@@ -44,6 +44,7 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
     2. [Services](#services)
     3. [Why does this exist?](#why-does-this-exist)
     4. [Installed stack](#installed-stack)
+    5. [Versions](#versions)
 2. [Install prerequisites](#install-prerequisites)
     1. [General requirements](#general-requirements)
         1. [Proxy](#proxy)
@@ -129,6 +130,14 @@ In order to build cloud native, security minded and dependable services, there e
 - [Packer](https://www.packer.io/)
 - [Consul-template](https://github.com/hashicorp/consul-template)
 - [Minio](https://min.io/)
+
+### Versions
+| vagrant-hashistack | terraform | consul | nomad  | vault  | packer  | consul-template | remarks                  |
+| ------------------ | :-------- |:-------|:-------|:-------| :------ |:----------------|:-------------------------|
+| 0.4.3              |  0.13.2   | 1.8.4  | 0.12.4 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
+| 0.4.2              |  0.13.2   | 1.8.4  | 0.12.4 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
+| 0.4.1              |  0.13.2   | 1.8.4  | 0.12.3 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
+| 0.4.0              |  0.13.1   | 1.8.3  | 0.12.3 | 1.5.2  | 1.6.0   | 0.25.1          | vault 1.5.2.1+ent        |
 
 ## Install prerequisites
 

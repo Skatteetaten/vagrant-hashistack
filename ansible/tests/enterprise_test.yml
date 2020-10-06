@@ -26,3 +26,9 @@
 - name: Include consul namespaces feature
   include_tasks: enterprise/consul_namespaces_test.yml
   when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny' and lookup('env', "consul_enterprise") | bool
+
+# vault namespaces feature active when:
+# - vault_enterprise=true
+- name: Include vault namespaces feature
+  include_tasks: enterprise/vault_namespaces_test.yml
+  when: lookup('env', 'vault_enterprise') | bool
