@@ -35,8 +35,13 @@
 - name: Vault - map admin-team role with admin-team-policy to a Consul ACL policy
   shell:
     cmd: vault write consul/roles/admin-team policies=admin-team-policy
+  register: admin_team_policy_register
   environment:
     VAULT_TOKEN: "{{ vault_master_token }}"
+
+- name: Print admin team policy register
+  debug:
+    msg: "{{ admin_team_policy_register }}"
 
 - name: Vault - example, generate token for admin-team member
   shell:
@@ -44,11 +49,10 @@
   register: admin_team_token
   environment:
     VAULT_TOKEN: "{{ vault_master_token }}"
-  failed_when:  admin_team_token.stdout | lenght == 0
 
 - name: Print admin team token
   debug:
-    msg: "{{ admin_team_token.stdout }}"
+    msg: "{{ admin_team_token }}"
 
 # test admin.team.policy
 - name: Test with admin token - write key-value to root '/' is forbidden
