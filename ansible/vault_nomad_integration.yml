@@ -1,6 +1,5 @@
 - name: Set variables
   set_fact:
-    consul_master_token: "master"
     vault_master_token: "master"
 
 - name: Start vault's nomad secrets backend
@@ -9,7 +8,7 @@
   environment:
     VAULT_TOKEN: "{{ vault_master_token }}"
 
-- name: fetch bootstrap token nomad
+- name: Fetch bootstrap token nomad
   shell:
     cmd: vault kv get -field=secret-id secret/nomad-bootstrap-token
   register: bootstrap_token
@@ -22,23 +21,23 @@
   environment:
     NOMAD_TOKEN: "{{ bootstrap_token.stdout }}"
 
-- name: register accessor ID
+- name: Register accessor ID
   shell:
     cmd: awk '/Accessor/ {print $4}' management.token
   register: accessor_id
 
-- name: register secret ID
+- name: Register secret ID
   shell:
     cmd: awk '/Secret/ {print $4}' management.token
   register: secret_id
 
-- name: add nomad management token to vault
+- name: Add nomad management token to vault
   shell:
     cmd: vault kv put secret/nomad-management-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
   environment:
     VAULT_TOKEN: "{{ vault_master_token }}"
 
-- name: delete management.token file
+- name: Delete management.token file
   file:
     path: management.token
     state: absent
