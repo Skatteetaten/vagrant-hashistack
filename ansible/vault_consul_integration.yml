@@ -43,7 +43,8 @@
     cmd: vault read consul/creds/admin-team -format=json | jq -r .data.token
   register: admin_team_token
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+  failed_when:  admin_team_token.stdout | lenght == 0
 
 - name: Print admin team token
   debug:
