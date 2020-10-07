@@ -11,6 +11,7 @@
 - Added _Bumping version of Hashistack_ section in CONTRIBUTING.md #325
 - Added section version in readme #358
 - Added host_volume nomad policy #375
+- Remove default tokens #368
 
 ### Fixed
 

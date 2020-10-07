@@ -1,36 +1,58 @@
+- name: Set variables
+  set_fact:
+    consul_master_token: "master"
+    vault_master_token: "master"
+
 - name: Vault - enable vault's consul secrets engine
   shell:
     cmd: vault secrets enable consul
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
 
 - name: Consul - create management token for Vault, with global-management policy attached to it
   shell:
     cmd: consul acl token create -policy-name=global-management -format=json | jq -r .SecretID
   register: secret_id
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
 
 - name: Vault - configure Vault to connect and authenticate to Consul
   shell:
     cmd: vault write consul/config/access address=127.0.0.1:8500 token="{{ secret_id.stdout }}"
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
 
 # example 1
 # 1. Create consul policy for admin team
 # 2. Map role to policy
 # 3. Generate token(s)
-- name: Consul - create dev team policy
+- name: Consul - create admin team policy
   shell:
     cmd: consul acl policy create -name admin-team-policy -rules @/etc/consul.d/policies/admin_team_policy.hcl
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
 
 - name: Vault - map admin-team role with admin-team-policy to a Consul ACL policy
   shell:
     cmd: vault write consul/roles/admin-team policies=admin-team-policy
+  register: admin_team_policy_register
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
+
+- name: Print admin team policy register
+  debug:
+    msg: "{{ admin_team_policy_register }}"
 
 - name: Vault - example, generate token for admin-team member
   shell:
     cmd: vault read consul/creds/admin-team -format=json | jq -r .data.token
   register: admin_team_token
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
 
 - name: Print admin team token
   debug:
-    msg: "{{ admin_team_token.stdout }}"
+    msg: "{{ admin_team_token }}"
 
 # test admin.team.policy
 - name: Test with admin token - write key-value to root '/' is forbidden
@@ -77,15 +99,21 @@
 - name: Consul - create dev team policy
   shell:
     cmd: consul acl policy create -name dev-team-policy -rules @/etc/consul.d/policies/dev_team_policy.hcl
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
 
 - name: Vault - map dev-team role with dev-team-policy to a Consul ACL policy
   shell:
     cmd: vault write consul/roles/dev-team policies=dev-team-policy
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
 
 - name: Vault - example, generate token for dev-team member
   shell:
     cmd: vault read consul/creds/dev-team -format=json | jq -r .data.token
   register: dev_team_token
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
 
 - name: Print dev team token
   debug:
