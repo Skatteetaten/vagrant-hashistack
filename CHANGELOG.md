@@ -11,7 +11,7 @@
 - Added _Bumping version of Hashistack_ section in CONTRIBUTING.md #325
 - Added section version in readme #358
 - Added host_volume nomad policy #375
-
+- Added vault integration of nomad, using root token #380
 ### Fixed
 
 - Make update-submodule target #350
