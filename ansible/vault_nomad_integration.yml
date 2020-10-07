@@ -1,11 +1,19 @@
+- name: Set variables
+  set_fact:
+    vault_master_token: "master"
+
 - name: Start vault's nomad secrets backend
   shell:
     cmd: vault secrets enable nomad
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
 
-- name: fetch bootstrap token nomad
+- name: Fetch bootstrap token nomad
   shell:
     cmd: vault kv get -field=secret-id secret/nomad-bootstrap-token
   register: bootstrap_token
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
 
 - name: Create management token for vault
   shell:
@@ -13,21 +21,23 @@
   environment:
     NOMAD_TOKEN: "{{ bootstrap_token.stdout }}"
 
-- name: register accessor ID
+- name: Register accessor ID
   shell:
     cmd: awk '/Accessor/ {print $4}' management.token
   register: accessor_id
 
-- name: register secret ID
+- name: Register secret ID
   shell:
     cmd: awk '/Secret/ {print $4}' management.token
   register: secret_id
 
-- name: add nomad management token to vault
+- name: Add nomad management token to vault
   shell:
     cmd: vault kv put secret/nomad-management-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
 
-- name: delete management.token file
+- name: Delete management.token file
   file:
     path: management.token
     state: absent
@@ -36,10 +46,29 @@
   shell:
     cmd: vault write nomad/config/access address=http://127.0.0.1:4646 token="{{ secret_id.stdout }}"
   register: result
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
 
-- name: create roles corresponding to nomad's policies
+- name: Create read role corresponding to nomad's policies
+  shell: vault write nomad/role/read policies=read-default
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
+
+- name: Create write role corresponding to nomad's policies
+  shell: vault write nomad/role/write policies=write-default
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
+
+- name: Example, generate token for nomad write role
   shell:
-    cmd: vault write nomad/role/read policies=read-default && vault write nomad/role/write policies=write-default
+    cmd: vault read nomad/creds/write -format=json
+  register: nomad_write_role_token
+  environment:
+    VAULT_TOKEN: "{{ vault_master_token }}"
+
+- name: Debug write role nomad token
+  debug:
+    msg: "{{ nomad_write_role_token }}"
 
 - name: Add a fact file - nomad.fact
   blockinfile:
