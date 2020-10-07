@@ -177,7 +177,7 @@ jobs:
           ENVKEY_consul_enterprise: ${{ steps.hashicorp_binary.outputs.consul_enterprise }}
           ENVKEY_nomad_enterprise: ${{ steps.hashicorp_binary.outputs.nomad_enterprise }}
           ENVKEY_vault_enterprise: ${{ steps.hashicorp_binary.outputs.vault_enterprise }}
-          FILE_NAME: .env_override
+          FILE_NAME: template/template_example/.env_override
 
       - uses: actions/download-artifact@v2
         with:
