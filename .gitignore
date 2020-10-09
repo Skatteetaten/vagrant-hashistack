@@ -4,3 +4,4 @@ packer/output-hashistack
 terraform.tfstate*
 .terraform
 tmp
+/ansible/facts.d/

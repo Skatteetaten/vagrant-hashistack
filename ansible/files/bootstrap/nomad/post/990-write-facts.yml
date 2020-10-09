@@ -1,0 +1,10 @@
+- name: "{{ service }} - post/write-facts - Add a fact file - {{ service }}.fact"
+  blockinfile:
+    path:  "/etc/ansible/facts.d/{{ service }}.fact"
+    block: |
+      [vault_integration]
+      completed=true
+    create: yes
+
+# Gather facts again to pick up fact changes
+- setup:

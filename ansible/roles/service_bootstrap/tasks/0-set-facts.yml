@@ -1,0 +1,5 @@
+# Reset facts
+- set_fact:
+    pre_bootstrap_files: {}
+- set_fact:
+    post_bootstrap_files: {}

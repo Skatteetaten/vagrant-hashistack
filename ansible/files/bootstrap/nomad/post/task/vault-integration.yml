@@ -1,0 +1,43 @@
+- name: "{{ service }} - post/vault-integration - create management token for Vault, with global-management policy attached to it"
+  shell:
+    cmd: consul acl token create -policy-name=global-management -format=json | jq -r .SecretID
+  register: secret_id
+
+- name: "{{ service }} - post/vault-integration - fetch bootstrap token nomad"
+  shell:
+    cmd: vault kv get -field=secret-id secret/nomad-bootstrap-token
+  register: bootstrap_token
+
+- name: "{{ service }} - post/vault-integration -  Create management token for vault"
+  shell:
+    cmd: nomad acl token create -name="Vault Management Token" -type="management" > management.token
+  environment:
+    NOMAD_TOKEN: "{{ bootstrap_token.stdout }}"
+
+- name: "{{ service }} - post/vault-integration - register accessor ID"
+  shell:
+    cmd: awk '/Accessor/ {print $4}' management.token
+  register: accessor_id
+
+- name: "{{ service }} - post/vault-integration - register secret ID"
+  shell:
+    cmd: awk '/Secret/ {print $4}' management.token
+  register: secret_id
+
+- name: "{{ service }} - post/vault-integration - add nomad management token to vault"
+  shell:
+    cmd: vault kv put secret/nomad-management-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
+
+- name: "{{ service }} - post/vault-integration - delete management.token file"
+  file:
+    path: management.token
+    state: absent
+
+- name: "{{ service }} - post/vault-integration - write vault's nomad config"
+  shell:
+    cmd: vault write nomad/config/access address=http://127.0.0.1:4646 token="{{ secret_id.stdout }}"
+  register: result
+
+- name: "{{ service }} - post/vault-integration - create roles corresponding to nomad's policies"
+  shell:
+    cmd: vault write nomad/role/read policies=read-default && vault write nomad/role/write policies=write-default

@@ -1,4 +1,3 @@
-{% raw -%}
 consul {
     token = "master"
     address = "127.0.0.1:8500"
@@ -14,7 +13,5 @@ bind_addr = "0.0.0.0"
 
 client {
     enabled = true
-
     network_interface = "eth1"
 }
-{%- endraw %}

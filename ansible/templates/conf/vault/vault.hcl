@@ -1,5 +1,3 @@
-{% raw -%}
-
 ui              = true
 disable_mlock   = true
 plugin_directory = "/etc/vault.d/plugins"
@@ -21,4 +19,3 @@ listener "tcp" {
   address       = "10.0.3.10:8200"
   tls_disable   = 1
 }
-{%- endraw %}

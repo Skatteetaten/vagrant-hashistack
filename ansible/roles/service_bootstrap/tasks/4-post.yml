@@ -1,0 +1,17 @@
+### post bootstrap tasks
+- name: "{{ service }} - collate and sort post bootstrap tasks"
+  # set_fact will create a dictionary with filename as key and full path as value
+  set_fact:
+    post_bootstrap_files: "{{ post_bootstrap_files | default({}) | combine( { (outer_item | basename): outer_item } ) }}"
+  # lookup files in both box and user provided paths
+  loop: "{{ query('fileglob', 'files/bootstrap/{{ item }}/post/*.yml') + query('fileglob', '/vagrant/dev/vagrant/bootstrap/{{ item }}/post/*.yml') }}"
+  loop_control:
+    loop_var: outer_item
+
+- name: "{{ service }} - post start"
+  # dictsort provides a list of tuples the second one is the full path of the file thus outer_item[1]
+  include_tasks: "{{ outer_item[1] }}"
+  # sort the files in lexical order
+  loop: "{{ post_bootstrap_files | default({}) | dictsort }}"
+  loop_control:
+    loop_var: outer_item

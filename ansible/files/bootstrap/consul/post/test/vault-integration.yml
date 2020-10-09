@@ -1,0 +1,78 @@
+# test admin.team.policy
+#TODO: Use consul client for this??
+- name: "{{ service }} - post/test/vault-integration - admin token - write key-value to root '/' is forbidden"
+  uri:
+    # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-admin-value' http://127.0.0.1:8500/v1/kv/my-admin-key
+    url:  http://127.0.0.1:8500/v1/kv/my-admin-key
+    method: PUT
+    body: "my-admin-value"
+    status_code: 403
+    return_content: yes
+    headers:
+      X-Consul-Token: "{{ consul.acl.admin_team.token }}"
+
+- name: "{{ service }} - post/test/vault-integration - admin token - write key-value to /team/admin is allowed"
+  uri:
+    # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-admin-value' http://127.0.0.1:8500/v1/kv/team/admin/my-admin-key
+    url:  http://127.0.0.1:8500/v1/kv/team/admin/my-admin-key
+    method: PUT
+    body: "my-admin-value"
+    status_code: 200
+    return_content: yes
+    headers:
+      X-Consul-Token: "{{ admin_team_token.stdout }}"
+
+- name: "{{ service }} - post/test/vault-integration - admin token - list all the consul ACL policies is allowed"
+  uri:
+    # curl --header "X-Consul-Token: <token>" http://127.0.0.1:8500/v1/acl/policies
+    url: http://127.0.0.1:8500/v1/acl/policies
+    method: GET
+    headers:
+      X-Consul-Token: "{{ admin_team_token.stdout }}"
+    status_code: 200
+    return_content: yes
+    body_format: json
+  register: result_policies
+
+# Test dev.team.policy
+- name: "{{ service }} - post/test/vault-integration - dev token - write key-value to root '/' is forbidden"
+  uri:
+    # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-dev-value' http://127.0.0.1:8500/v1/kv/my-dev-key
+    url:  http://127.0.0.1:8500/v1/kv/my-dev-key
+    method: PUT
+    body: "my-dev-value"
+    status_code: 403
+    return_content: yes
+    headers:
+      X-Consul-Token: "{{ dev_team_token.stdout }}"
+
+- name: "{{ service }} - post/test/vault-integration - dev token - read key-value to /team/dev"
+  uri:
+    # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-admin-value' http://127.0.0.1:8500/v1/kv/team/dev/my-dev-key
+    url:  http://127.0.0.1:8500/v1/kv/team/dev/my-dev-key
+    method: PUT
+    body: "my-dev-value"
+    status_code: 200
+    return_content: yes
+    headers:
+      X-Consul-Token: "{{ dev_team_token.stdout }}"
+
+- name: "{{ service }} - post/test/vault-integration - dev token - read key-value from /team/admin is forbidden"
+  uri:
+    # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-admin-value' http://127.0.0.1:8500/v1/kv/team/dev/my-dev-key
+    url:  http://127.0.0.1:8500/v1/kv/team/admin/my-admin-key
+    method: GET
+    status_code: 403
+    return_content: yes
+    headers:
+      X-Consul-Token: "{{ dev_team_token.stdout }}"
+
+- name: "{{ service }} - post/test/vault-integration - dev token - list all the consul ACL policies is forbidden"
+  uri:
+    # curl --header "X-Consul-Token: <token>" http://127.0.0.1:8500/v1/acl/policies
+    url: http://127.0.0.1:8500/v1/acl/policies
+    method: GET
+    headers:
+      X-Consul-Token: "{{ dev_team_token.stdout }}"
+    status_code: 403
+    return_content: yes

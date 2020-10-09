@@ -1,0 +1,24 @@
+# Configuration rendering and copy
+- name: "{{ service }} - box - Render configuration file templates"
+  template:
+    src: "{{ outer_item }}"
+    dest: "/etc/{{ service }}.d/{{ ( outer_item | basename | splitext )[:-1] | join('.')}}"
+  loop: "{{ query('fileglob', 'templates/conf/{{ service }}/*.j2', errors='ignore') | sort }}"
+  loop_control:
+    loop_var: outer_item
+
+- name: "{{ service }} - user - Copy configuration files"
+  copy:
+    src: "{{ outer_item }}"
+    dest: "/etc/{{ service }}.d/{{ outer_item | basename }}"
+  loop: "{{ query('fileglob', '/vagrant/dev/vagrant/conf/{{ service }}/*.hcl', errors='ignore') | sort }}"
+  loop_control:
+    loop_var: outer_item
+
+- name: "{{ service }} - user - Render configuration file templates"
+  copy:
+    src: "{{ outer_item }}"
+    dest: "/etc/{{ service }}.d/{{ ( outer_item | basename | splitext )[:-1] | join('.')}}"
+  loop: "{{ query('fileglob', '/vagrant/dev/vagrant/conf/{{ service }}/*.j2', errors='ignore') | sort }}"
+  loop_control:
+    loop_var: outer_item

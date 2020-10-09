@@ -1,0 +1,12 @@
+- name: "{{ service }} - post/test/acl"
+  include_tasks: test/acl.yml
+  when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
+  tags: test
+
+# consul namespaces feature active when:
+# - consul_acl=true
+# - consul_enterprise=true
+# - consul_acl_default_policy=deny
+- name: "{{ service }} - post/test/ent/namespace"
+  include_tasks: test/ent/namespace.yml
+  when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny' and lookup('env', "consul_enterprise") | bool
