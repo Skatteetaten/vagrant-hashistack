@@ -9,38 +9,42 @@
 # 5. Test the Training Admin group
 
 # 1. Create namespaces ["education", "education/training", "education/certification"]
+- name: Set variables
+  set_fact:
+    vault_master_token: "master"
+    vault_http_host: "http://127.0.0.1:8200"
 
 - name: Create namepspace education
   shell: vault namespace create education
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 - name: Create namespace 'education/training'
   shell: vault namespace create -namespace=education training
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 - name: Create namespace 'education/certification'
   shell: vault namespace create -namespace=education certification
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 - name: List the existing namespaces on the root, verify list contains 'education/'
   shell: vault namespace list -format=json | jq -r '.[]' | grep education/
   register: namespace_list_root
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 - name: List child namespaces under 'education', verify list contains 'certification' and 'training'
   shell: vault namespace list -namespace=education -format=json
   register: namespace_list_childs
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
   failed_when: namespace_list_childs.stdout is not search("certification") and namespace_list_childs.stdout is not search("training")
 
 # 2. Create policies ["edu-admin", "training-admin"]
@@ -48,35 +52,35 @@
 - name: Create 'edu-admin' policy under 'education' namespace
   shell: vault policy write -namespace=education edu-admin /etc/ansible/tests/enterprise/vault-policy/edu-admin.hcl
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 - name: Create 'training-admin' policy under 'education/training' namespace
   shell: vault policy write -namespace=education/training training-admin /etc/ansible/tests/enterprise/vault-policy/training-admin.hcl
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 # 3. Setup entities and groups
 
 - name: Enable the userpass auth method
   shell: vault auth enable -namespace=education userpass
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 - name: Create a user bob
   shell: vault write -namespace=education auth/userpass/users/bob password="training"
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 - name: Create an entity for Bob Smith with edu-admin policy attached. Save the generated entity ID in a file named entity_id.txt
   shell: vault write -namespace=education -format=json identity/entity name="Bob Smith" policies="edu-admin" | jq -r ".data.id"
   register: bob_entity_id
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 - name: Debug bob_entity_id
   debug:
@@ -86,8 +90,8 @@
   shell: vault auth list -namespace=education -format=json | jq -r '.["userpass/"].accessor'
   register: mount_accessor_userpass
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 - name: Debug
   debug:
@@ -98,8 +102,8 @@
     vault write -namespace=education identity/entity-alias name="bob" \
       canonical_id={{ bob_entity_id.stdout }} mount_accessor={{ mount_accessor_userpass.stdout }}
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 - name: Create a group, "Training Admin" in education/training namespace with Bob Smith entity as its member
   shell: |
@@ -107,8 +111,8 @@
       name="Training Admin" policies="training-admin" \
       member_entity_ids={{ bob_entity_id.stdout }}
   environment:
-    VAULT_TOKEN: "master"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 # 4. Test the 'Bob' entity
 
@@ -117,7 +121,7 @@
   register: bob_education_token
   environment:
     VAULT_NAMESPACE: "education"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_ADDR: "{{ vault_http_host }}"
 
 - name: Debug bob_education_token
   debug:
@@ -128,7 +132,7 @@
   register: try_register_namespace_1
   environment:
     VAULT_NAMESPACE: "education"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_ADDR: "{{ vault_http_host }}"
     VAULT_TOKEN: "{{ bob_education_token.stdout }}"
   failed_when: try_register_namespace_1.rc > 0
 
@@ -141,7 +145,7 @@
   register: try_enable_kv2_1
   environment:
     VAULT_NAMESPACE: "education"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_ADDR: "{{ vault_http_host }}"
     VAULT_TOKEN: "{{ bob_education_token.stdout }}"
   failed_when: try_enable_kv2_1.rc > 0
 
@@ -152,7 +156,7 @@
   register: bob_lookup_token_1
   environment:
     VAULT_NAMESPACE: "education"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_ADDR: "{{ vault_http_host }}"
     VAULT_TOKEN: "{{ bob_education_token.stdout }}"
 
 - name: Debug bob_lookup_token_1
@@ -164,12 +168,12 @@
   register: bob_lookup_token_1
   environment:
     VAULT_NAMESPACE: "education/training"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_ADDR: "{{ vault_http_host }}"
     VAULT_TOKEN: "{{ bob_education_token.stdout }}"
 
 - name: Enable key/value v1 secrets engine at team-secret
   shell: vault secrets enable -path=team-secret -version=1 kv
   environment:
     VAULT_NAMESPACE: "education/training"
-    VAULT_ADDR: "http://127.0.0.1:8200"
+    VAULT_ADDR: "{{ vault_http_host }}"
     VAULT_TOKEN: "{{ bob_education_token.stdout }}"

@@ -44,6 +44,7 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
     2. [Services](#services)
     3. [Why does this exist?](#why-does-this-exist)
     4. [Installed stack](#installed-stack)
+    5. [Versions](#versions)
 2. [Install prerequisites](#install-prerequisites)
     1. [General requirements](#general-requirements)
         1. [Proxy](#proxy)
@@ -129,6 +130,14 @@ In order to build cloud native, security minded and dependable services, there e
 - [Packer](https://www.packer.io/)
 - [Consul-template](https://github.com/hashicorp/consul-template)
 - [Minio](https://min.io/)
+
+### Versions
+| vagrant-hashistack | terraform | consul | nomad  | vault  | packer  | consul-template | remarks                  |
+| ------------------ | :-------- |:-------|:-------|:-------| :------ |:----------------|:-------------------------|
+| 0.4.3              |  0.13.2   | 1.8.4  | 0.12.4 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
+| 0.4.2              |  0.13.2   | 1.8.4  | 0.12.4 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
+| 0.4.1              |  0.13.2   | 1.8.4  | 0.12.3 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
+| 0.4.0              |  0.13.1   | 1.8.3  | 0.12.3 | 1.5.2  | 1.6.0   | 0.25.1          | vault 1.5.2.1+ent        |
 
 ## Install prerequisites
 
@@ -242,7 +251,8 @@ Supported switches are listed under `# Control box features` section in the foll
 **Nomad**:
 - Open source version
 - ACL [enabled=false](https://www.nomadproject.io/docs/configuration/acl#enabled)
-- Integrated with Consul, using token
+- [Integrated with Consul, using token](ansible/templates/nomad.hcl.j2)
+- [Integrated with Vault, using token](ansible/templates/nomad.hcl.j2)
 
 **Vault**
 - Open source version
@@ -289,7 +299,7 @@ To get a running VM using the latest release of this box run
 
 ```text
 vagrant init fredrikhgrelland/hashistack
-ANSIBLE_ARGS='--extra-vars "local_test=true"' vagrant up --provision
+vagrant up --provision
 ```
 
 The first command will add a file called `Vagrantfile` to your directory, and `vagrant up` will start a box based on the specifications of that file.
@@ -357,8 +367,6 @@ make test
 
 The above command runs the tests by starting the [countdash](https://www.nomadproject.io/docs/integrations/consul-connect/) consul-connect example. If ´packer/output-hashistack/package.box´ does not exist, it will run ´make build´.
 
-Pay attention that we pass [extra-vars](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#id35) `--tags=local_test=true` to the ansible provisioner.
-[Full example](https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/template/Makefile#L36)
 
 ### CI pipeline run
 
@@ -372,6 +380,9 @@ The tests are run using [Github Actions](https://github.com/features/actions) fe
 
 We utilize the **matrix testing strategy** to cover all the possible and logical combinations of the different properties and values that the components support.
 The `.env_override` file is used by the tests to override the values that are available in the `.env_default` file, as well as the user configurable `.env` file.
+
+Pay attention that we pass [extra-vars](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#id35) `ci_test=true` to the ansible provisioner.
+[Full example](https://github.com/fredrikhgrelland/vagrant-hashistack-template/blob/master/Makefile#L39)
 
 #### CI test configuration
 

@@ -1,5 +1,8 @@
+# https://registry.terraform.io/providers/hashicorp/vault/latest/docs
 provider "vault" {
   address = "http://127.0.0.1:8200"
+  token = "master"
+  token_name = "vault-master-token"
 }
 
 #

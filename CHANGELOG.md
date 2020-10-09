@@ -8,7 +8,14 @@
 - Consul namespace feature #346
 - Support for installing on windows #352
 - Add plugin_directory in vault.hcl.j2 file #359
-- Added _Bumping version of Hashistack_ section in CONTRIBUTING.md #325  
+- _Bumping version of Hashistack_ section in CONTRIBUTING.md #325
+- section version in readme #358
+- host_volume nomad policy #375
+- Remove default tokens #368
+- Use variable "ci_test" instead of "local_test" in bootstrap.yml #374
+- Vault integration of nomad, using root token #380
+- Hashistack box development mode "make dev" #370
+- Redesign of configuration/bootstrap/startup #370
 
 ### Fixed
 

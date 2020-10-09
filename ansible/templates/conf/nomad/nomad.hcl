@@ -11,6 +11,12 @@ advertise {
 
 bind_addr = "0.0.0.0"
 
+vault {
+  enabled = true
+  token = "master"
+  address = "http://127.0.0.1:8200"
+}
+
 client {
     enabled = true
     network_interface = "eth1"

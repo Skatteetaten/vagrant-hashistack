@@ -2,10 +2,10 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Check if .env_override is provided
+    - name: Check if .env_override is provided when tests are in CI
       debug:
-        msg: "Checking if env_override process was successful. Doing nothing if this is a local test"
-      #failed_when: local_test is undefined and not lookup( 'env', 'TF_VAR_env_override') | bool
+        msg: "Checking if env override process was successful for ci test"
+      failed_when: ci_test is defined and not lookup( 'env', 'TF_VAR_env_override') | bool
       tags: test
 
     - name: Debug all env vars
