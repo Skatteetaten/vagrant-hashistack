@@ -14,6 +14,7 @@
 - Remove default tokens #368
 - Use variable "ci_test" instead of "local_test" in bootstrap.yml #374
 - Added vault integration of nomad, using root token #380
+- Section `Custom port forwarding` #343
 
 ### Fixed
 
