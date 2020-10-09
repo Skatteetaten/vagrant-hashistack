@@ -5,9 +5,11 @@
       [vault_integration]
       completed=true
 
+      {% if consul.vault.acl is defined %}
       [acl]
-      dev_team_token={{ dev_team_token.stdout }}
-      admin_team_token={{ admin_team_token.stdout }}
+      dev_team_token={{ consul.vault.acl.dev_team_token }}
+      admin_team_token={{ consul.vault.acl.admin_team_token }}
+      {% endif %}
     create: yes
 
 # Gather facts again to pick up fact changes

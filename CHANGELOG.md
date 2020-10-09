@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.0 UNRELEASED]
+
+### Added
+
+- Hashistack box development mode "make dev" #370
+
+### Changed
+
+- Redesign of configuration/bootstrap/startup #370
+
+
 ## [0.5.0 UNRELEASED]
 
 ### Added
@@ -14,8 +25,6 @@
 - Remove default tokens #368
 - Use variable "ci_test" instead of "local_test" in bootstrap.yml #374
 - Vault integration of nomad, using root token #380
-- Hashistack box development mode "make dev" #370
-- Redesign of configuration/bootstrap/startup #370
 
 ### Fixed
 
