@@ -71,5 +71,5 @@
     consul:
       vault:
         acl:
-          dev_team_token: {{ dev_team_token.stdout }}
-          admin_team_token: {{ admin_team_token.stdout }}
+          dev_team_token: "{{ dev_team_token.stdout }}"
+          admin_team_token: "{{ admin_team_token.stdout }}"
