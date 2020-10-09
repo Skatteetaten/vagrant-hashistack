@@ -251,7 +251,8 @@ Supported switches are listed under `# Control box features` section in the foll
 **Nomad**:
 - Open source version
 - ACL [enabled=false](https://www.nomadproject.io/docs/configuration/acl#enabled)
-- Integrated with Consul, using token
+- [Integrated with Consul, using token](ansible/templates/nomad.hcl.j2)
+- [Integrated with Vault, using token](ansible/templates/nomad.hcl.j2)
 
 **Vault**
 - Open source version

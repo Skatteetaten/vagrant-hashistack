@@ -12,7 +12,8 @@
 - Added section version in readme #358
 - Added host_volume nomad policy #375
 - Remove default tokens #368
-- use variable "ci_test" instead of "local_test" in bootstrap.yml #374
+- Use variable "ci_test" instead of "local_test" in bootstrap.yml #374
+- Added vault integration of nomad, using root token #380
 
 ### Fixed
 
