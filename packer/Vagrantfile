@@ -13,11 +13,11 @@ Vagrant.configure("2") do |config|
         vb.linked_clone = true
         vb.memory = 2048
     end
-    config.vm.provision "shell", args: ["/vagrant/dev/vagrant/conf/pre_ansible.sh"], inline: "if [ -f \"\$FILE\" ]; then . \$FILE; else echo You may add \$FILE if you want something to happen here; fi"
+    config.vm.provision "shell", args: ["/vagrant/dev/vagrant/bootstrap/pre_ansible.sh"], inline: "if [ -f \"$1\" ]; then . $1; else echo You may add $1 if you want something to happen here; fi"
     config.vm.provision "ansible_local" do |startup|
         run = "always"
         startup.playbook = "/etc/ansible/bootstrap.yml"
         startup.raw_arguments = Shellwords.shellsplit(ENV["ANSIBLE_ARGS"]) if ENV["ANSIBLE_ARGS"]
     end
-    config.vm.provision "shell", args: ["/vagrant/dev/vagrant/conf/post_ansible.sh"], inline: "if [ -f \"\$FILE\" ]; then . \$FILE; else echo You may add \$FILE if you want something to happen here; fi"
+    config.vm.provision "shell", args: ["/vagrant/dev/vagrant/bootstrap/post_ansible.sh"], inline: "if [ -f \"$1\" ]; then . $1; else echo You may add $1 if you want something to happen here; fi"
 end

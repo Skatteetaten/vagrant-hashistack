@@ -1,4 +1,4 @@
-.ONESHELL .PHONY: install build test
+.ONESHELL .PHONY: install build test dev
 .DEFAULT_GOAL := build
 
 install:
@@ -12,6 +12,12 @@ ifeq (,$(wildcard ./packer/output-hashistack/package.box))
 	$(MAKE) build
 endif
 	$(MAKE) -C test
+
+dev:
+ifeq (,$(wildcard ./packer/output-hashistack/package.box))
+	$(MAKE) build
+endif
+	$(MAKE) -C dev
 
 ssh:
 	(cd template; vagrant ssh)
