@@ -240,8 +240,8 @@ Supported switches are listed under `# Control box features` section in the foll
 
 - [.env_default.j2](ansible/templates/.env_default.j2)
 - [hashistack component versions](ansible/group_vars/all/variables.yml)
-- [nomad policies](ansible/templates/nomad-policies)
-- [consul policies](ansible/templates/consul-policies)
+- [nomad policies](ansible/templates/conf/nomad/policies)
+- [consul policies](ansible/templates/conf/consul/policies)
 
 **Consul**:  
 - Open source version

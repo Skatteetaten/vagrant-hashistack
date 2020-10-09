@@ -1,14 +1,4 @@
-{% raw -%}
 primary_datacenter = "dc1"
-
-acl {
-  default_policy = "allow"
-  down_policy = "extend-cache"
-  enabled = true
-  tokens {
-    master = "master"
-  }
-}
 
 recursors = ["151.187.151.101"]
 bind_addr = "{{ GetInterfaceIP \"docker0\" }}"
@@ -24,5 +14,3 @@ addresses {
   grpc = "127.0.0.1 {{ GetInterfaceIP \"docker0\" }} {{ GetInterfaceIP \"eth0\" }} {{ GetInterfaceIP \"eth1\" }}"
   http = "127.0.0.1 {{ GetInterfaceIP \"docker0\" }} {{ GetInterfaceIP \"eth0\" }} {{ GetInterfaceIP \"eth1\" }}"
 }
-
-{%- endraw %}

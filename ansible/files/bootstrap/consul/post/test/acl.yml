@@ -1,4 +1,4 @@
-- name: default_policy=deny - access deny without token
+- name: "{{ service }} - post/test/acl - default_policy=deny - access deny without token"
   uri:
     url: http://127.0.0.1:8500/v1/acl/tokens
     status_code: 403
@@ -7,7 +7,7 @@
   retries: 5
   delay: 1
 
-- name: default_policy=deny - access granted with correct token
+- name: "{{ service }} - post/test/acl - default_policy=deny - access granted with correct token"
   uri:
     url: http://127.0.0.1:8500/v1/acl/tokens
     status_code: 200
@@ -18,7 +18,7 @@
   retries: 5
   delay: 1
 
-- name: default_policy=deny - list services without token, does not show service consul
+- name: "{{ service }} - post/test/acl - default_policy=deny - list services without token, does not show service consul"
   uri:
     url: http://127.0.0.1:8500/v1/catalog/services
     status_code: 200
@@ -29,7 +29,7 @@
   delay: 1
   failed_when: services_payload_1.json["consul"] is defined
 
-- name: default_policy=deny - list services, with correct token, contains service consul
+- name: "{{ service }} - post/test/acl - default_policy=deny - list services, with correct token, contains service consul"
   uri:
     url: http://127.0.0.1:8500/v1/catalog/services
     status_code: 200
