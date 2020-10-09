@@ -65,6 +65,7 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
          1. [Shut down the running machine](#shut-down-the-running-machine)
          2. [Use the `auto_correct` feature to dynamically allocate ports](#use-the-auto-correct-feature-to-dynamically-allocate-ports)
    2. [Starting a new project based on the template](#option-2-starting-a-new-project-based-on-the-template)
+   3. [Custom port forwarding](#custom-port-forwarding)
 6. [Test](#test)
     1. [Local run](#local-run)
     2. [CI pipeline run](#ci-pipeline-run)
@@ -348,6 +349,42 @@ This will enable the autocorrect-feature on the ports used by consul, nomad, and
 To see a full example of how to start a new project based on this box go to [template-repo](https://github.com/fredrikhgrelland/vagrant-hashistack-template).
 
 `NB` **If you are behind a transparent proxy, follow [proxy documentation](#proxy)**
+
+### Custom port forwarding
+
+There is opportunity to forward ports from vagrant box instance to localhost using `vagrant ssh --`
+```text
+vagrant ssh -- --help
+
+usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-B bind_interface]
+           [-b bind_address] [-c cipher_spec] [-D [bind_address:]port]
+           [-E log_file] [-e escape_char] [-F configfile] [-I pkcs11]
+           [-i identity_file] [-J [user@]host[:port]] [-L address]
+           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]
+           [-Q query_option] [-R address] [-S ctl_path] [-W host:port]
+           [-w local_tun[:remote_tun]] destination [command]
+```
+
+Example shows how to forward minio(which uses as artifactory) port `:9000` from vagrant box to localhost port `:6666`
+```text
+vagrant ssh -- -L 6666:localhost:9000
+```
+
+> Syntax `vagrant ssh -- -L <local machine port>:<host inside machine>:<port inside machine>`  
+
+> :bulb: Custom port forwarding `vagrant ssh --` command could be used in cases when you need to forward ports of consul-connect proxies from vagrant box to localhost machine  
+
+> :bulb: cli command could take several args
+
+Example
+```text
+vagrant ssh -- -L 7001:localhost:9999 -L 7002:localhost:9000
+```
+
+
+
+
+
 
 ## Test
 
