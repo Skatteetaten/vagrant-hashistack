@@ -2,6 +2,16 @@
   uri:
     url: http://127.0.0.1:4646/v1/jobs
   register: result
-  until: result.status == {% if lookup('env', 'nomad_acl') | bool %} 403 {% else %} 200 {% endif %}
+  until: result.status == 403
   retries: 60
   delay: 1
+  when: lookup('env', 'nomad_acl') | bool
+
+- name: "{{ service }} - post - Wait for startup"
+  uri:
+    url: http://127.0.0.1:4646/v1/jobs
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 1
+  when: not lookup('env', 'nomad_acl') | bool
