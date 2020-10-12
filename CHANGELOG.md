@@ -15,6 +15,7 @@
 - Use variable "ci_test" instead of "local_test" in bootstrap.yml #374
 - Added vault integration of nomad, using root token #380
 - Section `Custom port forwarding` #343
+- Added "macos proxy" section README #385
 
 ### Fixed
 
