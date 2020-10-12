@@ -40,38 +40,38 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
 ## Content
 
 1. [Description - what & why](#description---what--why)
-    1. [Submodules](#submodules)
-    2. [Services](#services)
-    3. [Why does this exist?](#why-does-this-exist)
-    4. [Installed stack](#installed-stack)
-    5. [Versions](#versions)
+   1. [Submodules](#submodules)
+   2. [Services](#services)
+   3. [Why does this exist?](#why-does-this-exist)
+   4. [Installed stack](#installed-stack)
+   5. [Versions](#versions)
 2. [Install prerequisites](#install-prerequisites)
-    1. [General requirements](#general-requirements)
-        1. [Proxy](#proxy)
-    2. [Linux requirements](#linux-requirements)
-    3. [MacOS requirements](#macos-requirements)
-    4. [Windows requirements](#windows-requirements)
-        1. [GNU Make and Git Bash](#GNU-Make-and-Git-Bash)
-        2. [Installation](#installation)
+   1. [General requirements](#general-requirements)
+      1. [Proxy](#proxy)
+         1. [MacOS](#macos)
+   2. [Linux requirements](#linux-requirements)
+   3. [MacOS requirements](#macos-requirements)
+   4. [Windows requirements](#windows-requirements)
+      1. [GNU Make and Git Bash](#gnu-make-and-git-bash)
 3. [Build](#build)
 4. [Configuration](#configuration)
-    1. [Default Configuration](#default-configuration)
-    2. [Override default configuration](#override-default-configuration)
-        1. [ENV variables](#option-1---env-variables)
-        2. [Config files](#option-2---config-files)
+   1. [Default Configuration](#default-configuration)
+   2. [Override default configuration](#override-default-configuration)
+      1. [Option 1 - env variables](#option-1---env-variables)
+      2. [Option 2 - config files](#option-2---config-files)
 5. [Usage](#usage)
-   1. [Starting a plain default box](#option-1-starting-a-plain-default-box)
+   1. [Option-1 Starting a plain default box](#option-1-starting-a-plain-default-box)
       1. [Port collisions](#port-collisions)
-         1. [Shut down the running machine](#shut-down-the-running-machine)
-         2. [Use the `auto_correct` feature to dynamically allocate ports](#use-the-auto-correct-feature-to-dynamically-allocate-ports)
-   2. [Starting a new project based on the template](#option-2-starting-a-new-project-based-on-the-template)
+         1. [Option 1 Shut down the running machine](#option-1-shut-down-the-running-machine)
+         2. [Option 2 Use the `auto_correct` feature to dynamically allocate ports](#option-2-use-the-auto_correct-feature-to-dynamically-allocate-ports)
+   2. [Option-2 Starting a new project based on the template](#option-2-starting-a-new-project-based-on-the-template)
    3. [Custom port forwarding](#custom-port-forwarding)
 6. [Test](#test)
-    1. [Local run](#local-run)
-    2. [CI pipeline run](#ci-pipeline-run)
-        1. [CI test configuration](#ci-test-configuration)
-8. [Diagram](#diagram)
-9. [Contribute](#contribute)
+   1. [Local run](#local-run)
+   2. [CI pipeline run](#ci-pipeline-run)
+      1. [CI test configuration](#ci-test-configuration)
+7. [Diagram](#diagram)
+8. [Contribute](#contribute)
 
 ## Description - what & why
 
@@ -174,6 +174,15 @@ If you for any reason find yourself behind a transparent proxy you need to set t
 - Prefix `vagrant up`; `SSL_CERT_FILE=<path/to/ca-certificates-file> CURL_CA_BUNDLE=<path/to/ca-certificates-file> vagrant up`
 - Set the environment variables in your current session by running `export SSL_CERT_FILE=<path/to/ca-certificates-file>` and `export CURL_CA_BUNDLE=<path/to/ca-certificates-file>` in the terminal. Eg:`export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt`
 - Set the environment variables permanently by adding the above export commands to your `~/.bashrc` or equivalent.
+
+##### MacOS
+MacOS uses its own keychain, which means you have no certificates-file to point to. You can solve this by exporting all certificates present in the keychain to a file. 
+
+```bash
+security find-certificate -a -p > certs.pem
+```
+
+The command above will export all system and personal certificates in your keychain to `certs.pem`. You can now follow the first steps, and point your env-variables to `certs.pem`.
 
 ### Linux requirements
 
