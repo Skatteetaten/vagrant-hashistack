@@ -365,12 +365,12 @@ usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-B bind_interface]
            [-w local_tun[:remote_tun]] destination [command]
 ```
 
-Example shows how to forward minio(which uses as artifactory) port `:9000` from vagrant box to localhost port `:6666`
+> The syntax is `vagrant ssh -- -L <local machine port>:<host inside machine>:<port inside machine>`  
+
+The example below shows how to forward MinIO (which is used as an artifact manager) port `:9000` from vagrant box to localhost port `:6666`
 ```text
 vagrant ssh -- -L 6666:localhost:9000
 ```
-
-> Syntax `vagrant ssh -- -L <local machine port>:<host inside machine>:<port inside machine>`  
 
 > :bulb: Custom port forwarding `vagrant ssh --` command could be used in cases when you need to forward ports of consul-connect proxies from vagrant box to localhost machine  
 
@@ -380,11 +380,6 @@ Example
 ```text
 vagrant ssh -- -L 7001:localhost:9999 -L 7002:localhost:9000
 ```
-
-
-
-
-
 
 ## Test
 
