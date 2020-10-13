@@ -1,8 +1,9 @@
 - name: "{{ service }} - post/task/acl - acl bootstrap nomad"
-  shell:
-    cmd: (nomad acl bootstrap > bootstrap.token) && awk '/Secret/ {print $4}' bootstrap.token
-  register: secret_id
+  shell: nomad acl bootstrap > bootstrap.token
 
+- name: "{{ service }} - post/task/acl - print secret ID"
+  shell: awk '/Secret/ {print $4}' bootstrap.token
+  register: secret_id
 - name: "{{ service }} - post/task/acl - print accessor ID"
   shell:
     cmd: awk '/Accessor/ {print $4}' bootstrap.token
