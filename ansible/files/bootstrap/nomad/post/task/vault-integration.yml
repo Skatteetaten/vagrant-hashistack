@@ -45,7 +45,11 @@
   shell:
     cmd: vault write nomad/config/access address=http://127.0.0.1:4646 token="{{ secret_id.stdout }}"
   register: result
+  environment:
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: "{{ service }} - post/vault-integration - create roles corresponding to nomad's policies"
   shell:
     cmd: vault write nomad/role/read policies=read-default && vault write nomad/role/write policies=write-default
+  environment:
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
