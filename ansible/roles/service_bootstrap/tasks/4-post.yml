@@ -10,6 +10,7 @@
 
 - name: "{{ service }} - post start"
   # dictsort provides a list of tuples the second one is the full path of the file thus outer_item[1]
+  # outer_item is the "normal" loop variable "item" but since we already have service as item, we set outer_item.
   include_tasks: "{{ outer_item[1] }}"
   # sort the files in lexical order
   loop: "{{ post_bootstrap_files | default({}) | dictsort }}"

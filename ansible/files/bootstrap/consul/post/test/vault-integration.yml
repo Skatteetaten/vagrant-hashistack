@@ -1,5 +1,5 @@
 # test admin.team.policy
-#TODO: Use consul client for this??
+#TODO: Use consul cli for this??
 - name: "{{ service }} - post/test/vault-integration - admin token - write key-value to root '/' is forbidden"
   uri:
     # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-admin-value' http://127.0.0.1:8500/v1/kv/my-admin-key

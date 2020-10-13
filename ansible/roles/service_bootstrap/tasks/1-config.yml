@@ -2,6 +2,7 @@
 - name: "{{ service }} - box - Render configuration file templates"
   template:
     src: "{{ outer_item }}"
+    # All jinja2 files.j2 will rendered and be put into service.d without .j2 ending. test.hcl.j2 will be test.hcl
     dest: "/etc/{{ service }}.d/{{ ( outer_item | basename | splitext )[:-1] | join('.')}}"
   loop: "{{ query('fileglob', 'templates/conf/{{ service }}/*.j2', errors='ignore') | sort }}"
   loop_control:
