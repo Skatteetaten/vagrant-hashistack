@@ -3,6 +3,10 @@
   when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
   tags: test
 
+- name: "{{ service }} - post/test/policies"
+  include_tasks: test/policies.yml
+  tags: test
+
 # consul namespaces feature active when:
 # - consul_acl=true
 # - consul_enterprise=true

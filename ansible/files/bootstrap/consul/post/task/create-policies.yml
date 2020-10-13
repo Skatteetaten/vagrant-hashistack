@@ -1,0 +1,63 @@
+- name: Set variables
+  set_fact:
+    consul_master_token: "master"
+    admin_token: ""
+    producer_token: ""
+    consumer_token: ""
+    admin_policy: "admin-policy"
+    producer_policy: "producer-policy"
+    consumer_policy: "consumer-policy"
+
+#######################
+### CREATE policies
+#######################
+- name: Consul - create admin team policy
+  shell: consul acl policy create -name {{ admin_policy }} -rules @/etc/ansible/templates/conf/consul/policies/admin_policy.hcl
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+- name: Consul - create producer team policy
+  shell:
+    cmd: consul acl policy create -name {{ producer_policy }} -rules @/etc/ansible/templates/conf/consul/policies/producer_policy.hcl
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+- name: Consul - create consumer team policy
+  shell:
+    cmd: consul acl policy create -name {{ consumer_policy }} -rules @/etc/ansible/templates/conf/consul/policies/consumer_policy.hcl
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+
+#######################
+### GENERATE tokens
+#######################
+- name: Generate admin token - with master token
+  shell: consul acl token create -description="Admin token" -policy-name={{ admin_policy }} -format=json | jq -r .SecretID
+  register: admin_token
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+
+- name: Debug
+  debug:
+    msg: "Debug {{ admin_token }}"
+
+- name: Generate producer token - with admin_token
+  shell: consul acl token create -description="Producer token" -policy-name={{ producer_policy }} -format=json | jq -r .SecretID
+  register: producer_token
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ admin_token.stdout }}"
+
+- name: Generate consumer token - with admin_token
+  shell: consul acl token create -description="Consumer token" -policy-name={{ consumer_policy }} -format=json | jq -r .SecretID
+  register: consumer_token
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ admin_token.stdout }}"
+
+#######################
+### tokens will be used in tests
+#######################
+- set_fact:
+    admin_token: "{{ admin_token.stdout }}"
+    producer_token: "{{ producer_token.stdout }}"
+    consumer_token: "{{ consumer_token.stdout }}"
+
+#- name: Run tests for policies
+#  include: ../test/policies.yml
