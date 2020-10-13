@@ -11,7 +11,7 @@
 - Redesign of configuration/bootstrap/startup #370
 
 
-## [0.5.0 UNRELEASED]
+## [0.5.0]
 
 ### Added
 
@@ -19,12 +19,14 @@
 - Consul namespace feature #346
 - Support for installing on windows #352
 - Add plugin_directory in vault.hcl.j2 file #359
-- _Bumping version of Hashistack_ section in CONTRIBUTING.md #325
-- section version in readme #358
-- host_volume nomad policy #375
+- Added _Bumping version of Hashistack_ section in CONTRIBUTING.md #325
+- Added section version in readme #358
+- Added host_volume nomad policy #375
 - Remove default tokens #368
 - Use variable "ci_test" instead of "local_test" in bootstrap.yml #374
-- Vault integration of nomad, using root token #380
+- Added vault integration of nomad, using root token #380
+- Section `Custom port forwarding` #343
+- Added "macos proxy" section README #385
 
 ### Fixed
 
