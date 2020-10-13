@@ -1,4 +1,12 @@
 # Configuration rendering and copy
+- name: "{{ service }} - box - Copy configuration files"
+  copy:
+    src: "{{ outer_item }}"
+    dest: "/etc/{{ service }}.d/{{ outer_item | basename }}"
+  loop: "{{ query('fileglob', 'templates/conf/{{ service }}/*.hcl', errors='ignore') | sort }}"
+  loop_control:
+    loop_var: outer_item
+
 - name: "{{ service }} - box - Render configuration file templates"
   template:
     src: "{{ outer_item }}"
