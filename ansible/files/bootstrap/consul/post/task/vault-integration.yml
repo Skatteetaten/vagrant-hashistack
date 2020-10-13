@@ -64,11 +64,12 @@
 - name: "{{ service }} - post/vault-integration - Print dev team token"
   debug:
     msg: "{{ dev_team_token.stdout }}"
-- name: Vault - put generated tokens in k/v as examples
-  shell: vault kv put secret/consul/token/example dev_team_token="{{ dev_team_token.stdout }}" admin_team_token="{{ admin_team_token.stdout }}"
-  environement:
-    VAULT_TOKEN: "{{ vault_master_token }}"
-  #TODO: add to vault not facts. See nomads vault integration
+
+- name: "{{ service }} - post/vault-integration - put generated tokens in k/v as examples"
+  shell:
+    cmd: "vault kv put secret/consul/token/example dev_team_token=\"{{ dev_team_token.stdout }}\" admin_team_token=\"{{ admin_team_token.stdout }}\""
+  environment:
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - set_fact:
     consul:

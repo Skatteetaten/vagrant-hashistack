@@ -1,1 +1,0 @@
-enterprise: lookup('env', '{{ service }}_enterprise') | bool

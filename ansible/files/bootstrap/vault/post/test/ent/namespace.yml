@@ -36,7 +36,7 @@
   register: namespace_list_childs
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
-  failed_when: namespace_list_childs.stdout is not search("certification") and namespace_list_childs.stdout is not search("training")"
+  failed_when: namespace_list_childs.stdout is not search("certification") and namespace_list_childs.stdout is not search("training")
 
 # 2. Create policies ["edu-admin", "training-admin"]
 
