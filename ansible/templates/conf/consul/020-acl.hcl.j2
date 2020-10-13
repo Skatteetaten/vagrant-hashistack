@@ -1,12 +1,10 @@
 {% if lookup('env', 'consul_acl') | bool -%}
-{% raw -%}
 acl {
   down_policy = "extend-cache"
   enabled = true
   tokens {
     master = "{{ lookup('env', 'consul_master_token') }}"
   }
-  {% endraw %}
   default_policy = "{{ lookup('env', 'consul_acl_default_policy') }}"
 }
 {% endif -%}

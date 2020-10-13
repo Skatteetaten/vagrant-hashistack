@@ -15,7 +15,7 @@
 # 1. Create consul policy for admin team
 # 2. Map role to policy
 # 3. Generate token(s)
-- name: "{{ service }} - post/vault-integration - create dev team policy"
+- name: "{{ service }} - post/vault-integration - create admin team policy"
   shell:
     cmd: consul acl policy create -name admin-team-policy -rules @/etc/ansible/templates/conf/consul/policies/admin_team_policy.hcl
   environment:
