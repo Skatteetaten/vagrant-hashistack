@@ -12,7 +12,7 @@
     url: http://127.0.0.1:8500/v1/acl/tokens
     status_code: 200
     headers:
-      X-Consul-Token: "{{ consul_master_token }}"
+      X-Consul-Token: "{{ lookup('env', 'consul_master_token') }}"
   register: result
   until: result.status == 200
   retries: 5
@@ -34,7 +34,7 @@
     url: http://127.0.0.1:8500/v1/catalog/services
     status_code: 200
     headers:
-      X-Consul-Token: "{{ consul_master_token }}"
+      X-Consul-Token: "{{ lookup('env', 'consul_master_token') }}"
     body_format: json
   register: services_payload_2
   until: services_payload_2.status == 200

@@ -4,5 +4,5 @@
     state: present
     force_init: true
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
   when: lookup('env', 'vault_pki') | bool

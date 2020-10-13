@@ -2,14 +2,14 @@
   shell:
     cmd: consul acl token create -policy-name=global-management -format=json | jq -r .SecretID
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
   register: secret_id
 
 - name: "{{ service }} - post/vault-integration - configure Vault to connect and authenticate to Consul"
   shell:
     cmd: vault write consul/config/access address=127.0.0.1:8500 token="{{ secret_id.stdout }}"
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 # example 1
 # 1. Create consul policy for admin team
@@ -19,20 +19,20 @@
   shell:
     cmd: consul acl policy create -name admin-team-policy -rules @/etc/ansible/templates/conf/consul/policies/admin_team_policy.hcl
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
 
 - name: "{{ service }} - post/vault-integration - map admin-team role with admin-team-policy to a Consul ACL policy"
   shell:
     cmd: vault write consul/roles/admin-team policies=admin-team-policy
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: "{{ service }} - post/vault-integration - example, generate token for admin-team member"
   shell:
     cmd: vault read consul/creds/admin-team -format=json | jq -r .data.token
   register: admin_team_token
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: "{{ service }} - post/vault-integration - Print admin team token"
   debug:
@@ -46,19 +46,19 @@
   shell:
     cmd: consul acl policy create -name dev-team-policy -rules @/etc/ansible/templates/conf/consul/policies/dev_team_policy.hcl
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
 
 - name: "{{ service }} - post/vault-integration - map dev-team role with dev-team-policy to a Consul ACL policy"
   shell:
     cmd: vault write consul/roles/dev-team policies=dev-team-policy
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: "{{ service }} - post/vault-integration - example, generate token for dev-team member"
   shell:
     cmd: vault read consul/creds/dev-team -format=json | jq -r .data.token
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
   register: dev_team_token
 
 - name: "{{ service }} - post/vault-integration - Print dev team token"

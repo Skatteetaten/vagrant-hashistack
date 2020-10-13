@@ -19,12 +19,6 @@
     - name: Start minio
       systemd: name=minio state=started
 
-    - name: Set variables
-      set_fact:
-        consul_http_addr: "http://127.0.0.1:8500"
-        consul_master_token: "master"
-        vault_master_token: "master"
-
     - name: Configure and start hashistack services
       include_role:
         name: service_bootstrap

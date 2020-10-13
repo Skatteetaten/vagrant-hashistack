@@ -12,7 +12,7 @@
   shell:
     cmd: vault kv put secret/nomad-bootstrap-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: "{{ service }} - post/task/acl - delete bootstrap.token file"
   file:

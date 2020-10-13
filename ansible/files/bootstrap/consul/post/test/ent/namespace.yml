@@ -22,14 +22,14 @@
   shell: consul services register -name=web -address=1.1.1.1 -port=80
   register: register_service_try_1
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
   failed_when: register_service_try_1.rc > 0
 
 - name: "{{ service }} - post/test/ent/namespace - De-register service 'web' in namespace=default with master token"
   shell: consul services deregister -namespace=default -id=web
   register: deregister_service_try_1
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
   failed_when: deregister_service_try_1.rc > 0
 
 
@@ -40,7 +40,7 @@
     && consul namespace create -name=team2 -description="Team2 namespace" -meta="team-id=team2" -format=json
   register: create_namespaces
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
   failed_when: create_namespaces.rc > 0
 
 
@@ -55,7 +55,7 @@
     | jq -r .SecretID
   register: team1_namespace_admin_token
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
 
 - name: "{{ service }} - post/test/ent/namespace - Create administrator token for team2"
   shell: >
@@ -67,7 +67,7 @@
     | jq -r .SecretID
   register: team2_namespace_admin_token
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
 
 # 2.1. Verify read/write access, try list/register services
 - name: "{{ service }} - post/test/ent/namespace - Try to read namespace-management policy namespace team1 with admin token team1 - success"

@@ -1,0 +1,10 @@
+{% if lookup('env', 'consul_acl') | bool -%}
+consul {
+    token = "{{ lookup('env', 'consul_master_token') }}"
+}
+{% endif -%}
+
+vault {
+  enabled = true
+  token = "{{ lookup('env', 'vault_master_token') }}"
+}

@@ -12,5 +12,5 @@
   shell:
     cmd: vault secrets enable consul
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
   when: (ansible_local.vault.bootstrap.completed | bool) and (lookup('env', 'consul_acl') | bool) and ansible_local.consul.vault_integration.completed is not defined

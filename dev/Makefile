@@ -16,6 +16,6 @@ up: rewire
 clean:
 	@vagrant box remove local/hashistack --force || true
 	@(cd ../template; vagrant destroy -f; rm -f template_example/dev/vagrant/bootstrap/pre_ansible.sh)
-	@(rm -fr ansible/facts.d)
+	@(rm -fr ../ansible/facts.d)
 
 dev: clean up
