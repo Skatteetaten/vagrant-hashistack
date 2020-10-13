@@ -1,6 +1,6 @@
 # https://registry.terraform.io/providers/hashicorp/vault/latest/docs
 provider "vault" {
-  # Using variables from environment ( see ansible )
+  # Using variables from ansible env
 }
 
 #
