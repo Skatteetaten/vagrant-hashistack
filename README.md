@@ -237,7 +237,7 @@ Say you want to do some tweaks and use Consul Enterprise, an open-source Nomad a
 - Consul Enterprise: 
     1. `consul_enterprise=true`
 - Nomad open source:
-    1. `nomad_acl = false`
+    1. `nomad_enterprise=false`
 - Vault Enterprise:
     1. Need to be unsealed and integrated with Nomad and Consul, the way that it manages their secrets/tokens
 
