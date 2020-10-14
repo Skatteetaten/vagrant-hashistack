@@ -246,7 +246,7 @@ In order to simplify making such changes in the configuration, we provide `switc
 These are switches which are controlled by `env` variables and provide the user with the opportunity to quickly switch between the configuration setup. 
 All supported switches are listed under `# Control box features` section in the [.env_default](ansible/templates/.env_default.j2) file.
 
-To get a broader understanding of the configuration see the [Default Configuration](#default-configuration) section, and get to know how you can override it in the [Override default configuration](#override-default-configuration) section.
+To get a broader understanding of the configuration and how you can override it see the upcoming two sections [Default Configuration](#default-configuration) and [Override default configuration](#override-default-configuration).
 
 ### Default Configuration
 Each of the following links lead to the configuration file and is the default values when setting up the box.
