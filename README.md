@@ -233,7 +233,7 @@ The section also provides information about steps for overriding the default sys
 ## Configuration
 The vagrant-box is set up with a lot of default configuration (see subsection [Default Configuration](#default-configuration)), and users may want to customize the vagrant-box services configuration to fit their need.
 
-Say you want to do some tweaks and use Consule Enterpise, a open source Nomad and Vault Enterprise. Then you would need to override the following variables:
+Say you want to do some tweaks and use Consul Enterprise, an open-source Nomad and Vault Enterprise. Then you would need to override the following variables:
 - Consul Enterprise: 
     1. `consul_acl = enabled`
     2. `consul_acl_default_policy = deny`
