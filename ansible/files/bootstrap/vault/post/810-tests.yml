@@ -3,3 +3,4 @@
 - name: "{{ service }} - post/test/ent/namespace"
   include_tasks: test/ent/namespace.yml
   when: lookup('env', '{{ service }}_enterprise') | bool
+  tags: test

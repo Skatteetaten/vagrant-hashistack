@@ -9,7 +9,7 @@
     status_code: 403
     return_content: yes
     headers:
-      X-Consul-Token: "{{ consul.acl.admin_team.token }}"
+      X-Consul-Token: "{{ consul.vault.acl.admin_team_token }}"
 
 - name: "{{ service }} - post/test/vault-integration - admin token - write key-value to /team/admin is allowed"
   uri:
@@ -20,7 +20,7 @@
     status_code: 200
     return_content: yes
     headers:
-      X-Consul-Token: "{{ admin_team_token.stdout }}"
+      X-Consul-Token: "{{ consul.vault.acl.admin_team_token }}"
 
 - name: "{{ service }} - post/test/vault-integration - admin token - list all the consul ACL policies is allowed"
   uri:
@@ -28,7 +28,7 @@
     url: http://127.0.0.1:8500/v1/acl/policies
     method: GET
     headers:
-      X-Consul-Token: "{{ admin_team_token.stdout }}"
+      X-Consul-Token: "{{ consul.vault.acl.admin_team_token }}"
     status_code: 200
     return_content: yes
     body_format: json
@@ -44,7 +44,7 @@
     status_code: 403
     return_content: yes
     headers:
-      X-Consul-Token: "{{ dev_team_token.stdout }}"
+      X-Consul-Token: "{{ consul.vault.acl.dev_team_token }}"
 
 - name: "{{ service }} - post/test/vault-integration - dev token - read key-value to /team/dev"
   uri:
@@ -55,7 +55,7 @@
     status_code: 200
     return_content: yes
     headers:
-      X-Consul-Token: "{{ dev_team_token.stdout }}"
+      X-Consul-Token: "{{ consul.vault.acl.dev_team_token }}"
 
 - name: "{{ service }} - post/test/vault-integration - dev token - read key-value from /team/admin is forbidden"
   uri:
@@ -65,7 +65,7 @@
     status_code: 403
     return_content: yes
     headers:
-      X-Consul-Token: "{{ dev_team_token.stdout }}"
+      X-Consul-Token: "{{ consul.vault.acl.dev_team_token }}"
 
 - name: "{{ service }} - post/test/vault-integration - dev token - list all the consul ACL policies is forbidden"
   uri:
@@ -73,6 +73,6 @@
     url: http://127.0.0.1:8500/v1/acl/policies
     method: GET
     headers:
-      X-Consul-Token: "{{ dev_team_token.stdout }}"
+      X-Consul-Token: "{{ consul.vault.acl.dev_team_token }}"
     status_code: 403
     return_content: yes
