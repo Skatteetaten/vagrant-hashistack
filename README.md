@@ -235,8 +235,7 @@ The vagrant-box is set up with a lot of default configuration (see subsection [D
 
 Say you want to do some tweaks and use Consul Enterprise, an open-source Nomad and Vault Enterprise. Then you would need to override the following variables:
 - Consul Enterprise: 
-    1. `consul_acl = enabled`
-    2. `consul_acl_default_policy = deny`
+    1. `consul_enterprise=true`
 - Nomad open source:
     1. `nomad_acl = false`
 - Vault Enterprise:
