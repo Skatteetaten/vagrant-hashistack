@@ -231,23 +231,22 @@ Command above will build a vagrant box based on [fredrikhgrelland/bionic64-ansib
 The section also provides information about steps for overriding the default system configuration.
 
 ## Configuration
+The vagrant-box is set up with a lot of default configuration (see subsection [Default Configuration](#default-configuration)), and users may want to customize the vagrant-box services configuration to fit their need.
 
-In most cases, users need to customize vagrant-box's services configuration.
-
-Scenarios for customization:
-1. consul(enterprise) with:
-    ```
-    consul_acl = enabled and default acl policy = deny
-   ```
-2. nomad(oss) with nomad_acl = false
-3. vault(enterprise), unsealed and integrated with nomad and consul, the way that it manages their secrets/tokens
+Say you want to do some tweaks and use Consule Enterpise, a open source Nomad and Vault Enterprise. Then you would need to override the following variables:
+- Consul Enterprise: 
+    1. `consul_acl = enabled`
+    2. `consul_acl_default_policy = deny`
+- Nomad open source:
+    1. `nomad_acl = false`
+- Vault Enterprise:
+    1. Need to be unsealed and integrated with Nomad and Consul, the way that it manages their secrets/tokens
 
 In order to simplify making such changes in the configuration, we provide `switches`.
-These are sort of switches which are controlled by `env` variables and provide the user with the opportunity to quickly switch between the configuration setup.
+These are switches which are controlled by `env` variables and provide the user with the opportunity to quickly switch between the configuration setup. 
+All supported switches are listed under `# Control box features` section in the [.env_default](ansible/templates/.env_default.j2) file.
 
-Supported switches are listed under `# Control box features` section in the following [file](ansible/templates/.env_default.j2)
-
----
+To get a broader understanding of the configuration see the [Default Configuration](#default-configuration) section, and get to know how you can override it in the [Override default configuration](#override-default-configuration) section.
 
 ### Default Configuration
 Each of the following links lead to the configuration file and is the default values when setting up the box.
