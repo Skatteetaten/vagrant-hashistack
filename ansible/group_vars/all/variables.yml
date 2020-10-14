@@ -6,13 +6,13 @@ hashicorp:
     - consul
     - nomad
   tools:
-    terraform: 0.13.2
+    terraform: 0.13.4
     consul-template: 0.25.1
     consul: 1.8.4
-    vault: 1.5.3
-    nomad: 0.12.4
-    packer: 1.6.1
+    vault: 1.5.4
+    nomad: 0.12.5
+    packer: 1.6.4
   tools_enterprise:
     consul: 1.8.4+ent
-    nomad: 0.12.4+ent
-    vault: 1.5.3+ent
+    nomad: 0.12.5+ent
+    vault: 1.5.4+ent
