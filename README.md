@@ -239,7 +239,7 @@ Say you want to do some tweaks and use Consul Enterprise, an open-source Nomad a
 - Nomad open source:
     1. `nomad_enterprise=false`
 - Vault Enterprise:
-    1. Need to be unsealed and integrated with Nomad and Consul, the way that it manages their secrets/tokens
+    1. `vault_enterprise=true`
 
 In order to simplify making such changes in the configuration, we provide `switches`.
 These are switches which are controlled by `env` variables and provide the user with the opportunity to quickly switch between the configuration setup. 
