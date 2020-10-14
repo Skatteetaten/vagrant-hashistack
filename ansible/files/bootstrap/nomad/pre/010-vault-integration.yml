@@ -1,0 +1,16 @@
+- name: "{{ service }} - pre/vault-integration - check vault availability"
+  uri:
+    url: http://127.0.0.1:8200/ui/
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 1
+  when: (lookup('env', 'nomad_acl') | bool) and ansible_local.nomad.vault_integration.completed is not defined
+
+- name: "{{ service }} - pre/vault-integration - enable vault's nomad secrets engine"
+  shell:
+    cmd: vault secrets enable nomad
+  environment:
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
+  when: (ansible_local.vault.bootstrap.completed | bool) and (lookup('env', 'nomad_acl') | bool) and ansible_local.nomad.vault_integration.completed is not defined

@@ -1,0 +1,18 @@
+### bootstrap tasks
+- name: "{{ service }} - Symlink to open source or enterprise binary"
+  vars:
+    ent_or_oss: "{{ 'oss' if not (lookup('env', '{{ service }}_enterprise') | bool) else 'ent' }}"
+  file:
+    src: "/usr/local/bin/{{ ent_or_oss }}/{{ service }}"
+    dest: "/usr/local/bin/{{ service }}"
+    state: link
+
+- name: "{{ service }} - test - Verify enterprise binary"
+  shell: "{{ service }}  --version | grep +ent"
+  register: ent_version_result
+  when: lookup('env', '{{ service }}_enterprise') | bool
+
+- name: "{{ service }} - Startup"
+  systemd:
+    name: "{{ service }}"
+    state: started

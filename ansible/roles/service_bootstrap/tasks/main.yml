@@ -1,0 +1,6 @@
+---
+- include_tasks: 0-set-facts.yml
+- include_tasks: 1-config.yml
+- include_tasks: 2-pre.yml
+- include_tasks: 3-start.yml
+- include_tasks: 4-post.yml

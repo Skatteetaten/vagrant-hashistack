@@ -9,11 +9,7 @@
 # 2. [Admin team1/team2 token]
 #   1. Verify read/write access, try list/register services
 
-- name: Set variables
-  set_fact:
-    consul_master_token: "master"
-
-- name: Verify that consul acl enabled and default_policy is deny
+- name: "{{ service }} - post/test/ent/namespace - Verify that consul acl enabled and default_policy is deny"
   shell: consul acl policy list
   register: consul_acl_default_policy_check
   environment:
@@ -22,34 +18,34 @@
   failed_when: consul_acl_default_policy_check.rc == 0
 
 # 1.1
-- name: Register service 'web' in namespace=default with master token
+- name: "{{ service }} - post/test/ent/namespace - Register service 'web' in namespace=default with master token"
   shell: consul services register -name=web -address=1.1.1.1 -port=80
   register: register_service_try_1
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
   failed_when: register_service_try_1.rc > 0
 
-- name: De-register service 'web' in namespace=default with master token
+- name: "{{ service }} - post/test/ent/namespace - De-register service 'web' in namespace=default with master token"
   shell: consul services deregister -namespace=default -id=web
   register: deregister_service_try_1
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
   failed_when: deregister_service_try_1.rc > 0
 
 
 # 1.2
-- name: Create namespace ["team1", "team2"] with master token
+- name: "{{ service }} - post/test/ent/namespace - Create namespace [\"team1\", \"team2\"\ with master token"
   shell: |
     consul namespace create -name=team1 -description="Team1 namespace" -meta="team-id=team1" -format=json \
     && consul namespace create -name=team2 -description="Team2 namespace" -meta="team-id=team2" -format=json
   register: create_namespaces
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
   failed_when: create_namespaces.rc > 0
 
 
 # 1.3 Generate tokens
-- name: Create administrator token for team1
+- name: "{{ service }} - post/test/ent/namespace - Create administrator token for team1"
   shell: >
     consul acl token create \
     -format=json \
@@ -59,9 +55,9 @@
     | jq -r .SecretID
   register: team1_namespace_admin_token
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
 
-- name: Create administrator token for team2
+- name: "{{ service }} - post/test/ent/namespace - Create administrator token for team2"
   shell: >
     consul acl token create \
     -format=json \
@@ -71,91 +67,91 @@
     | jq -r .SecretID
   register: team2_namespace_admin_token
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
 
 # 2.1. Verify read/write access, try list/register services
-- name: Try to read namespace-management policy namespace team1 with admin token team1 - success
+- name: "{{ service }} - post/test/ent/namespace - Try to read namespace-management policy namespace team1 with admin token team1 - success"
   shell: consul acl policy read -namespace=team1 -name=namespace-management
   register: read_policy_try_1
   environment:
     CONSUL_HTTP_TOKEN: "{{ team1_namespace_admin_token.stdout }}"
   failed_when: read_policy_try_1.rc > 0
 
-- name: Try to read namespace-management policy namespace team2 with admin token team1 - should fail
+- name: "{{ service }} - post/test/ent/namespace - Try to read namespace-management policy namespace team2 with admin token team1 - should fail"
   shell: consul acl policy read -namespace=team2 -name=namespace-management
   register: read_policy_try_2
   environment:
     CONSUL_HTTP_TOKEN: "{{ team1_namespace_admin_token.stdout }}"
   failed_when: read_policy_try_2.rc == 0
 
-- name: Try to read namespace-management policy namespace team2 without any token - should fail
+- name: "{{ service }} - post/test/ent/namespace - Try to read namespace-management policy namespace team2 without any token - should fail"
   shell: consul acl policy read -namespace=team2 -name=namespace-management
   register: read_policy_try_3
   environment:
     CONSUL_HTTP_TOKEN: ""
   failed_when: read_policy_try_3.rc == 0
 
-- name: Try register service 'some-web' in namespace=default with admin token team1 - should fail
+- name: "{{ service }} - post/test/ent/namespace - Try register service 'some-web' in namespace=default with admin token team1 - should fail"
   shell: consul services register -namespace=default -name=some-web -address=1.1.1.1 -port=80
   register: register_service_try_2
   environment:
     CONSUL_HTTP_TOKEN: "{{ team1_namespace_admin_token.stdout }}"
   failed_when: register_service_try_2.rc == 0
 
-- name: Debug register_service_try_2
+- name: "{{ service }} - post/test/ent/namespace - Debug register_service_try_2"
   debug:
     msg: "register_service_try_2 {{ register_service_try_2 }}"
 
-- name: Try register service 'some-web' in namespace=team2 with admin token team1 - should fail
+- name: "{{ service }} - post/test/ent/namespace - Try register service 'some-web' in namespace=team2 with admin token team1 - should fail"
   shell: consul services register -namespace=team2 -name=some-web -address=1.1.1.1 -port=80
   register: register_service_try_3
   environment:
     CONSUL_HTTP_TOKEN: "{{ team1_namespace_admin_token.stdout }}"
   failed_when: register_service_try_3.rc == 0
 
-- name: Debug register_service_try_3
+- name: "{{ service }} - post/test/ent/namespace - Debug register_service_try_3"
   debug:
     msg: "register_service_try_3 {{ register_service_try_3 }}"
 
-- name: Try register service 'some-web' in namespace=team1 with admin token team1 - success
+- name: "{{ service }} - post/test/ent/namespace - Try register service 'some-web' in namespace=team1 with admin token team1 - success"
   shell: consul services register -namespace=team1 -name=some-web -address=1.1.1.1 -port=80
   register: register_service_try_4
   environment:
     CONSUL_HTTP_TOKEN: "{{ team1_namespace_admin_token.stdout }}"
   failed_when: register_service_try_4.rc > 0
 
-- name: Debug register_service_try_4
+- name: "{{ service }} - post/test/ent/namespace - Debug register_service_try_4"
   debug:
     msg: "register_service_try_4 {{ register_service_try_4 }}"
 
 # 2. Verify read access, try list services
 # NB `consul catalog services` cli command does not fail in case of wrong token, instead return an empty list of services
-- name: List catalog namespace=team1 with admin token namespace=team1 - 'some-web' found
+- name: "{{ service }} - post/test/ent/namespace - List catalog namespace=team1 with admin token namespace=team1 - 'some-web' found"
   shell: consul catalog services -namespace=team1
   register: list_catalog_try_1
   environment:
     CONSUL_HTTP_TOKEN: "{{ team1_namespace_admin_token.stdout }}"
   failed_when: list_catalog_try_1.stdout is not search("some-web")
 
-- name: Debug list of services in namespace=team1
+- name: "Debug list of services in namespace=team1"
   debug:
     msg: "{{ list_catalog_try_1 }}"
 
-- name: Try list catalog namespace team1 without any token - 'some-web' not found
+- name: "{{ service }} - post/test/ent/namespace - Try list catalog namespace team1 without any token - 'some-web' not found"
   shell: consul catalog services -namespace=team1
   register: list_catalog_try_2
   environment:
     CONSUL_HTTP_TOKEN: ""
   failed_when: list_catalog_try_2.stdout is search("some-web")
 
-- name: Try list catalog namespace=team1 with admin token namespace=team2 - 'some-web' not found
+- name: "{{ service }} - post/test/ent/namespace - Try list catalog namespace=team1 with admin token namespace=team2 - 'some-web' not found"
   shell: consul catalog services -namespace=team2
   register: list_catalog_try_3
   environment:
     CONSUL_HTTP_TOKEN: "{{ team2_namespace_admin_token.stdout }}"
   failed_when: list_catalog_try_3.stdout is search("some-web")
 
-- name: De-register service 'some-web' in namespace=team1 with admin token namespace=team1
+- name: "{{ service }} - post/test/ent/namespace - De-register service 'some-web' in namespace=team1 with admin token namespace=team1"
   shell: consul services deregister -namespace=team1 -id=some-web
   register: deregister_service_try_2
   environment:

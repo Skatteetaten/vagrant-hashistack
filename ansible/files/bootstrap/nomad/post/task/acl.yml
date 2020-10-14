@@ -1,0 +1,37 @@
+- name: "{{ service }} - post/task/acl - acl bootstrap nomad"
+  shell: nomad acl bootstrap > bootstrap.token
+
+- name: "{{ service }} - post/task/acl - print secret ID"
+  shell: awk '/Secret/ {print $4}' bootstrap.token
+  register: secret_id
+- name: "{{ service }} - post/task/acl - print accessor ID"
+  shell:
+    cmd: awk '/Accessor/ {print $4}' bootstrap.token
+  register: accessor_id
+
+- name: "{{ service }} - post/task/acl - add bootstrap token to vault"
+  shell:
+    cmd: vault kv put secret/nomad-bootstrap-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
+  environment:
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
+
+- name: "{{ service }} - post/task/acl - delete bootstrap.token file"
+  file:
+    path: bootstrap.token
+    state: absent
+
+- name: "{{ service }} - post/task/acl - create default policy write"
+  shell:
+    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Default write policy" write-default /etc/ansible/templates/conf/nomad/policies/write_policy.hcl
+
+- name: "{{ service }} - post/task/acl - create default policy read"
+  shell:
+    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Default read policy" read-default /etc/ansible/templates/conf/nomad/policies/read_policy.hcl
+
+- name: "{{ service }} - post/task/acl - Add a fact file - {{ service }}.fact"
+  blockinfile:
+    path:  "/etc/ansible/facts.d/{{ service }}.fact"
+    block: |
+      [acl_bootstrap]
+      completed=true
+    create: yes

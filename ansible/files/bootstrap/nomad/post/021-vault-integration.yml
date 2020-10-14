@@ -1,0 +1,3 @@
+- name: "{{ service }} - post/vault-integration - vault integration"
+  include_tasks: task/vault-integration.yml
+  when: lookup('env', 'nomad_acl') | bool and ansible_local.nomad.vault_integration.completed is not defined

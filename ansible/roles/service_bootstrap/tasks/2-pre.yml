@@ -1,0 +1,17 @@
+### pre bootstrap tasks
+- name: "{{ service }} - collate and sort pre start tasks"
+  # set_fact will create a dictionary with filename as key and full path as value
+  set_fact:
+    pre_bootstrap_files: "{{ pre_bootstrap_files | default({}) | combine( { (outer_item | basename): outer_item } ) }}"
+  # lookup files in both box and user provided paths
+  loop: "{{ query('fileglob', 'files/bootstrap/{{ item }}/pre/*.yml', errors='ignore') | default([]) + query('fileglob', '/vagrant/dev/vagrant/bootstrap/{{ item }}/pre/*.yml', errors='ignore') }}"
+  loop_control:
+    loop_var: outer_item
+
+- name: "{{ service }} - pre start"
+  # dictsort provides a list of tuples the second one is the full path of the file thus outer_item[1]
+  include_tasks: "{{ outer_item[1] | default({}) }}"
+  # sort the files in lexical order
+  loop: "{{ pre_bootstrap_files | default({}) | dictsort }}"
+  loop_control:
+    loop_var: outer_item

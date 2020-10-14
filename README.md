@@ -135,6 +135,8 @@ In order to build cloud native, security minded and dependable services, there e
 ### Versions
 | vagrant-hashistack | terraform | consul | nomad  | vault  | packer  | consul-template | remarks                  |
 | ------------------ | :-------- |:-------|:-------|:-------| :------ |:----------------|:-------------------------|
+| 0.6.0              |  0.13.4   | 1.8.4  | 0.12.5 | 1.5.4  | 1.6.4   | 0.25.1          |                          |
+| 0.5.0              |  0.13.2   | 1.8.4  | 0.12.4 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
 | 0.4.3              |  0.13.2   | 1.8.4  | 0.12.4 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
 | 0.4.2              |  0.13.2   | 1.8.4  | 0.12.4 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
 | 0.4.1              |  0.13.2   | 1.8.4  | 0.12.3 | 1.5.3  | 1.6.1   | 0.25.1          |                          |
@@ -250,8 +252,8 @@ Supported switches are listed under `# Control box features` section in the foll
 
 - [.env_default.j2](ansible/templates/.env_default.j2)
 - [hashistack component versions](ansible/group_vars/all/variables.yml)
-- [nomad policies](ansible/templates/nomad-policies)
-- [consul policies](ansible/templates/consul-policies)
+- [nomad policies](ansible/templates/conf/nomad/policies)
+- [consul policies](ansible/templates/conf/consul/policies)
 
 **Consul**:  
 - Open source version

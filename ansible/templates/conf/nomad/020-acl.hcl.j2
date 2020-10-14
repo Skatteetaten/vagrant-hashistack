@@ -1,0 +1,7 @@
+{% if lookup('env', 'nomad_acl') | bool -%}
+{% raw -%}
+acl {
+  enabled = true
+}
+{%- endraw %}
+{% endif -%}

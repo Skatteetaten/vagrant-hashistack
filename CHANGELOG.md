@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.6.0 UNRELEASED]
+
+### Added
+
+- Hashistack box development mode "make dev" #370
+
+### Changed
+
+- Redesign of configuration/bootstrap/startup #370
+- vault: 1.5.3 -> 1.5.4
+- terraform: 0.13.3 -> 0.13.4
+- nomad: 0.12.4 -> 0.12.5
+- packer: 1.6.1 -> 1.6.4
+
+
 ## [0.5.0]
 
 ### Added

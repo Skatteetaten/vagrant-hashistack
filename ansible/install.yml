@@ -10,14 +10,6 @@
         directory_mode: yes
         mode: '0755'
 
-    - name: Copy ../terraform directory
-      copy:
-        src: ./terraform/
-        dest: /etc/terraform/
-        remote_src: yes
-        directory_mode: yes
-        mode: '0755'
-
     - name: Install systemd unit files hashistack
       template: src={{item}}.service.j2 dest=/etc/systemd/system/{{item}}.service
       loop: "{{ hashicorp.daemons }}"
@@ -28,35 +20,12 @@
         state: directory
       loop: "{{ hashicorp.daemons }}"
 
-    # Base config hcl files have prefix `0_`, to supply merging config files in lexical order
-    - name: Add base configuration files
-      template: src={{item}}.hcl.j2 dest=/etc/{{item}}.d/0_config.hcl
+    - name: Create /etc/{{item}}.d/policies
+      file:
+        path: /etc/{{item}}.d/policies
+        state: directory
       loop: "{{ hashicorp.daemons }}"
-
-    - name: Create /etc/nomad.d/policies/ dir
-      file:
-        path: /etc/nomad.d/policies/
-        state: directory
-
-    - name: Create /etc/nomad.d/policies/ dir
-      file:
-        path: /etc/consul.d/policies/
-        state: directory
-
-    - name: Add nomad policies
-      copy:
-        src: "{{item}}"
-        dest: "/etc/nomad.d/policies/"
-      with_fileglob:
-        - "templates/nomad-policies/*"
-
-    - name: Add consul policies
-      copy:
-        src: "{{item}}"
-        dest: "/etc/consul.d/policies/"
-      with_fileglob:
-        - "templates/consul-policies/*"
-
+   
     - name: systemd reload
       systemd: daemon_reload=yes
 
@@ -78,6 +47,16 @@
         version: "{{ item.value }}"
         destination_dir: /usr/local/bin/oss
       loop: "{{ query('dict', hashicorp.tools) }}"
+
+    - name: "Symlink oss only binaries"
+      file:
+        src: "/usr/local/bin/oss/{{ item }}"
+        dest: "/usr/local/bin/{{ item }}"
+        state: link
+      loop:
+        - packer
+        - terraform
+        - consul-template
 
     - name: Install enterprise hashistack
       include_role:

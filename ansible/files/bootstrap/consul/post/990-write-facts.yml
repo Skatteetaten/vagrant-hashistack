@@ -1,0 +1,16 @@
+- name: "{{ service }} - post/write-facts - Add a fact file - {{ service }}.fact"
+  blockinfile:
+    path:  "/etc/ansible/facts.d/{{ service }}.fact"
+    block: |
+      [vault_integration]
+      completed=true
+
+      {% if consul.vault.acl is defined %}
+      [acl]
+      dev_team_token={{ consul.vault.acl.dev_team_token }}
+      admin_team_token={{ consul.vault.acl.admin_team_token }}
+      {% endif %}
+    create: yes
+
+# Gather facts again to pick up fact changes
+- setup:
