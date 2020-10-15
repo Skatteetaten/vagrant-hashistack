@@ -4,7 +4,7 @@
 ## 2 What was added/changed/fixed?
 *TODO*
 
-## 3 Related issue(s)? (y/n)
+## 3 Related issue(s)? [Optional]
 
 
 ## 4 Others (y/n)
