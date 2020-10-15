@@ -53,7 +53,7 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
    3. [MacOS requirements](#macos-requirements)
    4. [Windows requirements](#windows-requirements)
       1. [GNU Make and Git Bash](#gnu-make-and-git-bash)
-3. [Build](#build)
+3. [Build the vagrant box](#build-the-vagrant-box)
 4. [Configuration](#configuration)
    1. [Default Configuration](#default-configuration)
    2. [Override default configuration](#override-default-configuration)
