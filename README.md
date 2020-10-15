@@ -277,7 +277,7 @@ To override the default configuration you have two options:
 - [Change the environment variables](#option-1---change-environment-variables)
 - [Override the configuration files](#option-2---override-configuration-files)
 
-> :warning: Overriding config files will take effect at last. In other words, config files(Option 2) will override any configuration which were setup by the env variables(Option 1)
+> :warning: Overriding the configuration files will take effect last. In other words, using config files (Option 2) will override any configuration which were setup by the env variables (Option 1)
 
 #### Option 1 - Change environment variables
 When the vagrant box is provisioned, it reads the data from the following environment file `/home/vagrant/.env_default` in order to set up the system.
