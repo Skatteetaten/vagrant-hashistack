@@ -233,19 +233,11 @@ The section also provides information about steps for overriding the default sys
 ## Configuration
 The vagrant-box is set up with a default configuration (see subsection [Default Configuration](#default-configuration)), but users may want to customize the vagrant-box services configuration to fit their needs.
 
-Say you want to do some tweaks and use Consul Enterprise, an open-source Nomad and Vault Enterprise. Then you would need to override the following variables:
-- Consul Enterprise: 
-    1. `consul_enterprise=true`
-- Nomad open source:
-    1. `nomad_enterprise=false`
-- Vault Enterprise:
-    1. `vault_enterprise=true`
-
 In order to simplify making such changes in the configuration, we provide `switches`.
-These switches are controlled by environment-variables, and provide the user with the opportunity to quickly switch between different configurations. The next sections will describe the defaults, and how to change them.
-All supported switches are listed under `# Control box features` section in the [.env_default](ansible/templates/.env_default.j2) file.
+These switches are controlled by environment-variables, and provide the user with the opportunity to quickly switch between different configurations. 
+The next sections will describe the defaults, and how to change them.
 
-To get a broader understanding of the configuration and how you can override it see the upcoming two sections [Default Configuration](#default-configuration) and [Override default configuration](#override-default-configuration).
+> :bulb: All supported switches are listed under `# Control box features` section in the [.env_default](ansible/templates/.env_default.j2) file.
 
 ### Default Configuration
 Each of the following links lead to the configuration file and is the default values when setting up the box.
@@ -284,10 +276,20 @@ When the vagrant box is provisioned, it reads the data from the following enviro
 If you wish to override any of the default values then you can do so by adding that variable name and value in [.env](https://github.com/fredrikhgrelland/vagrant-hashistack-template/blob/master/dev/.env) file.
 The property values in the `.env` file override the property values present in the `.env_default` file and thus makes it simple to provision systems that suffice the relevant development needs.
 
-For example, in order to override the **consul acl default policy** from **allow** to **deny**, the following needs to be added to the `.env` file:
+Say you want to do some tweaks and use Consul Enterprise, an open-source Nomad and Vault Enterprise. Then you would need to override the following variables:
+- Consul Enterprise: 
+    1. `consul_enterprise=true`
+- Nomad open source:
+    1. `nomad_enterprise=false`
+- Vault Enterprise:
+    1. `vault_enterprise=true`
+
+In order to override the default configuration, the following needs to be added to the `.env` file:
 
 ```text
-consul_acl_default_policy=deny
+consul_enterprise=true
+nomad_enterprise=false
+vault_enterprise=true
 ```
 
 #### Option 2 - Override configuration files
