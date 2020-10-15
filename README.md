@@ -226,7 +226,7 @@ Make build will build a vagrant box based on [fredrikhgrelland/bionic64-ansible-
 make build
 ```
 
-Make dev will build a vagrant box as ``make build``, but without running the tests
+Make dev will build a vagrant box as `make build`, but without running the tests
 ```text
 make dev
 ```
