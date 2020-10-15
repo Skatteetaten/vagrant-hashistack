@@ -237,7 +237,7 @@ In order to simplify making such changes in the configuration, we provide `switc
 These switches are controlled by environment-variables, and provide the user with the opportunity to quickly switch between different configurations. 
 The next sections will describe the defaults, and how to change them.
 
-> :bulb: All supported switches are listed under `# Control box features` section in the [.env_default](ansible/templates/.env_default.j2) file.
+> :bulb: All supported switches are listed under `# Control box features` section in the [.env_default.j2](ansible/templates/.env_default.j2) file.
 
 ### Default Configuration
 Each of the following links lead to the configuration file and is the default values when setting up the box.
