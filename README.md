@@ -250,7 +250,7 @@ To get a broader understanding of the configuration and how you can override it 
 ### Default Configuration
 Each of the following links lead to the configuration file and is the default values when setting up the box.
 
-**Configuration files**:
+#### Default configuration files
 - [.env_default.j2](ansible/templates/.env_default.j2)
 - [hashistack component versions](ansible/group_vars/all/variables.yml)
 - [nomad policies](ansible/templates/conf/nomad/policies)
