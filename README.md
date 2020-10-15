@@ -231,7 +231,7 @@ Command above will build a vagrant box based on [fredrikhgrelland/bionic64-ansib
 The section also provides information about steps for overriding the default system configuration.
 
 ## Configuration
-The vagrant-box is set up with a lot of default configuration (see subsection [Default Configuration](#default-configuration)), and users may want to customize the vagrant-box services configuration to fit their need.
+The vagrant-box is set up with a default configuration (see subsection [Default Configuration](#default-configuration)), but users may want to customize the vagrant-box services configuration to fit their needs.
 
 Say you want to do some tweaks and use Consul Enterprise, an open-source Nomad and Vault Enterprise. Then you would need to override the following variables:
 - Consul Enterprise: 
