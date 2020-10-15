@@ -242,7 +242,7 @@ Say you want to do some tweaks and use Consul Enterprise, an open-source Nomad a
     1. `vault_enterprise=true`
 
 In order to simplify making such changes in the configuration, we provide `switches`.
-These are switches which are controlled by `env` variables and provide the user with the opportunity to quickly switch between the configuration setup. 
+These switches are controlled by environment-variables, and provide the user with the opportunity to quickly switch between different configurations. The next sections will describe the defaults, and how to change them.
 All supported switches are listed under `# Control box features` section in the [.env_default](ansible/templates/.env_default.j2) file.
 
 To get a broader understanding of the configuration and how you can override it see the upcoming two sections [Default Configuration](#default-configuration) and [Override default configuration](#override-default-configuration).
