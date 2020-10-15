@@ -1,7 +1,7 @@
 ## 1 What is the issue?
 *TODO*
 
-### 1.1 Suggestion(s)? (y/n)
+## 3 Suggestion(s)/solution(s)? [Optional]
 
 
 ## 2 Definition of done
