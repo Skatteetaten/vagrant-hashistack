@@ -2,6 +2,10 @@
 
 ## [0.6.1 UNRELEASED]
 
+### Added
+
+- Added issue and PR templates #408
+
 ### Changed
 
 - Updated configuration section in README #399
