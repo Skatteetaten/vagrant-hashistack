@@ -7,7 +7,7 @@
 ## 3 Related issue(s)? [Optional]
 
 
-## 4 Others (y/n)
+## 4 Others [Optional]
 
 
 ## 5 Checklist (after created PR)
