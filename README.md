@@ -256,7 +256,7 @@ Each of the following links lead to the configuration file and is the default va
 - [nomad policies](ansible/templates/conf/nomad/policies)
 - [consul policies](ansible/templates/conf/consul/policies)
 
-**Consul**:  
+#### Defaults Consul
 - Using open source version
 - ACL [enabled=true](https://www.consul.io/docs/agent/options#acl_enabled)
 - [default_policy=allow](https://www.consul.io/docs/agent/options#acl_default_policy)
