@@ -219,7 +219,7 @@ Now you are all set to run
 make install
 ```
 
-## Build
+## Build the vagrant box
 
 Make build will build a vagrant box based on [fredrikhgrelland/bionic64-ansible-docker](https://app.vagrantup.com/fredrikhgrelland/boxes/bionic64-ansible-docker). The packaged box will be locally available at ´packer/output-hashistack/package.box´
 ```text
