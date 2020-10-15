@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.1 UNRELEASED]
+
+### Changed
+
+- Updated configuration section in README #399
+
 ## [0.6.0]
 
 ### Added

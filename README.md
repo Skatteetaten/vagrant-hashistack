@@ -57,8 +57,8 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
 4. [Configuration](#configuration)
    1. [Default Configuration](#default-configuration)
    2. [Override default configuration](#override-default-configuration)
-      1. [Option 1 - env variables](#option-1---env-variables)
-      2. [Option 2 - config files](#option-2---config-files)
+      1. [Option 1 - Change environment variables](#option-1---change-environment-variables)
+      2. [Option 2 - Override configuration files](#option-2---override-configuration-files)
 5. [Usage](#usage)
    1. [Option-1 Starting a plain default box](#option-1-starting-a-plain-default-box)
       1. [Port collisions](#port-collisions)
@@ -231,71 +231,69 @@ Command above will build a vagrant box based on [fredrikhgrelland/bionic64-ansib
 The section also provides information about steps for overriding the default system configuration.
 
 ## Configuration
-
-In most cases, users need to customize vagrant-box's services configuration.
-
-Scenarios for customization:
-```text
-1. consul(enterprise) with consul_acl = enabled and default acl policy = deny
-2. nomad(oss) with nomad_acl = false
-3. vault(enterprise), unsealed and integrated with nomad and consul, the way that it manages their secrets/tokens
-```
+The vagrant-box is set up with a default configuration (see subsection [Default Configuration](#default-configuration)), but users may want to customize the vagrant-box services configuration to fit their needs.
 
 In order to simplify making such changes in the configuration, we provide `switches`.
-These are sort of switches which are controlled by `env` variables and provide the user with the opportunity to quickly switch between the configuration setup.
+These switches are controlled by environment-variables, and provide the user with the opportunity to quickly switch between different configurations. 
+The next sections will describe the defaults, and how to change them.
 
-Supported switches are listed under `# Control box features` section in the following [file](ansible/templates/.env_default.j2)
-
----
+> :bulb: All supported switches are listed under `# Control box features` section in the [.env_default.j2](ansible/templates/.env_default.j2) file.
 
 ### Default Configuration
+Each of the following links lead to the configuration file and is the default values when setting up the box.
 
+#### Default configuration files
 - [.env_default.j2](ansible/templates/.env_default.j2)
 - [hashistack component versions](ansible/group_vars/all/variables.yml)
 - [nomad policies](ansible/templates/conf/nomad/policies)
 - [consul policies](ansible/templates/conf/consul/policies)
 
-**Consul**:  
-- Open source version
+#### Defaults Consul
+- Using open source version
 - ACL [enabled=true](https://www.consul.io/docs/agent/options#acl_enabled)
 - [default_policy=allow](https://www.consul.io/docs/agent/options#acl_default_policy)
 
-**Nomad**:
-- Open source version
+#### Defaults Nomad
+- Using open source version
 - ACL [enabled=false](https://www.nomadproject.io/docs/configuration/acl#enabled)
-- [Integrated with Consul, using token](ansible/templates/nomad.hcl.j2)
-- [Integrated with Vault, using token](ansible/templates/nomad.hcl.j2)
+- [Integrated with Consul, using token](ansible/templates/conf/nomad/020-acl.hcl.j2)
+- [Integrated with Vault, using token](ansible/templates/conf/nomad/020-acl.hcl.j2)
 
-**Vault**
-- Open source version
-- Unsealed
-- PKI enabled at `/pki`
+#### Defaults Vault
+- Using open source version
+- [Unsealed](https://www.vaultproject.io/docs/concepts/seal)
+- [PKI](https://www.hashicorp.com/products/vault/pki-with-vault) enabled at `/pki`
 
 ### Override default configuration
+To override the default configuration you have two options:
+- [Change the environment variables](#option-1---change-environment-variables)
+- [Override the configuration files](#option-2---override-configuration-files)
 
-#### Option 1 - env variables
+> :warning: Overriding the configuration files will take effect last. In other words, using config files (Option 2) will override any configuration which were setup by the env variables (Option 1)
 
-**Use env to switch prebuild configuration on/off**
-
+#### Option 1 - Change environment variables
 When the vagrant box is provisioned, it reads the data from the following environment file `/home/vagrant/.env_default` in order to set up the system.
 If you wish to override any of the default values then you can do so by adding that variable name and value in [.env](https://github.com/fredrikhgrelland/vagrant-hashistack-template/blob/master/dev/.env) file.
 The property values in the `.env` file override the property values present in the `.env_default` file and thus makes it simple to provision systems that suffice the relevant development needs.
 
+Say you want to do some tweaks and use Consul Enterprise, an open-source Nomad and Vault Enterprise. Then you would need to override the following variables:
+- Consul Enterprise: 
+    1. `consul_enterprise=true`
+- Nomad open source:
+    1. `nomad_enterprise=false`
+- Vault Enterprise:
+    1. `vault_enterprise=true`
 
-For example, in order to override the **consul acl default policy** from **allow** to **deny**, the following needs to be added to the `.env` file:
+In order to override the default configuration, the following needs to be added to the `.env` file:
 
 ```text
-consul_acl_default_policy=deny
+consul_enterprise=true
+nomad_enterprise=false
+vault_enterprise=true
 ```
 
-
-#### Option 2 - config files
-
-**Overriding config files***
-
-It is possible to add and/or override the hashistack components' configuration files. See documentation [here](https://github.com/fredrikhgrelland/vagrant-hashistack-template/tree/master/dev/vagrant/conf).
-
-`NB!` *Overriding config files will take effect at last. In other words, config files(Option 2) will override any configuration which were setup by the env variables(Option 1)*
+#### Option 2 - Override configuration files
+It is possible to add and/or override the hashistack components configuration files. See documentation [here](https://github.com/fredrikhgrelland/vagrant-hashistack-template/tree/master/dev/vagrant/conf).
 
 ## Usage
 
