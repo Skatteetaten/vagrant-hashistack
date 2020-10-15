@@ -240,7 +240,7 @@ make clean
 ```
 This will destroy and take down your box if there is any
 
-**Note**: You can refer to the [configuration](#configuration) section in order to get a comprehensive overview of the default configurations with which the system is set up.
+> :bulb: You can refer to the [configuration](#configuration) section in order to get a comprehensive overview of the default configurations with which the system is set up.
 The section also provides information about steps for overriding the default system configuration.
 
 ## Configuration
