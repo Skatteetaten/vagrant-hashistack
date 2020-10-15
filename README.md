@@ -231,7 +231,7 @@ Make dev will build a vagrant box as `make build`, but without running the tests
 make dev
 ```
 
-Make test runs through your ansible playbook test, you can give the box different attributes by adding them in the``.env`` file under the ```test``` directory 
+Make test runs through your ansible playbook test, you can give the box different attributes by adding them in the`.env` file under the `test/` directory 
 ```text
 make test
 ```
