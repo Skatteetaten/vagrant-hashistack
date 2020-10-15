@@ -261,7 +261,7 @@ Each of the following links lead to the configuration file and is the default va
 - ACL [enabled=true](https://www.consul.io/docs/agent/options#acl_enabled)
 - [default_policy=allow](https://www.consul.io/docs/agent/options#acl_default_policy)
 
-**Nomad**:
+#### Defaults Nomad
 - Using open source version
 - ACL [enabled=false](https://www.nomadproject.io/docs/configuration/acl#enabled)
 - [Integrated with Consul, using token](ansible/templates/conf/nomad/020-acl.hcl.j2)
