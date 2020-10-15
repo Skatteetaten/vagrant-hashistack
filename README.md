@@ -267,7 +267,7 @@ Each of the following links lead to the configuration file and is the default va
 - [Integrated with Consul, using token](ansible/templates/conf/nomad/020-acl.hcl.j2)
 - [Integrated with Vault, using token](ansible/templates/conf/nomad/020-acl.hcl.j2)
 
-**Vault**
+#### Defaults Vault
 - Using open source version
 - [Unsealed](https://www.vaultproject.io/docs/concepts/seal)
 - [PKI](https://www.hashicorp.com/products/vault/pki-with-vault) enabled at `/pki`
