@@ -224,8 +224,21 @@ make install
 ```text
 make build
 ```
+Make build will build a vagrant box based on [fredrikhgrelland/bionic64-ansible-docker](https://app.vagrantup.com/fredrikhgrelland/boxes/bionic64-ansible-docker). The packaged box will be locally available at ´packer/output-hashistack/package.box´
 
-Command above will build a vagrant box based on [fredrikhgrelland/bionic64-ansible-docker](https://app.vagrantup.com/fredrikhgrelland/boxes/bionic64-ansible-docker). The packaged box will be locally available at ´packer/output-hashistack/package.box´
+```text
+make dev
+```
+Make dev will build a vagrant box as ``make build``, but without running the tests
+
+```text
+make test
+```
+
+```text
+make clean
+```
+This will destroy and take down your box if there is any
 
 **Note**: You can refer to the [configuration](#configuration) section in order to get a comprehensive overview of the default configurations with which the system is set up.
 The section also provides information about steps for overriding the default system configuration.
