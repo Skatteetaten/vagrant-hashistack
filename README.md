@@ -236,7 +236,7 @@ Make test runs through your ansible playbook test, you can give the box differen
 make test
 ```
 
-This will destroy and take down your box if there is any
+The following command will destroy and take down your box if there is any:
 ```text
 make clean
 ```
