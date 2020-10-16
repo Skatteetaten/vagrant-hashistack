@@ -1,7 +1,3 @@
-# Create policies Admin/Producer/Consumer
-- name: "{{ service }} - post/create-policies"
-  include_tasks: task/create-policies.yml
-
 # Vault integration
 - name: "{{ service }} - post/vault-integration - vault integration"
   include_tasks: task/vault-integration.yml
