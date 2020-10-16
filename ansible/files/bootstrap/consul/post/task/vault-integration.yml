@@ -124,7 +124,7 @@
 - name: Vault - put generated tokens in k/v as examples
   shell: vault kv put secret/consul-token-example admin_token="{{ admin_role_token.stdout }}" producer_token="{{ producer_role_token.stdout }}" consumer_token="{{ consumer_role_token.stdout }}"
   environment:
-    CONSUL_HTTP_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ vault_master_token }}"
 
 #######################
 ### tokens will be used in tests
