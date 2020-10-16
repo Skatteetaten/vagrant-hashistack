@@ -53,12 +53,13 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
    3. [MacOS requirements](#macos-requirements)
    4. [Windows requirements](#windows-requirements)
       1. [GNU Make and Git Bash](#gnu-make-and-git-bash)
-3. [Build](#build)
+3. [Build the vagrant box](#build-the-vagrant-box)
 4. [Configuration](#configuration)
    1. [Default Configuration](#default-configuration)
    2. [Override default configuration](#override-default-configuration)
       1. [Option 1 - Change environment variables](#option-1---change-environment-variables)
-      2. [Option 2 - Override configuration files](#option-2---override-configuration-files)
+      2. [Option 2 - Add/Override the configuration files](#option-2---addoverride-the-configuration-files)
+      3. [Option 3 - Add/Override the -pre and -post tasks](#option-3---addoverride-the--pre-and--post-tasks)
 5. [Usage](#usage)
    1. [Option-1 Starting a plain default box](#option-1-starting-a-plain-default-box)
       1. [Port collisions](#port-collisions)
@@ -219,15 +220,29 @@ Now you are all set to run
 make install
 ```
 
-## Build
+## Build the vagrant box
 
+Make build will build a vagrant box based on [fredrikhgrelland/bionic64-ansible-docker](https://app.vagrantup.com/fredrikhgrelland/boxes/bionic64-ansible-docker). The packaged box will be locally available at ´packer/output-hashistack/package.box´:
 ```text
 make build
 ```
 
-Command above will build a vagrant box based on [fredrikhgrelland/bionic64-ansible-docker](https://app.vagrantup.com/fredrikhgrelland/boxes/bionic64-ansible-docker). The packaged box will be locally available at ´packer/output-hashistack/package.box´
+Make dev will build a vagrant box as `make build`, but without running the tests
+```text
+make dev
+```
 
-**Note**: You can refer to the [configuration](#configuration) section in order to get a comprehensive overview of the default configurations with which the system is set up.
+Make test runs through your ansible playbook test, you can give the box different attributes by adding them in the`.env` file under the `test/` directory:
+```text
+make test
+```
+
+Make clean will destroy and take down your box if there is any:
+```text
+make clean
+```
+
+> :bulb: You can refer to the [configuration](#configuration) section in order to get a comprehensive overview of the default configurations with which the system is set up.
 The section also provides information about steps for overriding the default system configuration.
 
 ## Configuration
@@ -265,9 +280,12 @@ Each of the following links lead to the configuration file and is the default va
 - [PKI](https://www.hashicorp.com/products/vault/pki-with-vault) enabled at `/pki`
 
 ### Override default configuration
-To override the default configuration you have two options:
-- [Change the environment variables](#option-1---change-environment-variables)
-- [Override the configuration files](#option-2---override-configuration-files)
+To override the default configuration you have several options:
+- [Change the **environment variables**](#option-1---change-environment-variables)
+- [Add/Override the **configuration files**](#option-2---addoverride-the-configuration-files)
+- [Add/Override the **-pre** and **-post** tasks](#option-3---addoverride-the--pre-and--post-tasks)
+
+![img](docs/image/life-cycle.png)
 
 > :warning: Overriding the configuration files will take effect last. In other words, using config files (Option 2) will override any configuration which were setup by the env variables (Option 1)
 
@@ -292,8 +310,11 @@ nomad_enterprise=false
 vault_enterprise=true
 ```
 
-#### Option 2 - Override configuration files
-It is possible to add and/or override the hashistack components configuration files. See documentation [here](https://github.com/fredrikhgrelland/vagrant-hashistack-template/tree/master/dev/vagrant/conf).
+#### Option 2 - Add/Override the configuration files
+It is possible to add and/or override the hashistack components configuration files. See documentation [here](https://github.com/fredrikhgrelland/vagrant-hashistack-template/tree/master/dev/vagrant/conf#add-or-override-hashistack-configurations)
+
+#### Option 3 - Add/Override the -pre and -post tasks
+It is possible to add and/or override the hashistack components -pre and -post tasks. See documentation [here](https://github.com/fredrikhgrelland/vagrant-hashistack-template/tree/master/dev/vagrant/conf#add-pre-and-post-bootstrap-tasks)
 
 ## Usage
 

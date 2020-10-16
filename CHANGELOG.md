@@ -5,10 +5,11 @@
 ### Added
 
 - Added issues and PR templates #408
+- Life-cycle box diagram #398
 
 ### Changed
 
-- Updated configuration section in README #399
+- Updated configuration and build sections in README #399
 
 ## [0.6.0]
 
