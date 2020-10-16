@@ -4,7 +4,7 @@
 
 ### Changed
 
-- Updated configuration section in README #399
+- Updated README #399
 
 ## [0.6.0]
 
