@@ -2,6 +2,10 @@
 
 ## [0.6.1 UNRELEASED]
 
+### Added
+
+- Life-cycle box diagram #398
+
 ### Changed
 
 - Updated configuration and build sections in README #399
