@@ -4,7 +4,7 @@
 
 ### Added
 
-- Added issue and PR templates #408
+- Added issues and PR templates #408
 
 ### Changed
 

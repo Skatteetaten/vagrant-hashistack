@@ -1,14 +1,12 @@
-## 1 Closes/fixes/resolves issue(s)?
-*TODO*
+## Closes/fixes/resolves issue(s)?
 
-## 2 What was added/changed/fixed?
-*TODO*
+## What was added/changed/fixed?
 
-## 3 Related issue(s)? [Optional]
+## Related issue(s)? [Optional]
 
-## 4 Others [Optional]
+## Others [Optional]
 
-## 5 Checklist (after created PR)
+## Checklist (after created PR)
 - [ ] Added revievers
 - [ ] Added assinee(s)
 - [ ] Added label(s)
