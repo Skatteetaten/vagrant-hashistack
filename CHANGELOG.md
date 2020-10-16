@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added issues and PR templates #408
 - Life-cycle box diagram #398
 
 ### Changed
