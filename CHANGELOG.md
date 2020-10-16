@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.0 UNRELEASED]
+
+### Fixed
+
+- CI/CD label show the latest status of `master` branch #396
+
 ## [0.6.1]
 
 ### Added
