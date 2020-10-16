@@ -53,7 +53,7 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
    3. [MacOS requirements](#macos-requirements)
    4. [Windows requirements](#windows-requirements)
       1. [GNU Make and Git Bash](#gnu-make-and-git-bash)
-3. [Build](#build)
+3. [Build the vagrant box](#build-the-vagrant-box)
 4. [Configuration](#configuration)
    1. [Default Configuration](#default-configuration)
    2. [Override default configuration](#override-default-configuration)
@@ -219,15 +219,29 @@ Now you are all set to run
 make install
 ```
 
-## Build
+## Build the vagrant box
 
+Make build will build a vagrant box based on [fredrikhgrelland/bionic64-ansible-docker](https://app.vagrantup.com/fredrikhgrelland/boxes/bionic64-ansible-docker). The packaged box will be locally available at ´packer/output-hashistack/package.box´:
 ```text
 make build
 ```
 
-Command above will build a vagrant box based on [fredrikhgrelland/bionic64-ansible-docker](https://app.vagrantup.com/fredrikhgrelland/boxes/bionic64-ansible-docker). The packaged box will be locally available at ´packer/output-hashistack/package.box´
+Make dev will build a vagrant box as `make build`, but without running the tests
+```text
+make dev
+```
 
-**Note**: You can refer to the [configuration](#configuration) section in order to get a comprehensive overview of the default configurations with which the system is set up.
+Make test runs through your ansible playbook test, you can give the box different attributes by adding them in the`.env` file under the `test/` directory:
+```text
+make test
+```
+
+Make clean will destroy and take down your box if there is any:
+```text
+make clean
+```
+
+> :bulb: You can refer to the [configuration](#configuration) section in order to get a comprehensive overview of the default configurations with which the system is set up.
 The section also provides information about steps for overriding the default system configuration.
 
 ## Configuration
