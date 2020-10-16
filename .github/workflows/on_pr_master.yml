@@ -173,10 +173,10 @@ jobs:
           ENVKEY_env_override: true
           FILE_NAME: template/template_example/.env_override
 
-      - uses: actions/download-artifact@v2
-        with:
-          name: vagrantbox
-          path: packer/output-hashistack
+#      - uses: actions/download-artifact@v2
+#        with:
+#          name: vagrantbox
+#          path: packer/output-hashistack
 
 #      - name: Run make test
 #        run: make test
