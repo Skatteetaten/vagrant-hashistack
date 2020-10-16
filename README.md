@@ -58,7 +58,8 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
    1. [Default Configuration](#default-configuration)
    2. [Override default configuration](#override-default-configuration)
       1. [Option 1 - Change environment variables](#option-1---change-environment-variables)
-      2. [Option 2 - Override configuration files](#option-2---override-configuration-files)
+      2. [Option 2 - Add/Override the configuration files](#option-2---addoverride-the-configuration-files)
+      3. [Option 3 - Add/Override the -pre and -post tasks](#option-3---addoverride-the--pre-and--post-tasks)
 5. [Usage](#usage)
    1. [Option-1 Starting a plain default box](#option-1-starting-a-plain-default-box)
       1. [Port collisions](#port-collisions)
@@ -279,9 +280,12 @@ Each of the following links lead to the configuration file and is the default va
 - [PKI](https://www.hashicorp.com/products/vault/pki-with-vault) enabled at `/pki`
 
 ### Override default configuration
-To override the default configuration you have two options:
-- [Change the environment variables](#option-1---change-environment-variables)
-- [Override the configuration files](#option-2---override-configuration-files)
+To override the default configuration you have several options:
+- [Change the **environment variables**](#option-1---change-environment-variables)
+- [Add/Override the **configuration files**](#option-2---addoverride-the-configuration-files)
+- [Add/Override the **-pre** and **-post** tasks](#option-3---addoverride-the--pre-and--post-tasks)
+
+![img](docs/image/life-cycle.png)
 
 > :warning: Overriding the configuration files will take effect last. In other words, using config files (Option 2) will override any configuration which were setup by the env variables (Option 1)
 
@@ -306,8 +310,11 @@ nomad_enterprise=false
 vault_enterprise=true
 ```
 
-#### Option 2 - Override configuration files
-It is possible to add and/or override the hashistack components configuration files. See documentation [here](https://github.com/fredrikhgrelland/vagrant-hashistack-template/tree/master/dev/vagrant/conf).
+#### Option 2 - Add/Override the configuration files
+It is possible to add and/or override the hashistack components configuration files. See documentation [here](https://github.com/fredrikhgrelland/vagrant-hashistack-template/tree/master/dev/vagrant/conf#add-or-override-hashistack-configurations)
+
+#### Option 3 - Add/Override the -pre and -post tasks
+It is possible to add and/or override the hashistack components -pre and -post tasks. See documentation [here](https://github.com/fredrikhgrelland/vagrant-hashistack-template/tree/master/dev/vagrant/conf#add-pre-and-post-bootstrap-tasks)
 
 ## Usage
 
