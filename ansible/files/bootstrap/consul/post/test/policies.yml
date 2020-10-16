@@ -1,0 +1,87 @@
+# NB: playbook requires facts [admin_token, producer_token, consumer_token]
+#######################
+### TESTS policies
+#######################
+
+# ACL
+- name: Debug tokens
+  debug:
+    msg: "admin_token {{ admin_token }}\nproducer_token {{producer_token}}\nconsumer_token {{consumer_token}}"
+
+- name: List acl - admin token - allow
+  shell: consul acl token list
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ admin_token }}"
+
+- name: List acl - producer token - deny
+  shell: consul acl token list
+  register: consul_acl_list_try1
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ producer_token }}"
+  failed_when: consul_acl_list_try1.rc == 0
+
+- name: List acl - consumer token - deny
+  shell: consul acl token list
+  register: consul_acl_list_try2
+  environment:
+    CONSUL_HTTP_TOKEN: "{{ consumer_token }}"
+  failed_when: consul_acl_list_try2.rc == 0
+
+# K/V
+## 1 ADMIN
+- name: Write K/V to root '/' - admin token - allow
+  uri:
+    # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-admin-value' http://127.0.0.1:8500/v1/kv/my-admin-key
+    url:  http://127.0.0.1:8500/v1/kv/my-admin-key
+    method: PUT
+    status_code: 200
+    body: "my-admin-value"
+    headers:
+      X-Consul-Token: "{{ admin_token }}"
+
+## 1 PRODUCER
+- name: Write K/V to root '/' - producer token - deny
+  uri:
+    # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-producer-value' http://127.0.0.1:8500/v1/kv/will-fail-key
+    url:  http://127.0.0.1:8500/v1/kv/will-fail-key
+    method: PUT
+    body: "my-producer-value"
+    status_code: 403
+    return_content: yes
+    headers:
+      X-Consul-Token: "{{ producer_token }}"
+
+- name: Write K/V to /team/producer1 - producer token - allow
+  uri:
+    # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-producer-value' http://127.0.0.1:8500/v1/kv/team/producer1/my-producer-key
+    url:  http://127.0.0.1:8500/v1/kv/team/producer1/my-producer-key
+    method: PUT
+    body: "my-producer-value"
+    status_code: 200
+    return_content: yes
+    headers:
+      X-Consul-Token: "{{ producer_token }}"
+
+# todo: Read K/V from /will-fail-key - producer token - deny
+# todo: Read K/V from /team/producer/will-fail-key - producer token - allow
+
+## Consumer
+- name: Read K/V from /my-admin-key - consumer token - deny
+  uri:
+    # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-producer-value' http://127.0.0.1:8500/v1/kv/team/producer1/my-producer-key
+    url:  http://127.0.0.1:8500/v1/kv/my-admin-key
+    method: GET
+    status_code: 403
+    headers:
+      X-Consul-Token: "{{ consumer_token }}"
+
+- name: Read K/V from /team/producer1/my-producer-key - consumer token - deny
+  uri:
+    # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-producer-value' http://127.0.0.1:8500/v1/kv/team/producer1/my-producer-key
+    url:  http://127.0.0.1:8500/v1/kv/team/producer1/my-producer-key
+    method: GET
+    status_code: 403
+    headers:
+      X-Consul-Token: "{{ consumer_token }}"
+
+### Intentions todo
