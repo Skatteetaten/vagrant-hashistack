@@ -66,41 +66,41 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-#  build:
-#    needs: changes
-#    # Macos includes virtualbox and vagrant.
-#    runs-on: macos-latest
-#    if: |
-#      (
-#        ( github.event.action == 'closed' &&
-#          github.event.pull_request.merged == true
-#        )
-#        && (
-#          contains(github.event.pull_request.labels.*.name, 'major') ||
-#          contains(github.event.pull_request.labels.*.name, 'minor') ||
-#          contains(github.event.pull_request.labels.*.name, 'patch')
-#        )
-#        || (
-#          github.event.action != 'closed' &&
-#          needs.changes.outputs.not-doc == 'true'
-#        )
-#      )
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Versions on runner
-#        run: make -C install versions
-#
-#      - name: Run make build
-#        run: make build
-#
-#      - name: Make box available as artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: vagrantbox
-#          path: packer/output-hashistack/package.box
+  build:
+    needs: changes
+    # Macos includes virtualbox and vagrant.
+    runs-on: macos-latest
+    if: |
+      (
+        ( github.event.action == 'closed' &&
+          github.event.pull_request.merged == true
+        )
+        && (
+          contains(github.event.pull_request.labels.*.name, 'major') ||
+          contains(github.event.pull_request.labels.*.name, 'minor') ||
+          contains(github.event.pull_request.labels.*.name, 'patch')
+        )
+        || (
+          github.event.action != 'closed' &&
+          needs.changes.outputs.not-doc == 'true'
+        )
+      )
+    steps:
+      - uses: actions/checkout@v2
+      - name: Versions on runner
+        run: make -C install versions
+
+      - name: Run make build
+        run: make build
+
+      - name: Make box available as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: vagrantbox
+          path: packer/output-hashistack/package.box
 
   test:
-#    needs: build
+    needs: build
     runs-on: macos-latest
 
     strategy:
@@ -173,95 +173,95 @@ jobs:
           ENVKEY_env_override: true
           FILE_NAME: template/template_example/.env_override
 
-#      - uses: actions/download-artifact@v2
-#        with:
-#          name: vagrantbox
-#          path: packer/output-hashistack
+      - uses: actions/download-artifact@v2
+        with:
+          name: vagrantbox
+          path: packer/output-hashistack
 
-#      - name: Run make test
-#        run: make test
+      - name: Run make test
+        run: make test
 
-#  release-prerequisites:
-#    if: |
-#      contains(github.event.pull_request.labels.*.name, 'major') ||
-#      contains(github.event.pull_request.labels.*.name, 'minor') ||
-#      contains(github.event.pull_request.labels.*.name, 'patch')
-#    runs-on: macos-latest
-#    outputs:
-#      bump: ${{ steps.bump.outputs.match }}
-#      next_version: ${{ steps.next_version.outputs.version }}
-#      current_version: ${{ fromJson(steps.current_version.outputs.output).data.current_version.version }}
-#      log_entry: ${{ steps.changelog_reader.outputs.log_entry }}
-#    steps:
-#      - uses: actions/checkout@v2
-#      - id: current_version
-#        uses: satak/webrequest-action@v1.2.3
-#        with:
-#          url: https://app.vagrantup.com/api/v1/box/fredrikhgrelland/hashistack
-#          method: GET
-#
-#      - name: Require PR label (major/minor/patch)
-#        id: bump
-#        uses: zwaldowski/match-label-action@v1
-#        with:
-#          allowed: major,minor,patch
-#
-#      - id: next_version
-#        uses: zwaldowski/semver-release-action@v1
-#        with:
-#          dry_run: true
-#          bump: ${{ steps.bump.outputs.match }}
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#
-#      - name: Find and replace
-#        run: python .github/action/find-replace.py
-#        env:
-#          FIND: "'"
-#          REPLACE: "'\\''"
-#          FILE_TO_MODIFY: CHANGELOG.md
-#
-#      - name: Get Changelog Entry
-#        id: changelog_reader
-#        uses: mindsers/changelog-reader-action@v1.1.0
-#        with:
-#          version: ${{ steps.next_version.outputs.version }}
-#          path: CHANGELOG.md
-#
-#
-#  release:
-#    if: github.event.action == 'closed' && github.event.pull_request.merged == true
-#    needs:
-#      - release-prerequisites
-#      - test
-#
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Get vagrantbox artifact
-#        uses: actions/download-artifact@v2
-#        with:
-#          name: vagrantbox
-#          path: packer/output-hashistack
-#
-#      - name: Authenticate to vagrant cloud
-#        run: vagrant cloud auth login --token ${{ secrets.VAGRANT_CLOUD_TOKEN }}
-#
-#      - name: Upload and release vagrantbox on vagrant cloud
-#        uses: nick-invision/retry@v1
-#        with:
-#          timeout_minutes: 10
-#          max_attempts: 3
-#          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description '${{ needs.release-prerequisites.outputs.log_entry }}'
-#
-#      - name: Create Release on github
-#        id: create_release
-#        uses: actions/create-release@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          tag_name: ${{ needs.release-prerequisites.outputs.next_version }}
-#          release_name: Release v${{ needs.release-prerequisites.outputs.next_version }}
-#          body: |
-#            ${{ needs.release-prerequisites.outputs.log_entry }}
-#          draft: false
-#          prerelease: false
+  release-prerequisites:
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'major') ||
+      contains(github.event.pull_request.labels.*.name, 'minor') ||
+      contains(github.event.pull_request.labels.*.name, 'patch')
+    runs-on: macos-latest
+    outputs:
+      bump: ${{ steps.bump.outputs.match }}
+      next_version: ${{ steps.next_version.outputs.version }}
+      current_version: ${{ fromJson(steps.current_version.outputs.output).data.current_version.version }}
+      log_entry: ${{ steps.changelog_reader.outputs.log_entry }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: current_version
+        uses: satak/webrequest-action@v1.2.3
+        with:
+          url: https://app.vagrantup.com/api/v1/box/fredrikhgrelland/hashistack
+          method: GET
+
+      - name: Require PR label (major/minor/patch)
+        id: bump
+        uses: zwaldowski/match-label-action@v1
+        with:
+          allowed: major,minor,patch
+
+      - id: next_version
+        uses: zwaldowski/semver-release-action@v1
+        with:
+          dry_run: true
+          bump: ${{ steps.bump.outputs.match }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Find and replace
+        run: python .github/action/find-replace.py
+        env:
+          FIND: "'"
+          REPLACE: "'\\''"
+          FILE_TO_MODIFY: CHANGELOG.md
+
+      - name: Get Changelog Entry
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v1.1.0
+        with:
+          version: ${{ steps.next_version.outputs.version }}
+          path: CHANGELOG.md
+
+
+  release:
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true
+    needs:
+      - release-prerequisites
+      - test
+
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get vagrantbox artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: vagrantbox
+          path: packer/output-hashistack
+
+      - name: Authenticate to vagrant cloud
+        run: vagrant cloud auth login --token ${{ secrets.VAGRANT_CLOUD_TOKEN }}
+
+      - name: Upload and release vagrantbox on vagrant cloud
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description '${{ needs.release-prerequisites.outputs.log_entry }}'
+
+      - name: Create Release on github
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.release-prerequisites.outputs.next_version }}
+          release_name: Release v${{ needs.release-prerequisites.outputs.next_version }}
+          body: |
+            ${{ needs.release-prerequisites.outputs.log_entry }}
+          draft: false
+          prerelease: false
