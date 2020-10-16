@@ -7,8 +7,8 @@
 ## Others [Optional]
 
 ## Checklist (after created PR)
-- [ ] Added revievers
-- [ ] Added assinee(s)
+- [ ] Added reviewers
+- [ ] Added assignee(s)
 - [ ] Added label(s)
 - [ ] Added to project
 - [ ] Added to milestone
