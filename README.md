@@ -4,7 +4,7 @@
  <p align="center">Hashistack in one click for development & testing</p>
 </p>
 <p align="center">
-    <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/actions">
+    <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/actions?query=workflow%3ACI%2FCD+branch%3Amaster">
       <img alt="Build" src="https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/CI/CD/badge.svg" />
     </a>
     <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/releases">
