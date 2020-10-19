@@ -11,8 +11,6 @@
         producer: "producer-policy"
         consumer: "consumer-policy"
     consul_host: "127.0.0.1:8500"
-    consul_master_token: "master"
-    vault_master_token: "master"
 
 
 # Already activated in /ansible/files/bootstrap/consul/pre/010-vault-integration.yml
@@ -26,13 +24,13 @@
     cmd: consul acl token create -policy-name=global-management -format=json | jq -r .SecretID
   register: secret_id
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
 
 - name: Vault - configure Vault to connect and authenticate to Consul
   shell:
     cmd: vault write consul/config/access address="{{ consul_host }}" token="{{ secret_id.stdout }}"
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 # example 1 - Admin policy, admin role
 # 1. Create consul policy for admin
@@ -41,14 +39,14 @@
 - name: Consul - create admin team policy
   shell: consul acl policy create -name {{ consul.policy.admin }} -rules @/etc/ansible/templates/conf/consul/policies/admin_policy.hcl
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
 
 - name: Vault - map admin role with admin-policy to a Consul ACL policy
   shell:
     cmd: vault write consul/roles/admin-role policies="{{ consul.policy.admin }}"
   register: admin_role_policy_register
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: Print admin team policy register
   debug:
@@ -59,7 +57,7 @@
     cmd: vault read consul/creds/admin-role -format=json | jq -r .data.token
   register: admin_role_token
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: Print admin role token
   debug:
@@ -73,19 +71,19 @@
   shell:
     cmd: consul acl policy create -name {{ consul.policy.producer }} -rules @/etc/ansible/templates/conf/consul/policies/producer_policy.hcl
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
 
 - name: Vault - map producer role with producer-policy to a Consul ACL policy
   shell: vault write consul/roles/producer-role policies="{{ consul.policy.producer }}"
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: Vault - example, generate token for role producer
   shell:
     cmd: vault read consul/creds/producer-role -format=json | jq -r .data.token
   register: producer_role_token
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: Print producer role token
   debug:
@@ -100,19 +98,19 @@
   shell:
     cmd: consul acl policy create -name {{ consul.policy.consumer }} -rules @/etc/ansible/templates/conf/consul/policies/consumer_policy.hcl
   environment:
-    CONSUL_HTTP_TOKEN: "{{ consul_master_token }}"
+    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
 
 - name: Vault - map consumer role with consumer-policy to a Consul ACL policy
   shell: vault write consul/roles/consumer-role policies="{{ consul.policy.consumer }}"
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: Vault - example, generate token for role producer
   shell:
     cmd: vault read consul/creds/consumer-role -format=json | jq -r .data.token
   register: consumer_role_token
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: Print consumer role token
   debug:
@@ -124,7 +122,7 @@
 - name: Vault - put generated tokens in k/v as examples
   shell: vault kv put secret/consul-token-example admin_token="{{ admin_role_token.stdout }}" producer_token="{{ producer_role_token.stdout }}" consumer_token="{{ consumer_role_token.stdout }}"
   environment:
-    VAULT_TOKEN: "{{ vault_master_token }}"
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 #######################
 ### tokens will be used in tests
