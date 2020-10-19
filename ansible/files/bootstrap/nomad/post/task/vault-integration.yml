@@ -58,6 +58,13 @@
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
+# todo remove later: template depends on write role (write role associated with produce role)
+# https://github.com/fredrikhgrelland/vagrant-hashistack-template/issues/58
+- name: "{{ service }} - post/vault-integration - map role `write` with nomad's consumer-policy"
+  shell: vault write nomad/role/write policies={{ nomad.policy.producer }}
+  environment:
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
+
 # Generate tokens
 - name: "{{ service }} - post/vault-integration - example, generate token for role consumer"
   shell: vault read nomad/creds/consumer-role -format=json | jq -r .data.token
