@@ -7,23 +7,23 @@
 ### TESTS policies
 #######################
 # ACL
-- name: Debug tokens
+- name: "{{ service }} - Debug tokens"
   debug:
     msg: "admin token {{ consul.vault.acl.admin_token }}\nproducer token {{consul.vault.acl.producer_token}}\nconsumer token {{consul.vault.acl.consumer_token}}"
 
-- name: List acl - admin token - allow
+- name: "{{ service }} - list acl - admin token - allow"
   shell: consul acl token list
   environment:
     CONSUL_HTTP_TOKEN: "{{ consul.vault.acl.admin_token }}"
 
-- name: List acl - producer token - deny
+- name: "{{ service }} - list acl - producer token - deny"
   shell: consul acl token list
   register: consul_acl_list_try1
   environment:
     CONSUL_HTTP_TOKEN: "{{ consul.vault.acl.producer_token }}"
   failed_when: consul_acl_list_try1.rc == 0
 
-- name: List acl - consumer token - deny
+- name: "{{ service }} - list acl - consumer token - deny"
   shell: consul acl token list
   register: consul_acl_list_try2
   environment:
@@ -32,7 +32,7 @@
 
 # K/V
 ## 1 ADMIN
-- name: Write K/V to root '/' - admin token - allow
+- name: "{{ service }} - write K/V to root '/' - admin token - allow"
   uri:
     # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-admin-value' http://127.0.0.1:8500/v1/kv/my-admin-key
     url:  http://127.0.0.1:8500/v1/kv/my-admin-key
@@ -43,7 +43,7 @@
       X-Consul-Token: "{{ consul.vault.acl.admin_token }}"
 
 ## 1 PRODUCER
-- name: Write K/V to root '/' - producer token - deny
+- name: "{{ service }} - write K/V to root '/' - producer token - deny"
   uri:
     # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-producer-value' http://127.0.0.1:8500/v1/kv/will-fail-key
     url:  http://127.0.0.1:8500/v1/kv/will-fail-key
@@ -54,7 +54,7 @@
     headers:
       X-Consul-Token: "{{ consul.vault.acl.producer_token }}"
 
-- name: Write K/V to /team/producer1 - producer token - allow
+- name: "{{ service }} - write K/V to /team/producer1 - producer token - allow"
   uri:
     # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-producer-value' http://127.0.0.1:8500/v1/kv/team/producer1/my-producer-key
     url:  http://127.0.0.1:8500/v1/kv/team/producer1/my-producer-key
@@ -65,11 +65,8 @@
     headers:
       X-Consul-Token: "{{ consul.vault.acl.producer_token }}"
 
-# todo: Read K/V from /will-fail-key - producer token - deny
-# todo: Read K/V from /team/producer/will-fail-key - producer token - allow
-
 ## Consumer
-- name: Read K/V from /my-admin-key - consumer token - deny
+- name: "{{ service }} - read K/V from /my-admin-key - consumer token - deny"
   uri:
     # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-producer-value' http://127.0.0.1:8500/v1/kv/team/producer1/my-producer-key
     url:  http://127.0.0.1:8500/v1/kv/my-admin-key
@@ -78,7 +75,7 @@
     headers:
       X-Consul-Token: "{{ consul.vault.acl.consumer_token }}"
 
-- name: Read K/V from /team/producer1/my-producer-key - consumer token - deny
+- name: "{{ service }} - read K/V from /team/producer1/my-producer-key - consumer token - deny"
   uri:
     # curl -v -X PUT --header "X-Consul-Token: <token>" -d 'my-producer-value' http://127.0.0.1:8500/v1/kv/team/producer1/my-producer-key
     url:  http://127.0.0.1:8500/v1/kv/team/producer1/my-producer-key

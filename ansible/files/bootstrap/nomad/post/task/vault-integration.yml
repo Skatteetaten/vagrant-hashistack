@@ -49,12 +49,12 @@
 
 # Map roles
 - name: "{{ service }} - post/vault-integration - map role consumer with nomad's consumer-policy"
-  shell: vault write nomad/role/consumer policies={{ consul.policy.consumer }}
+  shell: vault write nomad/role/consumer policies={{ nomad.policy.consumer }}
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: "{{ service }} - post/vault-integration - map role producer with nomad's consumer-policy"
-  shell: vault write nomad/role/producer policies={{ consul.policy.producer }}
+  shell: vault write nomad/role/producer policies={{ nomad.policy.producer }}
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
