@@ -132,9 +132,9 @@ jobs:
         run: |
           if [ "$test_consul_acl_default_policy" == 'consul_acl_allow' ]
           then
-              echo "ENVKEY_consul_acl_default_policy=true" >> $GITHUB_ENV
+              echo "ENVKEY_consul_acl_default_policy=allow" >> $GITHUB_ENV
           else
-              echo "ENVKEY_consul_acl_default_policy=false" >> $GITHUB_ENV
+              echo "ENVKEY_consul_acl_default_policy=deny" >> $GITHUB_ENV
           fi
         env:
           test_consul_acl_default_policy: ${{ matrix.consul_acl_default_policy }}
