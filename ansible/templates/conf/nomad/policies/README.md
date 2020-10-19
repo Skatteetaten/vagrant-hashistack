@@ -1,6 +1,5 @@
 # Nomad policies (additional)
-The following three custom policies are provided as an example:
-- `admin`
+The following two custom policies are provided as an example:
 - `consumer`
 - `producer`
 
