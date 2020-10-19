@@ -12,13 +12,6 @@
         consumer: "consumer-policy"
     consul_host: "127.0.0.1:8500"
 
-
-# Already activated in /ansible/files/bootstrap/consul/pre/010-vault-integration.yml
-#- name: Vault - enable vault's consul secrets engine
-#  shell: vault secrets enable consul
-#  environment:
-#    VAULT_TOKEN: "{{ vault_master_token }}"
-
 - name: "{{ service }} - create management token for Vault, with global-management policy attached to it"
   shell:
     cmd: consul acl token create -policy-name=global-management -format=json | jq -r .SecretID
@@ -133,4 +126,3 @@
           admin_token: "{{ admin_role_token.stdout }}"
           producer_token: "{{ producer_role_token.stdout }}"
           consumer_token: "{{ consumer_role_token.stdout }}"
-
