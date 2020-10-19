@@ -1,8 +1,12 @@
-name: CI/CD
+name: CI-CD
 on:
+  push:
+      branches: [ master ]
   pull_request:
     branches: [ master ]
     types: [opened, synchronize, reopened, edited, closed, labeled, unlabeled]
+  schedule:
+      - cron:  '0 0 * * *'
 
 jobs:
   cancel-redundant-jobs:
