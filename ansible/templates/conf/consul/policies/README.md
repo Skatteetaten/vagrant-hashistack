@@ -1,5 +1,8 @@
 # Consul policies (additional)
-Three custom policies - `admin/consumer/producer`, are provided as an example.
+The following three custom policies are provided as an example:
+- `admin`
+- `consumer`
+- `producer`
 
 Notes:
 - Policies have different access level to `consul` API
