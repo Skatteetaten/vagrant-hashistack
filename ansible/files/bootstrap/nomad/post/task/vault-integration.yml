@@ -1,6 +1,13 @@
+- name: Set variables
+  set_fact:
+    nomad:
+      policy:
+        producer: "producer-policy"
+        consumer: "consumer-policy"
+
 - name: "{{ service }} - post/vault-integration - fetch bootstrap token nomad"
   shell:
-    cmd: vault kv get -field=secret-id secret/nomad-bootstrap-token
+    cmd: vault kv get -field=bootstrap-token-secret-id secret/nomad-token-example
   register: bootstrap_token
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
@@ -40,8 +47,13 @@
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
-- name: "{{ service }} - post/vault-integration - create roles corresponding to nomad's policies"
+- name: "{{ service }} - post/vault-integration - map role consumer with nomad's consumer-policy"
+  shell: vault write nomad/role/consumer policies={{ consul.policy.consumer }}
+  environment:
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
+
+- name: "{{ service }} - post/vault-integration - map role producer with nomad's consumer-policy"
   shell:
-    cmd: vault write nomad/role/read policies=read-default && vault write nomad/role/write policies=write-default
+    cmd: vault write nomad/role/producer policies={{ consul.policy.producer }}
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
