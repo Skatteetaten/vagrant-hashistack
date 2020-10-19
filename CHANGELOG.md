@@ -1,6 +1,13 @@
 # Changelog
 
-## [0.6.1 UNRELEASED]
+## [0.7.0 UNRELEASED]
+
+### Fixed
+
+- CI/CD label show the latest status of `master` branch #396 
+- CI/CD run every night at 00:00 on `master` branch #416
+
+## [0.6.1]
 
 ### Added
 

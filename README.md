@@ -4,8 +4,8 @@
  <p align="center">Hashistack in one click for development & testing</p>
 </p>
 <p align="center">
-    <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/actions">
-      <img alt="Build" src="https://github.com/fredrikhgrelland/vagrant-hashistack/workflows/CI/CD/badge.svg" />
+    <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/actions?query=workflow%3ACI%2FCD+branch%3Amaster">
+      <img alt="Build" src="https://img.shields.io/github/workflow/status/fredrikhgrelland/vagrant-hashistack/CI-CD/master" />
     </a>
     <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/releases">
       <img alt="Releases" src="https://img.shields.io/badge/dynamic/json?label=latest%20version&query=%24.current_version.version&url=https%3A%2F%2Fapp.vagrantup.com%2Fapi%2Fv1%2Fbox%2Ffredrikhgrelland%2Fhashistack" />
