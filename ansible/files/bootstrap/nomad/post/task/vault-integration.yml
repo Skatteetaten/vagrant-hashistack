@@ -1,11 +1,3 @@
-- name: "{{ service }} - post/vault-integration - create management token for Vault, with global-management policy attached to it"
-  shell:
-    cmd: consul acl token create -policy-name=global-management -format=json | jq -r .SecretID
-  register: secret_id
-  environment:
-    CONSUL_HTTP_TOKEN: "{{ lookup('env', 'consul_master_token') }}"
-
-
 - name: "{{ service }} - post/vault-integration - fetch bootstrap token nomad"
   shell:
     cmd: vault kv get -field=secret-id secret/nomad-bootstrap-token
@@ -32,7 +24,7 @@
 
 - name: "{{ service }} - post/vault-integration - add nomad management token to vault"
   shell:
-    cmd: vault kv put secret/nomad-management-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
+    cmd: vault kv put secret/nomad-token-example management-accessor-id="{{ accessor_id.stdout }}" management-secret-id="{{ secret_id.stdout }}"
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
