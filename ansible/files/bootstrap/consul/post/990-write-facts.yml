@@ -7,8 +7,9 @@
 
       {% if consul.vault.acl is defined %}
       [acl]
-      dev_team_token={{ consul.vault.acl.dev_team_token }}
-      admin_team_token={{ consul.vault.acl.admin_team_token }}
+      admin_token={{ consul.vault.acl.admin_token }}
+      producer_token={{ consul.vault.acl.producer_token }}
+      consumer_token={{ consul.vault.acl.consumer_token }}
       {% endif %}
     create: yes
 

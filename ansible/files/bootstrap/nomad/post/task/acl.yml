@@ -1,3 +1,10 @@
+- name: Set variables
+  set_fact:
+    nomad:
+      policy:
+        producer: "producer-policy"
+        consumer: "consumer-policy"
+
 - name: "{{ service }} - post/task/acl - acl bootstrap nomad"
   shell: nomad acl bootstrap > bootstrap.token
 
@@ -11,7 +18,7 @@
 
 - name: "{{ service }} - post/task/acl - add bootstrap token to vault"
   shell:
-    cmd: vault kv put secret/nomad-bootstrap-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
+    cmd: vault kv put secret/nomad-token-example bootstrap-token-accessor-id="{{ accessor_id.stdout }}" bootstrap-token-secret-id="{{ secret_id.stdout }}"
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
@@ -20,13 +27,13 @@
     path: bootstrap.token
     state: absent
 
-- name: "{{ service }} - post/task/acl - create default policy write"
+- name: "{{ service }} - post/task/acl - create producer policy"
   shell:
-    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Default write policy" write-default /etc/ansible/templates/conf/nomad/policies/write_policy.hcl
+    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Producer policy" {{ nomad.policy.producer }} /etc/ansible/templates/conf/nomad/policies/producer_policy.hcl
 
-- name: "{{ service }} - post/task/acl - create default policy read"
+- name: "{{ service }} - post/task/acl - create consumer policy"
   shell:
-    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Default read policy" read-default /etc/ansible/templates/conf/nomad/policies/read_policy.hcl
+    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Consumer policy" {{ nomad.policy.consumer }} /etc/ansible/templates/conf/nomad/policies/consumer_policy.hcl
 
 - name: "{{ service }} - post/task/acl - Add a fact file - {{ service }}.fact"
   blockinfile:

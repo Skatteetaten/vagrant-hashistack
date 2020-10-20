@@ -8,6 +8,14 @@
 - CI/CD run every night at 00:00 on `master` branch #416
 - CI/CD changelog enforcer check on pull request #419
 
+### Changed
+
+- Default policies `admin-team`, `dev-team` #397
+
+### Added
+
+- Default policies `admin, producer, consumer` #397
+
 ## [0.6.1]
 
 ### Added
