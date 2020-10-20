@@ -18,6 +18,7 @@
 ### Changed
 
 - Updated configuration and build sections in README #399
+- from set-env to env-files in worksflows #392
 
 ## [0.6.0]
 
