@@ -15,6 +15,7 @@ key_prefix "team/" {
 # 4. Intentions
 service_prefix "" {
   policy = "write"
+  intentions = "write"
 }
 
 # DENY any access acl

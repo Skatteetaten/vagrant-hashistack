@@ -10,6 +10,7 @@ key_prefix "" {
 # 4. Intentions
 service_prefix "" {
   policy = "deny"
+  intentions = "read"
 }
 
 # DENY any access acl

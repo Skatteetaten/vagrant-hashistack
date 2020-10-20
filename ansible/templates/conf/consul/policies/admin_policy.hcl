@@ -10,6 +10,7 @@ key_prefix "" {
 # 4. Intentions
 service_prefix "" {
   policy = "write"
+  intentions = "write"
 }
 
 # WRITE any access acl
