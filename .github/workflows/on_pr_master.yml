@@ -17,6 +17,7 @@ jobs:
 
   changes:
     runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
     # Set job outputs to values from filter step
     outputs:
       doc: ${{ steps.filter.outputs.doc }}
