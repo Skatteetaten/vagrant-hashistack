@@ -118,12 +118,12 @@
     CONSUL_HTTP_TOKEN: "{{ consul.vault.acl.consumer_token }}"
   failed_when: intention_create1.rc == 0
 
-- name: "{{ service }} intentions - check intention service1 -> service2 - consumer token - allowed, read access"
+- name: "{{ service }} intentions - check intention service1 -> service2 - consumer token - fail, deny access"
   shell: consul intention check service1 service2
-  register: intention_check2
+  register: intention_check3
   environment:
     CONSUL_HTTP_TOKEN: "{{ consul.vault.acl.consumer_token }}"
-  failed_when: intention_check2.stdout is not search('Allowed')
+  failed_when: intention_check3.rc == 0
 
 - name: "{{ service }} - get intention service1 -> service2 - consumer token - Denied"
   shell: consul intention get service1 service2
