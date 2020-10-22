@@ -10,10 +10,6 @@
         directory_mode: yes
         mode: '0755'
 
-    - name: Install systemd unit files hashistack
-      template: src={{item}}.service.j2 dest=/etc/systemd/system/{{item}}.service
-      loop: "{{ hashicorp.daemons }}"
-
     - name: Create /etc/{{item}}.d
       file:
         path: /etc/{{item}}.d
