@@ -15,6 +15,7 @@
 ### Added
 
 - Default policies `admin, producer, consumer` #397
+- Test for Vault PKI #347
 
 ## [0.6.1]
 

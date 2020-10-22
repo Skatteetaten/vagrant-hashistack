@@ -4,3 +4,18 @@
   include_tasks: test/ent/namespace.yml
   when: lookup('env', '{{ service }}_enterprise') | bool
   tags: test
+
+- name: "Test Vault PKI endpoint OK - read pki config urls"
+  uri:
+      url: http://127.0.0.1:8200/v1/pki/config/urls
+      method: GET
+      return_content: yes
+      headers:
+          X-Vault-Token: "{{ lookup('env', 'vault_master_token') }}"
+      status_code: 200
+      body_format: json
+  when: lookup('env', 'vault_pki') | bool
+  register: pki_response
+  retries: 5
+  delay: 15
+  until: pki_response.json.request_id != ''
