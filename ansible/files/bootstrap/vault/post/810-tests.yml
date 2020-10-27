@@ -15,7 +15,5 @@
       status_code: 200
       body_format: json
   when: lookup('env', 'vault_pki') | bool
-  register: pki_response
   retries: 5
   delay: 15
-  until: pki_response.json.request_id != ''
