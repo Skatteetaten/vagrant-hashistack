@@ -1,4 +1,7 @@
 # Configuration rendering and copy
+- name: "{{ service }} - box - Install systemd unit file"
+  template: src=templates/{{ service }}.service.j2 dest=/etc/systemd/system/{{item}}.service
+
 - name: "{{ service }} - box - Copy configuration files"
   copy:
     src: "{{ outer_item }}"
