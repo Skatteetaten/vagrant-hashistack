@@ -17,6 +17,7 @@
 
 - Default policies `admin, producer, consumer` #397
 - Test for Vault PKI #347
+- Added message when brew is found #363
 
 ## [0.6.1]
 
