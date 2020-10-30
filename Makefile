@@ -4,8 +4,8 @@
 install:
 	$(MAKE) -C install
 
-build:
-	@(rm -fr ansible/facts.d; cd packer; rm -rf output-hashistack; packer build -force .) || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy. \nMore info https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/README.md#proxy\n\n' && exit 2)
+build: remove-tmp remove-built-box
+	@(cd packer; packer build -force .) || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy.\nMore info https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/README.md#proxy\n\n' && exit 2)
 
 test:
 ifeq (,$(wildcard ./packer/output-hashistack/package.box))
@@ -22,8 +22,17 @@ endif
 ssh:
 	(cd template; vagrant ssh)
 
-clean:
+clean: remove-tmp destroy-box
+
+destroy-box:
 	(cd template; vagrant destroy -f)
+
+remove-tmp:
+	rm -fr ansible/facts.d
+
+remove-built-box:
+	cd packer
+	rm -rf output-hashistack
 
 # submodules
 # https://www.vogella.com/tutorials/GitSubmodules/article.html
