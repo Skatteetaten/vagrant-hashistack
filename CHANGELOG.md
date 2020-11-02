@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.0 UNRELEASED]
+
+### Added
+- Now possible to run multiple instances of the box #365
+
 ## [0.7.0]
 
 ### Fixed
