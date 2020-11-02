@@ -8,6 +8,7 @@
 - CI/CD run every night at 00:00 on `master` branch #416
 - CI/CD changelog enforcer check on pull request #419
 - Overriding default vault master token #426
+- Remove recursors in consul config #393
 
 ### Changed
 

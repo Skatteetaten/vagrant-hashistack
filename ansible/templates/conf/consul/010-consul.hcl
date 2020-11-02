@@ -1,6 +1,5 @@
 primary_datacenter = "dc1"
 
-recursors = ["151.187.151.101"]
 bind_addr = "{{ GetInterfaceIP \"docker0\" }}"
 client_addr = "{{ GetInterfaceIP \"docker0\" }}"
 
