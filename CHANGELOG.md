@@ -4,6 +4,7 @@
 
 ### Added
 - Now possible to run multiple instances of the box #365
+- `make install` now handles MacOS systems behind transparent proxy
 
 ## [0.7.0]
 
