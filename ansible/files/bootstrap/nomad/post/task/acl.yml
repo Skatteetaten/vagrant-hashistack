@@ -11,6 +11,7 @@
 - name: "{{ service }} - post/task/acl - print secret ID"
   shell: awk '/Secret/ {print $4}' bootstrap.token
   register: secret_id
+
 - name: "{{ service }} - post/task/acl - print accessor ID"
   shell:
     cmd: awk '/Accessor/ {print $4}' bootstrap.token
@@ -18,7 +19,7 @@
 
 - name: "{{ service }} - post/task/acl - add bootstrap token to vault"
   shell:
-    cmd: vault kv put secret/nomad-token-example bootstrap-token-accessor-id="{{ accessor_id.stdout }}" bootstrap-token-secret-id="{{ secret_id.stdout }}"
+    cmd: vault kv put secret/example/nomad-token-bootstrap accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
@@ -29,11 +30,21 @@
 
 - name: "{{ service }} - post/task/acl - create producer policy"
   shell:
-    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Producer policy" {{ nomad.policy.producer }} /etc/ansible/templates/conf/nomad/policies/producer_policy.hcl
+    cmd: nomad acl policy apply -token={{ secret_id.stdout }} -description="Producer policy" {{ nomad.policy.producer }} /etc/ansible/templates/conf/nomad/policies/producer_policy.hcl
 
 - name: "{{ service }} - post/task/acl - create consumer policy"
   shell:
-    cmd: nomad acl policy apply -token {{ secret_id.stdout }} -description "Consumer policy" {{ nomad.policy.consumer }} /etc/ansible/templates/conf/nomad/policies/consumer_policy.hcl
+    cmd: nomad acl policy apply -token={{ secret_id.stdout }} -description="Consumer policy" {{ nomad.policy.consumer }} /etc/ansible/templates/conf/nomad/policies/consumer_policy.hcl
+
+- name: "{{ service }} - post/task/acl - Debug nomad role list 1"
+  shell: nomad acl policy list
+  register: policy_list
+  environment:
+    NOMAD_TOKEN: "{{ secret_id.stdout }}"
+
+- name: "{{ service }} - post/task/acl - Debug nomad role list 2"
+  debug:
+    msg: "{{ policy_list.stdout }}"
 
 - name: "{{ service }} - post/task/acl - Add a fact file - {{ service }}.fact"
   blockinfile:
