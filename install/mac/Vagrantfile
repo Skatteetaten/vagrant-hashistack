@@ -1,0 +1,8 @@
+%w(vagrant-certificates).each do |name|
+  warn "Please install the '#{name}' plugin!" unless Vagrant.has_plugin?(name)
+end
+
+Vagrant.configure('2') do |config|
+  config.certificates.enabled = true
+  config.certificates.certs = Dir.glob('/usr/local/share/ca-certificates/**/*.crt')
+end
