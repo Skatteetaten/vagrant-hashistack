@@ -3,8 +3,13 @@
 ## [0.8.0 UNRELEASED]
 
 ### Added
+
 - Now possible to run multiple instances of the box #365
 - `make install` now handles MacOS systems behind transparent proxy
+
+### Changed
+
+- Removed unused shellscripts #438
 
 ## [0.7.0]
 
