@@ -1,4 +1,3 @@
-# These are requirements for this base Vagrantfile. If they are not
 %w(vagrant-certificates).each do |name|
   warn "Please install the '#{name}' plugin!" unless Vagrant.has_plugin?(name)
 end
