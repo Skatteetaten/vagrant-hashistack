@@ -18,8 +18,7 @@
   register: accessor_id
 
 - name: "{{ service }} - post/task/acl - add bootstrap token to vault"
-  shell:
-    cmd: vault kv put secret/example/nomad-token-bootstrap accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
+  shell: vault kv put secret/example/nomad-bootstrap-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
@@ -29,20 +28,18 @@
     state: absent
 
 - name: "{{ service }} - post/task/acl - create producer policy"
-  shell:
-    cmd: nomad acl policy apply -token={{ secret_id.stdout }} -description="Producer policy" {{ nomad.policy.producer }} /etc/ansible/templates/conf/nomad/policies/producer_policy.hcl
+  shell: nomad acl policy apply -token={{ secret_id.stdout }} -description="Producer policy" {{ nomad.policy.producer }} /etc/ansible/templates/conf/nomad/policies/producer_policy.hcl
 
 - name: "{{ service }} - post/task/acl - create consumer policy"
-  shell:
-    cmd: nomad acl policy apply -token={{ secret_id.stdout }} -description="Consumer policy" {{ nomad.policy.consumer }} /etc/ansible/templates/conf/nomad/policies/consumer_policy.hcl
+  shell: nomad acl policy apply -token={{ secret_id.stdout }} -description="Consumer policy" {{ nomad.policy.consumer }} /etc/ansible/templates/conf/nomad/policies/consumer_policy.hcl
 
-- name: "{{ service }} - post/task/acl - Debug nomad role list 1"
+- name: "{{ service }} - post/task/acl - nomad policy list"
   shell: nomad acl policy list
   register: policy_list
   environment:
     NOMAD_TOKEN: "{{ secret_id.stdout }}"
 
-- name: "{{ service }} - post/task/acl - Debug nomad role list 2"
+- name: "{{ service }} - post/task/acl - print nomad policy list"
   debug:
     msg: "{{ policy_list.stdout }}"
 

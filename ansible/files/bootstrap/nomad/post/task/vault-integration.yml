@@ -8,7 +8,7 @@
 # Bootstrap and management tokens
 - name: "{{ service }} - post/vault-integration - fetch bootstrap token nomad"
   shell:
-    cmd: vault kv get -field=secret-id secret/example/nomad-token-bootstrap
+    cmd: vault kv get -field=secret-id secret/example/nomad-bootstrap-token
   register: bootstrap_token
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
@@ -68,7 +68,7 @@
 
 # todo remove later: template depends on write role (write role associated with produce role)
 # https://github.com/fredrikhgrelland/vagrant-hashistack-template/issues/58
-- name: "{{ service }} - post/vault-integration - map role write with nomad's { nomad.policy.producer }}"
+- name: "{{ service }} - post/vault-integration - map role write with nomad's {{ nomad.policy.producer }}"
   shell: vault write nomad/role/write policies={{ nomad.policy.producer }}
   register: map_write_role
   environment:
