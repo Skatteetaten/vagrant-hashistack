@@ -11,6 +11,10 @@
 
 - Removed unused shellscripts #438
 
+### Fixed
+
+- Vault secret management (tokens) #441
+
 ## [0.7.0]
 
 ### Fixed
