@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.7.1 UNRELEASED]
+## [0.7.1]
 
 ### Added
 
