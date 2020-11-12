@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.8.0 UNRELEASED]
+
+### Added
+
+- Bump: terraform 0.13.4 ~> 0.13.5 #445
+- Bump: consul 1.8.4 ~> 1.8.5 #445
+- Bump: vault 1.5.4 ~> 1.6.0 #445
+- Bump: nomad 0.12.8 ~> 0.12.8 #445
+- Bump: packer 1.6.4 ~> 1.6.5 #445
+
 ## [0.7.1]
 
 ### Added
