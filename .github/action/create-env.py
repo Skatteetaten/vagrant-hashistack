@@ -16,4 +16,3 @@ with open(filepath, "w") as text_file:
 
 with open(filepath) as text_file:
     print(text_file.read())
-
