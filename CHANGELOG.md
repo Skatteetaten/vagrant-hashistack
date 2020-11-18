@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added skip-duplicate-runs #423
 - Bump: terraform 0.13.4 ~> 0.13.5 #445
 - Bump: consul 1.8.4 ~> 1.8.5 #445
 - Bump: vault 1.5.4 ~> 1.6.0 #445
