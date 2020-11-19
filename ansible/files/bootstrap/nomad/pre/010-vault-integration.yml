@@ -13,4 +13,6 @@
     cmd: vault secrets enable nomad
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
-  when: (ansible_local.vault.bootstrap.completed | bool) and (lookup('env', 'nomad_acl') | bool) and ansible_local.nomad.vault_integration.completed is not defined
+
+- name: "{{ service }} - pre/vault-integration - setup nomad configuration"
+  include_tasks: task/configure-nomad.yml

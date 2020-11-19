@@ -1,3 +1,6 @@
+# To make integration between Vault and Nomad work.
+# Variable with VAULT_TOKEN is injected via `EnvironmentFile=/etc/sysconfig/nomad`
+# File `/etc/sysconfig/nomad` created in ansible/files/bootstrap/nomad/pre/task/configure-nomad.yml
 [Unit]
 Description=nomad agent
 Requisite=consul.service

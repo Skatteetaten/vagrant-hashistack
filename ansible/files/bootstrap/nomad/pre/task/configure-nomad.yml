@@ -1,0 +1,67 @@
+- name: "{{ service }} - pre/vault-integration - write nomad-server policy to vault"
+  shell: vault policy write nomad-server /etc/ansible/templates/conf/nomad/policies/nomad_server_policy.hcl
+  register: debug1
+  environment:
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
+
+- name: "{{ service }} - pre/vault-integration - debug1"
+  debug:
+    msg: "{{ debug1 }}"
+
+- name: "{{ service }} - pre/vault-integration - create the token role"
+  shell: vault write /auth/token/roles/nomad-cluster @/etc/ansible/templates/conf/nomad/roles/nomad-cluster-role.json
+  register: debug2
+  environment:
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
+
+- name: "{{ service }} - pre/vault-integration - debug2"
+  debug:
+    msg: "{{ debug2 }}"
+
+- name: "{{ service }} - pre/vault-integration - create token for nomad-cluster role"
+  shell: vault token create -policy nomad-server -period 172h -orphan -format=json | jq -r '.auth.client_token'
+  register: nomad_server_token
+  environment:
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
+
+- name: "{{ service }} - pre/vault-integration - nomad_server_token"
+  debug:
+    msg: "{{ nomad_server_token }}"
+
+- name: "{{ service }} - pre/vault-integration - register nomad_server_token"
+  shell: vault kv put secret/example/nomad-server-token-example token="{{ nomad_server_token.stdout }}"
+  environment:
+    VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
+
+- name: "{{ service }} - pre/vault-integration - debug"
+  debug:
+    msg: "{{ nomad_server_token }}"
+
+##############################################
+### tokens will be used at nomad service start ansible/templates/nomad.service.j2
+##############################################
+- name: Insert a line at the end of .env_default
+  blockinfile:
+    dest: /home/vagrant/.env_default
+    block: |
+      # export variable for Nomad service start to .env_default
+      vault_nomad_token={{ nomad_server_token.stdout }}
+
+# todo: systemd does not support interpolation of env variables https://stackoverflow.com/a/37865527
+# fixme: currently Nomad token(issued by Vault) for integration with Vault is not possible to override
+- name: Set VAULT_TOKEN=$vault_nomad_token for nomad service via env (opportunity override)
+  blockinfile:
+    dest: /etc/sysconfig/nomad
+    block: |
+      VAULT_TOKEN={{ nomad_server_token.stdout }}
+      # should be
+      # VAULT_TOKEN=$vault_nomad_token
+    create: yes
+
+- name: systemd reload
+  systemd: daemon_reload=yes
+
+- set_fact:
+    nomad:
+      vault:
+        nomad_server_token: "{{ nomad_server_token.stdout }}"
