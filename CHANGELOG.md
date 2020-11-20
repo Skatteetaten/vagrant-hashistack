@@ -10,16 +10,6 @@
 - Bump: nomad 0.12.5 ~> 0.12.8 #445
 - Bump: packer 1.6.4 ~> 1.6.5 #445
 
-## [0.7.1]
-
-### Added
-- Added skip-duplicate-runs #423
-- Bump: terraform 0.13.4 ~> 0.13.5 #445
-- Bump: consul 1.8.4 ~> 1.8.5 #445
-- Bump: vault 1.5.4 ~> 1.6.0 #445
-- Bump: nomad 0.12.5 ~> 0.12.8 #445
-- Bump: packer 1.6.4 ~> 1.6.5 #445
-
 ### Changed
 - Using random token instead of 'master' for Hashicorp products #394
 
@@ -28,7 +18,6 @@
 ### Added
 - Now possible to run multiple instances of the box #365
 - `make install` now handles MacOS systems behind transparent proxy
-- Added test for random tokens #394
 
 ### Changed
 - Removed unused shellscripts #438
