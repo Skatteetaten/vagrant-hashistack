@@ -129,6 +129,7 @@ jobs:
         consul_acl_default_policy: ["consul_acl_deny"]
         nomad_acl: ["nomad_acl_enabled", "nomad_acl_disabled"]
         hashicorp_binary: ["hashicorp_oss", "hashicorp_enterprise"]
+        master_token: ["master_token_random"]
 
     steps:
       - uses: actions/checkout@v2
@@ -186,6 +187,15 @@ jobs:
           fi
         env:
           test_hashicorp_binary: ${{ matrix.hashicorp_binary }}
+
+      - name: set master token (random)
+        id: master_token
+        run: |
+            echo "ENVKEY_nomad_master_token=random" >> $GITHUB_ENV
+            echo "ENVKEY_consul_master_token=random" >> $GITHUB_ENV
+            echo "ENVKEY_vault_master_token=random" >> $GITHUB_ENV
+        env:
+          test_master_token: ${{ matrix.master_token }}
 
       - name: Make .env_override in order to matrix test
         run: python .github/action/create-env.py
