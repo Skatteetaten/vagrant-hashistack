@@ -47,15 +47,12 @@
       # export variable for Nomad service start to .env_default
       vault_nomad_token={{ nomad_server_token.stdout }}
 
-# todo: systemd does not support interpolation of env variables https://stackoverflow.com/a/37865527
-# fixme: currently Nomad token(issued by Vault) for integration with Vault is not possible to override
+# NB: systemd does not support interpolation of env variables
 - name: Set VAULT_TOKEN=$vault_nomad_token for nomad service via env (opportunity override)
   blockinfile:
     dest: /etc/sysconfig/nomad
     block: |
       VAULT_TOKEN={{ nomad_server_token.stdout }}
-      # should be
-      # VAULT_TOKEN=$vault_nomad_token
     create: yes
 
 - name: systemd reload

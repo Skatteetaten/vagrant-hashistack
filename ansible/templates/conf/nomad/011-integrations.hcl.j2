@@ -9,7 +9,7 @@ vault {
 
   # `token` value is injected as VAULT_TOKEN env variable for Nomad service
   # Check `ansible/templates/nomad.service.j2` for details
-  # token = "{{ lookup('env', 'vault_master_token') }}" todo: remove this line
+  # token = "{{ lookup('env', 'vault_master_token') }}"
 
   address = "{{ lookup('env', 'VAULT_ADDR') }}"
   create_from_role = "nomad-cluster"
