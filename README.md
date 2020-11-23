@@ -277,6 +277,8 @@ Each of the following links lead to the configuration file and is the default va
 - [Integrated with Consul, using consul master token](ansible/templates/conf/nomad/020-acl.hcl.j2)
 - [Integrated with Vault, using token issued by Vault](ansible/files/bootstrap/nomad/pre/task/configure-nomad.yml)
 
+> :bulb: There is opportunity to edit [nomad-server policy](ansible/templates/conf/nomad/policies/nomad_server_policy.hcl) in Vault UI.
+
 #### Defaults Vault
 - Using open source version
 - [Unsealed](https://www.vaultproject.io/docs/concepts/seal)
