@@ -9,6 +9,7 @@
 - Bump: vault 1.5.4 ~> 1.6.0 #445
 - Bump: nomad 0.12.5 ~> 0.12.8 #445
 - Bump: packer 1.6.4 ~> 1.6.5 #445
+- Add Nomad-Vault integration #446
 
 ### Changed
 - Using random token instead of 'master' for Hashicorp products #394
