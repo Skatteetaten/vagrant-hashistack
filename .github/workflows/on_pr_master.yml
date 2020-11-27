@@ -87,8 +87,7 @@ jobs:
 
   build:
     needs: changes
-    # Macos includes virtualbox and vagrant.
-    runs-on: macos-latest
+    runs-on: macos-latest # Macos includes virtualbox and vagrant.
     if: |
       (
         ( github.event.action == 'closed' &&
