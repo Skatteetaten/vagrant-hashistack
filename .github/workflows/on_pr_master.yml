@@ -71,20 +71,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  pre_job:
-    needs: linter
-    # continue-on-error: true # Uncomment once integration is finished
-    runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          paths_ignore: '["**/README.md"]'
-
   build:
     needs: changes
     runs-on: macos-latest # Macos includes virtualbox and vagrant.
@@ -118,10 +104,7 @@ jobs:
           path: packer/output-hashistack/package.box
 
   test:
-    needs:
-      - pre_job
-      - build
-    if: needs.pre_job.outputs.should_skip != 'true'
+    needs: build
     runs-on: macos-latest
 
     strategy:
