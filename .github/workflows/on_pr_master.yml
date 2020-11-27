@@ -119,8 +119,10 @@ jobs:
           path: packer/output-hashistack/package.box
 
   test:
-    needs: [pre_job, build]
-    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    needs:
+      - pre_job
+      - build
+    if: needs.pre_job.outputs.should_skip != 'true'
     runs-on: macos-latest
 
     strategy:
