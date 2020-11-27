@@ -87,8 +87,7 @@ jobs:
 
   build:
     needs: changes
-    # Macos includes virtualbox and vagrant.
-    runs-on: macos-latest
+    runs-on: macos-latest # Macos includes virtualbox and vagrant.
     if: |
       (
         ( github.event.action == 'closed' &&
@@ -119,8 +118,10 @@ jobs:
           path: packer/output-hashistack/package.box
 
   test:
-    needs: [pre_job, build]
-    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    needs:
+      - pre_job
+      - build
+    if: needs.pre_job.outputs.should_skip != 'true'
     runs-on: macos-latest
 
     strategy:
