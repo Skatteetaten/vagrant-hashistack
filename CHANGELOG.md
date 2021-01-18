@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.10.0 UNRELEASED]
+
+## Fixed
+- error "brew cask is disabled" changing to alternate syntax. Updating doc #457
+
+
 ## [0.8.0]
 
 ### Added

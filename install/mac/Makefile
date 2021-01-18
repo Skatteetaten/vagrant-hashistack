@@ -20,8 +20,8 @@ export-certificates:
 install: prereq install-software export-certificates vagrant-certificates
 
 install-software:
-	brew cask install virtualbox
-	brew cask install vagrant
+	brew install --cask virtualbox
+	brew install --cask vagrant
 # checking if packer is installed before trying to install (fails if you try to install something that's already installed
 	brew list packer &>/dev/null || brew install packer
 

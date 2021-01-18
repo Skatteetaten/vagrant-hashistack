@@ -184,11 +184,17 @@ If you for any reason find yourself behind a transparent proxy you need to set t
 ##### MacOS
 MacOS uses its own keychain, which means you have no certificates-file to point to. You can solve this by exporting all certificates present in the keychain to a file. 
 
-```bash
-security find-certificate -a -p > certs.pem
+```zsh
+security find-certificate -a -p > ~/certs.pem
 ```
 
-The command above will export all system and personal certificates in your keychain to `certs.pem`. You can now follow the first steps, and point your env-variables to `certs.pem`.
+The command above will export all system and personal certificates in your keychain to `certs.pem` in `~` (your user home)
+
+```zsh
+ printf '\n### You added this for vagrant box certs ###\nexport SSL_CERT_FILE=~/certs.pem CURL_CA_BUNDLE=~/certs.pem\n' >> ~/.zshrc
+ source ~/.zshrc
+ ```
+This will permanently export paths to your shell expected by tools used in this vagrant box.
 
 ### Linux requirements
 
