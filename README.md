@@ -1,9 +1,9 @@
-<p align="center">
- <img width="100px" src="https://www.svgrepo.com/show/143601/cube.svg" align="center" alt="Vagrant-hashistack" />
- <h2 align="center">Vagrant-hashistack</h2>
- <p align="center">Hashistack in one click for development & testing</p>
-</p>
-<p align="center">
+<div style="text-align: center">
+ <img width="100px" src="https://www.svgrepo.com/show/143601/cube.svg" alt="Vagrant-hashistack" />
+ <h2>Vagrant-hashistack</h2>
+ <p>Hashistack in one click for development & testing</p>
+</div>
+<div style="text-align: center">
     <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/actions?query=workflow%3ACI%2FCD+branch%3Amaster">
       <img alt="Build" src="https://img.shields.io/github/workflow/status/fredrikhgrelland/vagrant-hashistack/CI-CD/master" />
     </a>
@@ -15,15 +15,15 @@
     </a>
     <br />
     <br />
-    <p align="center">
-      <a href="https://app.vagrantup.com/fredrikhgrelland/boxes/hashistack" alt="Download og Vagrant Cloud">
-            <img src="https://img.shields.io/badge/Download%20on-Vagrant%20Cloud-orange?style=for-the-badge&logo=vagrant" />
-        </a>
-      <a href="https://github.com/fredrikhgrelland/vagrant-hashistack-template/generate" alt="Clone Template">
-            <img src="https://img.shields.io/badge/Github-Clone%20template-blue?style=for-the-badge&logo=github" />
-        </a>
+    <p>
+      <a href="https://app.vagrantup.com/fredrikhgrelland/boxes/hashistack">
+         <img alt="Download og Vagrant Cloud" src="https://img.shields.io/badge/Download%20on-Vagrant%20Cloud-orange?style=for-the-badge&logo=vagrant" />
+      </a>
+      <a href="https://github.com/fredrikhgrelland/vagrant-hashistack-template/generate">
+         <img alt="Clone Template" src="https://img.shields.io/badge/Github-Clone%20template-blue?style=for-the-badge&logo=github" />
+      </a>
     </p>
-</p>
+</div>
 
 #
 
