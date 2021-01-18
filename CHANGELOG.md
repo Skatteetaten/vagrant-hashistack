@@ -5,8 +5,9 @@
 ## Fixed
 - error "brew cask is disabled" changing to alternate syntax. Updating doc #457
 - README.md linter fixes #458
+- Update changelog to reflect correct version 0.8.0 -> 0.9.0 #456
 
-## [0.8.0]
+## [0.9.0]
 
 ### Added
 - Added skip-duplicate-runs #423
