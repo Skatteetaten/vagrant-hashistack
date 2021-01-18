@@ -4,7 +4,7 @@
 
 ## Fixed
 - error "brew cask is disabled" changing to alternate syntax. Updating doc #457
-
+- README.md linter fixes #458
 
 ## [0.8.0]
 
