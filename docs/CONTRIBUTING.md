@@ -54,7 +54,7 @@ This repository will run Github actions on all pull requests against `master`. F
 - **release:** Upload vagrant box to vagrant-cloud, release a version and tag release on github.
 
 ### Linters
-All PRs will run [super-linter](https://github.com/github/super-linter). You can use [this](https://github.com/github/super-linter/blob/master/docs/run-linter-locally.md) to run it locally before creating a PR.
+All PRs will run [super-linter](https://github.com/github/super-linter). Run `make lint` to check your code locally before creating a PR.
 > :bulb: Information about rules can be found under [/.github/linters/](../.github/linters)
 
 ### Terraform formatting

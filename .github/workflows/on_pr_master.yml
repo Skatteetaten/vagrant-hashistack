@@ -42,22 +42,7 @@ jobs:
         uses: github/super-linter@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_ANSIBLE: true
-          VALIDATE_BASH: true
-          VALIDATE_DOCKER_HADOLINT: true
-          VALIDATE_GO: true
-          VALIDATE_HTML: true
-          VALIDATE_JAVA: true
-          VALIDATE_JSON: true
-          VALIDATE_MD: true
-          VALIDATE_OPENAPI: true
-          VALIDATE_PYTHON: true
-          VALIDATE_PYTHON_PYLINT: true
-          VALIDATE_PYTHON_FLAKE8: true
-          VALIDATE_RUBY: true
-          VALIDATE_SQL: true
-          VALIDATE_TERRAFORM: true
-          VALIDATE_XML: true
+          VALIDATE_TERRAGRUNT: false
 
   enforce-changelog:
     runs-on: ubuntu-latest

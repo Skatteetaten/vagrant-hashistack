@@ -2,10 +2,17 @@
 
 ## [0.10.0 UNRELEASED]
 
+## Added
+- Linter is included as `make lint` #460
+
 ## Fixed
-- error "brew cask is disabled" changing to alternate syntax. Updating doc #457
+- Linter errors #460
+- Error "brew cask is disabled" changing to alternate syntax. Updating doc #457
 - README.md linter fixes #458
 - Update changelog to reflect correct version 0.8.0 -> 0.9.0 #456
+
+## Changed
+- Super-linter is run with excluding-mask, only excluding `TERRAGRUNT` linter
 
 ## [0.9.0]
 
@@ -36,7 +43,7 @@
 ## [0.7.0]
 
 ### Fixed
-- CI/CD label show the latest status of `master` branch #396 
+- CI/CD label show the latest status of `master` branch #396
 - CI/CD run every night at 00:00 on `master` branch #416
 - CI/CD changelog enforcer check on pull request #419
 - Overriding default vault master token #426

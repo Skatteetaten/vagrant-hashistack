@@ -10,18 +10,20 @@
         directory_mode: yes
         mode: '0755'
 
-    - name: Create /etc/{{item}}.d
+    - name: Create /etc/{{ item }}.d
       file:
-        path: /etc/{{item}}.d
+        path: /etc/{{ item }}.d
         state: directory
+        mode: 0644
       loop: "{{ hashicorp.daemons }}"
 
-    - name: Create /etc/{{item}}.d/policies
+    - name: Create /etc/{{ item }}.d/policies
       file:
-        path: /etc/{{item}}.d/policies
+        path: /etc/{{ item }}.d/policies
         state: directory
+        mode: 0644
       loop: "{{ hashicorp.daemons }}"
-   
+
     - name: systemd reload
       systemd: daemon_reload=yes
 
@@ -29,6 +31,7 @@
       file:
         path: "{{ item }}"
         state: directory
+        mode: 0644
         owner: root
         group: root
       with_items:
@@ -65,9 +68,9 @@
 
     - name:  Update message of the day
       template:
-        src: "{{item}}"
+        src: "{{ item }}"
         dest: "/etc/update-motd.d/{{ (item | basename | splitext)[0] }}"
-        mode: "+rx"
+        mode: +rx
       with_fileglob:
         - templates/update-motd.d/*
 
@@ -85,7 +88,7 @@
     - name: CNI - Tune iptables - persist
       copy:
         dest: "/etc/sysctl.d/cni-iptables"
-        mode: "+rx"
+        mode: +rx
         content: |
           net.bridge.bridge-nf-call-arptables = 1
           net.bridge.bridge-nf-call-ip6tables = 1
