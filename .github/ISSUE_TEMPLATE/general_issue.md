@@ -1,3 +1,4 @@
+<!-- markdownlint-disable -->
 ---
 name: 📋 General issue
 about: Good for questions, clarifications etc

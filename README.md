@@ -182,7 +182,7 @@ If you for any reason find yourself behind a transparent proxy you need to set t
 - Set the environment variables permanently by adding the above export commands to your `~/.bashrc` or equivalent.
 
 ##### MacOS
-MacOS uses its own keychain, which means you have no certificates-file to point to. You can solve this by exporting all certificates present in the keychain to a file. 
+MacOS uses its own keychain, which means you have no certificates-file to point to. You can solve this by exporting all certificates present in the keychain to a file.
 
 ```zsh
 security find-certificate -a -p > ~/certs.pem
@@ -258,7 +258,7 @@ The section also provides information about steps for overriding the default sys
 The vagrant-box is set up with a default configuration (see subsection [Default Configuration](#default-configuration)), but users may want to customize the vagrant-box services configuration to fit their needs.
 
 In order to simplify making such changes in the configuration, we provide `switches`.
-These switches are controlled by environment-variables, and provide the user with the opportunity to quickly switch between different configurations. 
+These switches are controlled by environment-variables, and provide the user with the opportunity to quickly switch between different configurations.
 The next sections will describe the defaults, and how to change them.
 
 > :bulb: All supported switches are listed under `# Control box features` section in the [.env_default.j2](ansible/templates/.env_default.j2) file.
@@ -306,7 +306,7 @@ If you wish to override any of the default values then you can do so by adding t
 The property values in the `.env` file override the property values present in the `.env_default` file and thus makes it simple to provision systems that suffice the relevant development needs.
 
 Say you want to do some tweaks and use Consul Enterprise, an open-source Nomad and Vault Enterprise. Then you would need to override the following variables:
-- Consul Enterprise: 
+- Consul Enterprise:
     1. `consul_enterprise=true`
 - Nomad open source:
     1. `nomad_enterprise=false`

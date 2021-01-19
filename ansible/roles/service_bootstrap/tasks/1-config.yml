@@ -1,11 +1,15 @@
 # Configuration rendering and copy
 - name: "{{ service }} - box - Install systemd unit file"
-  template: src=templates/{{ service }}.service.j2 dest=/etc/systemd/system/{{item}}.service
+  template:
+    src: templates/{{ service }}.service.j2
+    dest: /etc/systemd/system/{{ item }}.service
+    mode: 0644
 
 - name: "{{ service }} - box - Copy configuration files"
   copy:
     src: "{{ outer_item }}"
     dest: "/etc/{{ service }}.d/{{ outer_item | basename }}"
+    mode: 0644
   loop: "{{ query('fileglob', 'templates/conf/{{ service }}/*.hcl', errors='ignore') | sort }}"
   loop_control:
     loop_var: outer_item
@@ -14,7 +18,8 @@
   template:
     src: "{{ outer_item }}"
     # All jinja2 files.j2 will rendered and be put into service.d without .j2 ending. test.hcl.j2 will be test.hcl
-    dest: "/etc/{{ service }}.d/{{ ( outer_item | basename | splitext )[:-1] | join('.')}}"
+    dest: "/etc/{{ service }}.d/{{ ( outer_item | basename | splitext )[:-1] | join('.') }}"
+    mode: 0644
   loop: "{{ query('fileglob', 'templates/conf/{{ service }}/*.j2', errors='ignore') | sort }}"
   loop_control:
     loop_var: outer_item
@@ -23,6 +28,7 @@
   copy:
     src: "{{ outer_item }}"
     dest: "/etc/{{ service }}.d/{{ outer_item | basename }}"
+    mode: 0644
   loop: "{{ query('fileglob', '/vagrant/dev/vagrant/conf/{{ service }}/*.hcl', errors='ignore') | sort }}"
   loop_control:
     loop_var: outer_item
@@ -30,7 +36,8 @@
 - name: "{{ service }} - user - Render configuration file templates"
   copy:
     src: "{{ outer_item }}"
-    dest: "/etc/{{ service }}.d/{{ ( outer_item | basename | splitext )[:-1] | join('.')}}"
+    dest: "/etc/{{ service }}.d/{{ ( outer_item | basename | splitext )[:-1] | join('.') }}"
+    mode: 0644
   loop: "{{ query('fileglob', '/vagrant/dev/vagrant/conf/{{ service }}/*.j2', errors='ignore') | sort }}"
   loop_control:
     loop_var: outer_item

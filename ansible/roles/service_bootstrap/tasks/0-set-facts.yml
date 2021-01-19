@@ -1,5 +1,7 @@
 # Reset facts
-- set_fact:
+- name: "{{ service }} - fact - pre_bootstrap_files"
+  set_fact:
     pre_bootstrap_files: {}
-- set_fact:
+- name: "{{ service }} - fact - post_bootstrap_files"
+  set_fact:
     post_bootstrap_files: {}

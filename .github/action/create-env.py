@@ -8,7 +8,7 @@ filepath = os.path.join(
 
 for key in os.environ.keys():
     if key.startswith("ENVKEY_"):
-        if key.endswith("master_token") and os.environ.get(key) == 'random':
+        if key.endswith("master_token") and os.environ.get(key) == "random":
             out_file += key.split("ENVKEY_")[1] + "=" + uuid4().hex + "\n"
         else:
             out_file += key.split("ENVKEY_")[1] + "=" + os.environ.get(key) + "\n"

@@ -1,4 +1,4 @@
-.ONESHELL .PHONY: install build test dev
+.ONESHELL .PHONY: install build test dev lint
 .DEFAULT_GOAL := build
 
 install:
@@ -6,6 +6,9 @@ install:
 
 build: remove-tmp remove-built-box
 	@(cd packer; packer build -force .) || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy.\nMore info https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/README.md#proxy\n\n' && exit 2)
+
+lint:
+	@(docker run -v $$PWD:/tmp/lint --env RUN_LOCAL=true --env FILTER_REGEX_EXCLUDE="(packer/output-hashistack|.vagrant|template)/*" --env VALIDATE_TERRAGRUNT=false --rm github/super-linter)
 
 test:
 ifeq (,$(wildcard ./packer/output-hashistack/package.box))
