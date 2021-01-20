@@ -81,7 +81,7 @@
 
     - name: CNI - Install
       unarchive:
-        src: https://github.com/containernetworking/plugins/releases/download/v0.8.4/cni-plugins-linux-amd64-v0.8.4.tgz
+        src: "https://github.com/containernetworking/plugins/releases/download/v{{ nomad_cni }}/cni-plugins-linux-amd64-v{{ nomad_cni }}.tgz"
         remote_src: true
         dest: /opt/cni/bin
 

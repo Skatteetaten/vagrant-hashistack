@@ -13,13 +13,19 @@
 
 ## Changed
 - Super-linter is run with excluding-mask, only excluding `TERRAGRUNT` linter
+- Bump: terraform 0.13.5 -> 0.14.4 #461
+- Bump: consul 1.8.5 -> 1.9.1 #461
+- Bump: vault 1.6.0 -> 1.6.1 #461
+- Bump: nomad 0.12.8 -> 1.0.2 #461
+- Bump: packer 1.6.5 -> 1.6.6 #461
+- Bump: cni for nomad 0.8.4 -> 0.9.0 #461
 
 ## [0.9.0]
 
 ### Added
 - Added skip-duplicate-runs #423
 - Bump: terraform 0.13.4 ~> 0.13.5 #445
-- Bump: consul 1.8.4 ~> 1.8.5 #445
+- Bump: consul 1.8.4 ~> 1.8.5 #445  
 - Bump: vault 1.5.4 ~> 1.6.0 #445
 - Bump: nomad 0.12.5 ~> 0.12.8 #445
 - Bump: packer 1.6.4 ~> 1.6.5 #445
