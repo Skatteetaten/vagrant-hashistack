@@ -1,4 +1,3 @@
-<!-- markdownlint-disable -->
 ## Closes/fixes/resolves issue(s)?
 
 ## What was added/changed/fixed?

@@ -1,6 +1,5 @@
-<!-- markdownlint-disable -->
 ---
-name: 📋 General issue
+name: General issue
 about: Good for questions, clarifications etc
 labels: type/general-report
 
