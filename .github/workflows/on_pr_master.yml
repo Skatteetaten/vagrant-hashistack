@@ -9,6 +9,11 @@ on:
       - cron:  '0 0 * * *'
 
 jobs:
+  check:
+    runs-on: macos-latest
+    steps:
+      - run: env
+      
   cancel-redundant-jobs:
     runs-on: ubuntu-latest
     steps:
@@ -78,7 +83,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Versions on runner
         run: make -C install versions
-
       - name: Run make build
         run: make build
 
