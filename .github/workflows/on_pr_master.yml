@@ -12,7 +12,8 @@ jobs:
   check:
     runs-on: macos-latest
     steps:
-      - run: env
+      - run: set
+      - run: docker pull centos:8
       
   cancel-redundant-jobs:
     runs-on: ubuntu-latest
