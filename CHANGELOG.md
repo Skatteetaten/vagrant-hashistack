@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.10.0 UNRELEASED]
+## [0.10.0]
 
 ## Added
 - Linter is included as `make lint` #460
