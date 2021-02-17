@@ -13,6 +13,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - run: set
+      - run: echo ${{ secrets.DOCKER_HUB_USERNAME }}
       - run: docker pull centos:8
       
   cancel-redundant-jobs:
