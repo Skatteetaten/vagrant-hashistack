@@ -9,6 +9,14 @@ on:
       - cron:  '0 0 * * *'
 
 jobs:
+  docker-auth:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/upload-artifact@v2
+        with:
+          name: docker-auth
+          path: ~/.docker/config.json
+
   cancel-redundant-jobs:
     runs-on: ubuntu-latest
     steps:
@@ -89,7 +97,9 @@ jobs:
           path: packer/output-hashistack/package.box
 
   test:
-    needs: build
+    needs:
+      - build
+      - docker-auth
     runs-on: macos-latest
 
     strategy:
@@ -176,6 +186,11 @@ jobs:
         with:
           name: vagrantbox
           path: packer/output-hashistack
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: docker-auth
+          path: template/template_example/docker/conf/config.json
 
       - name: Run make test
         run: make test
