@@ -21,7 +21,7 @@
 - Bump: nomad 0.12.8 -> 1.0.2 #461
 - Bump: packer 1.6.5 -> 1.6.6 #461
 - Bump: cni for nomad 0.8.4 -> 0.9.0 #461
-- Use TODO version of `vagrant-hashistack-template` when testing
+- Use v0.1.1 of `vagrant-hashistack-template` when testing
 
 ## [0.9.0]
 
