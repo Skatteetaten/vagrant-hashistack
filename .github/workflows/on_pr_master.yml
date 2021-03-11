@@ -236,7 +236,7 @@ jobs:
 
       - name: Get Changelog Entry
         id: changelog_reader
-        uses: mindsers/changelog-reader-action@v1.1.0
+        uses: mindsers/changelog-reader-action@v2.0.0
         with:
           version: ${{ steps.next_version.outputs.version }}
           path: CHANGELOG.md
@@ -265,7 +265,7 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description '${{ needs.release-prerequisites.outputs.log_entry }}'
+          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description '${{ needs.release-prerequisites.outputs.changes }}'
 
       - name: Create Release on github
         id: create_release
