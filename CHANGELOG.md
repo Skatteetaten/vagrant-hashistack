@@ -11,6 +11,7 @@
 - Error "brew cask is disabled" changing to alternate syntax. Updating doc #457
 - README.md linter fixes #458
 - Update changelog to reflect correct version 0.8.0 -> 0.9.0 #456
+- Release process less brittle
 
 ## Changed
 - Super-linter is run with excluding-mask, only excluding `TERRAGRUNT` linter
