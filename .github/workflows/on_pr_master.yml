@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.action != 'closed' && github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: dangoslen/changelog-enforcer@v1.1.1
         with:
           changeLogPath: 'CHANGELOG.md'
@@ -239,7 +239,7 @@ jobs:
         uses: mindsers/changelog-reader-action@v2.0.0
         with:
           version: ${{ steps.next_version.outputs.version }}
-          path: CHANGELOG.md
+          path: ./CHANGELOG.md
 
 
   release:
@@ -265,7 +265,7 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description '${{ needs.release-prerequisites.outputs.changes }}'
+          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description ' ${{ needs.release-prerequisites.outputs.changes }}'
 
       - name: Create Release on github
         id: create_release
