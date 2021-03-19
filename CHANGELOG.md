@@ -1,19 +1,25 @@
 # Changelog
 
+## [0.10.1]
+
+### Fixed
+- Changelog does not parse correctly for release #474
+- Directory has wrong permissions in 0.10 #477
+
 ## [0.10.0]
 
-## Added
+### Added
 - Linter is included as `make lint` #460
 - Use docker hub credentials when testing with github actions #471
 
-## Fixed
+### Fixed
 - Linter errors #460
 - Error "brew cask is disabled" changing to alternate syntax. Updating doc #457
 - README.md linter fixes #458
 - Update changelog to reflect correct version 0.8.0 -> 0.9.0 #456
 - Release process less brittle
 
-## Changed
+### Changed
 - Super-linter is run with excluding-mask, only excluding `TERRAGRUNT` linter
 - Super-linter is run from ghcr.io locally and in github actions
 - Bump: terraform 0.13.5 -> 0.14.4 #461
