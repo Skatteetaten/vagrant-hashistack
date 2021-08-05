@@ -7,3 +7,7 @@ terraform.tfstate*
 tmp
 /ansible/facts.d/
 super-linter.log
+.terraform.lock.hcl
+/template/template_example/.env_override
+/template/template_example/docker/conf/config.json
+/template/template_example/dev/vagrant/bootstrap/pre_ansible.sh

@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.10.2 UNRELEASED]
+
+### Changed
+- Added files to .gitignore to reduce dev clutter
+
 ## [0.10.1]
 
 ### Fixed
