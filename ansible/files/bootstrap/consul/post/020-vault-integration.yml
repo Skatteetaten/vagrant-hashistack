@@ -1,4 +1,4 @@
-# Vault integration
+#Vault integration
 - name: "{{ service }} - post/vault-integration - vault integration"
-  include_tasks: task/vault-integration.yml
+  include_tasks: tasks/vault-integration.yml
   when: lookup('env', 'consul_acl') | bool and ansible_local.consul.vault_integration.completed is not defined

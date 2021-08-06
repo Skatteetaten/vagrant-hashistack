@@ -4,6 +4,8 @@
 
 ### Changed
 - Added files to .gitignore to reduce dev clutter
+- Use versioned linter in both github actions and makefile.
+- Refactor ansible code - task -> tasks & test -> tests
 
 ## [0.10.1]
 

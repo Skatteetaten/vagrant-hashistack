@@ -1,3 +1,4 @@
+---
 - name: "{{ service }} - post/acl - bootstrap"
-  include_tasks: task/acl.yml
+  include_tasks: tasks/acl.yml
   when: lookup('env', 'nomad_acl') | bool and not ansible_local.nomad.acl_bootstrap.completed | default(false)

@@ -1,7 +1,7 @@
 # vault namespaces feature active when:
 # - vault_enterprise=true
-- name: "{{ service }} - post/test/ent/namespace"
-  include_tasks: test/ent/namespace.yml
+- name: "{{ service }} - post/tests/ent/namespace"
+  include_tasks: tests/ent/namespace.yml
   when: lookup('env', '{{ service }}_enterprise') | bool
   tags: test
 

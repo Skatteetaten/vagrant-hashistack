@@ -15,4 +15,4 @@
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 - name: "{{ service }} - pre/vault-integration - setup nomad configuration"
-  include_tasks: task/configure-nomad.yml
+  include_tasks: tasks/configure-nomad.yml

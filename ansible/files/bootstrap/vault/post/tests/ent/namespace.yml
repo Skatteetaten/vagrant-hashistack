@@ -10,28 +10,28 @@
 
 # 1. Create namespaces ["education", "education/training", "education/certification"]
 
-- name: "{{ service }} - post/test/ent/namespace - Create namepspace education"
+- name: "{{ service }} - post/tests/ent/namespace - Create namespace education"
   shell: vault namespace create education
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Create namespace 'education/training'"
+- name: "{{ service }} - post/tests/ent/namespace - Create namespace 'education/training'"
   shell: vault namespace create -namespace=education training
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Create namespace 'education/certification'"
+- name: "{{ service }} - post/tests/ent/namespace - Create namespace 'education/certification'"
   shell: vault namespace create -namespace=education certification
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
-- name: "{{ service }} - post/test/ent/namespace - List the existing namespaces on the root, verify list contains 'education/'"
+- name: "{{ service }} - post/tests/ent/namespace - List the existing namespaces on the root, verify list contains 'education/'"
   shell: vault namespace list -format=json | jq -r '.[]' | grep education/
   register: namespace_list_root
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
-- name: "{{ service }} - post/test/ent/namespace - List child namespaces under 'education', verify list contains 'certification' and 'training'"
+- name: "{{ service }} - post/tests/ent/namespace - List child namespaces under 'education', verify list contains 'certification' and 'training'"
   shell: vault namespace list -namespace=education -format=json
   register: namespace_list_childs
   environment:
@@ -40,56 +40,56 @@
 
 # 2. Create policies ["edu-admin", "training-admin"]
 
-- name: "{{ service }} - post/test/ent/namespace - Create 'edu-admin' policy under 'education' namespace"
+- name: "{{ service }} - post/tests/ent/namespace - Create 'edu-admin' policy under 'education' namespace"
   shell: vault policy write -namespace=education edu-admin /etc/ansible/tests/enterprise/vault-policy/edu-admin.hcl
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Create 'training-admin' policy under 'education/training' namespace"
+- name: "{{ service }} - post/tests/ent/namespace - Create 'training-admin' policy under 'education/training' namespace"
   shell: vault policy write -namespace=education/training training-admin /etc/ansible/tests/enterprise/vault-policy/training-admin.hcl
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
 # 3. Setup entities and groups
 
-- name: "{{ service }} - post/test/ent/namespace - Enable the userpass auth method"
+- name: "{{ service }} - post/tests/ent/namespace - Enable the userpass auth method"
   shell: vault auth enable -namespace=education userpass
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Create a user bob"
+- name: "{{ service }} - post/tests/ent/namespace - Create a user bob"
   shell: vault write -namespace=education auth/userpass/users/bob password="training"
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Create an entity for Bob Smith with edu-admin policy attached. Save the generated entity ID in a file named entity_id.txt"
+- name: "{{ service }} - post/tests/ent/namespace - Create an entity for Bob Smith with edu-admin policy attached. Save the generated entity ID in a file named entity_id.txt"
   shell: vault write -namespace=education -format=json identity/entity name="Bob Smith" policies="edu-admin" | jq -r ".data.id"
   register: bob_entity_id
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Debug bob_entity_id"
+- name: "{{ service }} - post/tests/ent/namespace - Debug bob_entity_id"
   debug:
     msg: "bob_entity_id: {{ bob_entity_id }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Get the mount accessor for userpass auth method"
+- name: "{{ service }} - post/tests/ent/namespace - Get the mount accessor for userpass auth method"
   shell: vault auth list -namespace=education -format=json | jq -r '.["userpass/"].accessor'
   register: mount_accessor_userpass
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Debug"
+- name: "{{ service }} - post/tests/ent/namespace - Debug"
   debug:
     msg: "mount_accessor_userpass: {{ mount_accessor_userpass }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Create an entity alias for Bob Smith to attach bob"
+- name: "{{ service }} - post/tests/ent/namespace - Create an entity alias for Bob Smith to attach bob"
   shell: |
     vault write -namespace=education identity/entity-alias name="bob" \
       canonical_id={{ bob_entity_id.stdout }} mount_accessor={{ mount_accessor_userpass.stdout }}
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Create a group, \"Training Admin\" in education/training namespace with Bob Smith entity as its member"
+- name: "{{ service }} - post/tests/ent/namespace - Create a group, \"Training Admin\" in education/training namespace with Bob Smith entity as its member"
   shell: |
     vault write -namespace=education/training identity/group \
       name="Training Admin" policies="training-admin" \
@@ -99,17 +99,17 @@
 
 # 4. Test the 'Bob' entity
 
-- name: "{{ service }} - post/test/ent/namespace - Login as bob in namespace 'education' and get client token"
+- name: "{{ service }} - post/tests/ent/namespace - Login as bob in namespace 'education' and get client token"
   shell: vault login -method=userpass username=bob password=training -format=json | jq -r ".auth.client_token"
   register: bob_education_token
   environment:
     VAULT_NAMESPACE: "education"
 
-- name: "{{ service }} - post/test/ent/namespace - Debug bob_education_token"
+- name: "{{ service }} - post/tests/ent/namespace - Debug bob_education_token"
   debug:
     msg: "bob_education_token {{ bob_education_token.stdout }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Verify that you can create a new namespace called web-app"
+- name: "{{ service }} - post/tests/ent/namespace - Verify that you can create a new namespace called web-app"
   shell: vault namespace create web-app
   register: try_register_namespace_1
   environment:
@@ -117,11 +117,11 @@
     VAULT_TOKEN: "{{ bob_education_token.stdout }}"
   failed_when: try_register_namespace_1.rc > 0
 
-- name: "{{ service }} - post/test/ent/namespace - Debug try_register_namespace_1"
+- name: "{{ service }} - post/tests/ent/namespace - Debug try_register_namespace_1"
   debug:
     msg: "try_register_namespace_1 {{ try_register_namespace_1 }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Verify that you can enable key/value v2 secrets engine at edu-secret"
+- name: "{{ service }} - post/tests/ent/namespace - Verify that you can enable key/value v2 secrets engine at edu-secret"
   shell: vault secrets enable -path=edu-secret kv-v2
   register: try_enable_kv2_1
   environment:
@@ -131,25 +131,25 @@
 
 # 5. Test the Training Admin group
 
-- name: "{{ service }} - post/test/ent/namespace - Token lookup"
+- name: "{{ service }} - post/tests/ent/namespace - Token lookup"
   shell: vault token lookup
   register: bob_lookup_token_1
   environment:
     VAULT_NAMESPACE: "education"
     VAULT_TOKEN: "{{ bob_education_token.stdout }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Debug bob_lookup_token_1"
+- name: "{{ service }} - post/tests/ent/namespace - Debug bob_lookup_token_1"
   debug:
     msg: "bob_lookup_token_1 {{ bob_lookup_token_1 }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Create namespace education/training/vault-training/"
+- name: "{{ service }} - post/tests/ent/namespace - Create namespace education/training/vault-training/"
   shell: vault namespace create vault-training
   register: bob_lookup_token_1
   environment:
     VAULT_NAMESPACE: "education/training"
     VAULT_TOKEN: "{{ bob_education_token.stdout }}"
 
-- name: "{{ service }} - post/test/ent/namespace - Enable key/value v1 secrets engine at team-secret"
+- name: "{{ service }} - post/tests/ent/namespace - Enable key/value v1 secrets engine at team-secret"
   shell: vault secrets enable -path=team-secret -version=1 kv
   environment:
     VAULT_NAMESPACE: "education/training"
