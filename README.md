@@ -282,7 +282,7 @@ Each of the following links lead to the configuration file and is the default va
 - Using open source version
 - ACL [enabled=false](https://www.nomadproject.io/docs/configuration/acl#enabled)
 - [Integrated with Consul, using consul master token](ansible/templates/conf/nomad/020-acl.hcl.j2)
-- [Integrated with Vault, using token issued by Vault](ansible/files/bootstrap/nomad/pre/tasks/configure-nomad.yml)
+- [Integrated with Vault, using token issued by Vault](ansible/files/bootstrap/nomad/pre/020-configure-nomad.yml)
 
 > :bulb: There is opportunity to edit [nomad-server policy](ansible/templates/conf/nomad/policies/nomad_server_policy.hcl) in Vault UI.
 
@@ -372,7 +372,7 @@ to take it down. [Doc on what `vagrant destroy` does](https://www.vagrantup.com/
 
 ##### Option 2 Use the `auto_correct` feature to dynamically allocate ports
 Vagrant has a configuration option called [auto_correct](https://www.vagrantup.com/docs/networking/forwarded_ports#auto_correct) which will use another port if the port specified is already taken. To enable it you can add the lines below to the bottom of your `Vagrantfile`.
-```
+```ruby
 Vagrant.configure("2") do |config|
     # Hashicorp consul ui
     config.vm.network "forwarded_port", guest: 8500, host: 8500, host_ip: "127.0.0.1", auto_correct: true

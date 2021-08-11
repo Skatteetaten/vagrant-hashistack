@@ -1,4 +1,66 @@
----
 - name: "{{ service }} - post/acl - bootstrap"
-  include_tasks: tasks/acl.yml
+  block:
+    - name: "{{ service }} - post/acl - set variables"
+      set_fact:
+        nomad:
+          policy:
+            producer: "producer-policy"
+            consumer: "consumer-policy"
+
+    - name: "{{ service }} - post/tasks/acl - acl bootstrap nomad"
+      shell: nomad acl bootstrap > bootstrap.token
+
+    - name: "{{ service }} - post/tasks/acl - print secret ID"
+      command: awk '/Secret/ {print $4}' bootstrap.token
+      register: secret_id
+
+    - name: "{{ service }} - post/tasks/acl - print accessor ID"
+      command: awk '/Accessor/ {print $4}' bootstrap.token
+      register: accessor_id
+
+    - name: "{{ service }} - post/tasks/acl - add bootstrap token to vault"
+      command: vault kv put secret/example/nomad-bootstrap-token accessor-id="{{ accessor_id.stdout }}" secret-id="{{ secret_id.stdout }}"
+      environment:
+        VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
+
+    - name: "{{ service }} - post/tasks/acl - delete bootstrap.token file"
+      file:
+        path: bootstrap.token
+        state: absent
+
+    - name: "{{ service }} - post/tasks/acl - create producer policy"
+      command: >-
+        nomad acl policy apply
+        -token={{ secret_id.stdout }}
+        -description="Producer policy"
+        {{ nomad.policy.producer }}
+        /etc/ansible/templates/conf/nomad/policies/producer_policy.hcl
+
+    - name: "{{ service }} - post/tasks/acl - create consumer policy"
+      command: >-
+        nomad acl policy apply
+        -token={{ secret_id.stdout }}
+        -description="Consumer policy"
+        {{ nomad.policy.consumer }}
+        /etc/ansible/templates/conf/nomad/policies/consumer_policy.hcl
+
+    - name: "{{ service }} - post/tasks/acl - nomad policy list"
+      command: nomad acl policy list
+      register: policy_list
+      environment:
+        NOMAD_TOKEN: "{{ secret_id.stdout }}"
+
+    - name: "{{ service }} - post/tasks/acl - print nomad policy list"
+      debug:
+        msg: "{{ policy_list.stdout }}"
+
+    - name: "{{ service }} - post/tasks/acl - Add a fact file - {{ service }}.fact"
+      blockinfile:
+        path: "/etc/ansible/facts.d/{{ service }}.fact"
+        block: |
+          [acl_bootstrap]
+          completed=true
+        create: true
+        mode: o+rwx
+
   when: lookup('env', 'nomad_acl') | bool and not ansible_local.nomad.acl_bootstrap.completed | default(false)

@@ -9,7 +9,7 @@
   uri:
       url: http://127.0.0.1:8200/v1/pki/config/urls
       method: GET
-      return_content: yes
+      return_content: true
       headers:
           X-Vault-Token: "{{ lookup('env', 'vault_master_token') }}"
       status_code: 200

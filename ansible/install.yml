@@ -1,13 +1,13 @@
 ---
 - hosts: all
-  become: yes
+  become: true
   tasks:
     - name: Copy ansible directory
       copy:
         src: ./
         dest: /etc/ansible/
-        remote_src: yes
-        directory_mode: yes
+        remote_src: true
+        directory_mode: true
         mode: '0755'
 
     - name: Create /etc/{{ item }}.d
@@ -66,7 +66,7 @@
         destination_dir: /usr/local/bin/ent
       loop: "{{ query('dict', hashicorp.tools_enterprise) }}"
 
-    - name:  Update message of the day
+    - name: Update message of the day
       template:
         src: "{{ item }}"
         dest: "/etc/update-motd.d/{{ (item | basename | splitext)[0] }}"
@@ -78,12 +78,14 @@
       file:
         path: /opt/cni/bin
         state: directory
+        mode: o+rwx
 
     - name: CNI - Install
       unarchive:
         src: "https://github.com/containernetworking/plugins/releases/download/v{{ nomad_cni }}/cni-plugins-linux-amd64-v{{ nomad_cni }}.tgz"
         remote_src: true
         dest: /opt/cni/bin
+        mode: o+rwx
 
     - name: CNI - Tune iptables - persist
       copy:
@@ -96,6 +98,8 @@
 
     - name: CNI - Tune iptables - run
       command: sysctl --system
+      register: sysctl
+      changed_when: sysctl.rc == 0
 
     - name: Install Docker SDK for Python
       pip:
@@ -106,6 +110,7 @@
       template:
         src: templates/.env_default.j2
         dest: /home/vagrant/.env_default
+        mode: o+rwx
 
     - name: source .env_default .env .env_override
       blockinfile:

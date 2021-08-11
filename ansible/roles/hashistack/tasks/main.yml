@@ -3,6 +3,7 @@
     src: hashicorp.asc
     dest: "/tmp/hashicorp.asc"
     force: false
+    mode: o+rwx
   register: gpg_file
 
 - name: Install Hashicorp gpg file
@@ -13,6 +14,7 @@
   file:
     path: /tmp/hashicorp
     state: directory
+    mode: o+rwx
   when: gpg_file.dest
 
 - name: "{{ software }} : {{ version }} - Download checksum"
@@ -27,6 +29,8 @@
 
 - name: "{{ software }} : {{ version }} - Verify checksum and signature"
   command: "gpg --verify /tmp/hashicorp/{{ software }}_{{ version }}_SHA256SUMS.sig /tmp/hashicorp/{{ software }}_{{ version }}_SHA256SUMS"
+  register: gpg_verification
+  changed_when: gpg_verification.rc == 0
 
 - name: "{{ software }} : {{ version }} - Download software"
   get_url:
@@ -37,10 +41,11 @@
   command: "sha256sum --ignore-missing -c {{ software }}_{{ version }}_SHA256SUMS"
   args:
     chdir: "/tmp/hashicorp"
+  register: checksum_verification
+  changed_when: checksum_verification.rc == 0
 
 - name: "{{ software }} : {{ version }} - Install software"
   unarchive:
     dest: "{{ destination_dir }}"
     mode: "a+x"
     src: "/tmp/hashicorp/{{ software }}_{{ version }}_linux_amd64.zip"
-
