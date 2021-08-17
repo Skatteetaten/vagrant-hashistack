@@ -25,7 +25,7 @@ jobs:
 
   changes:
     runs-on: ubuntu-latest
-    if: github.event_name != 'schedule'
+    if: ${{ github.event_name }} != 'schedule'
     # Set job outputs to values from filter step
     outputs:
       doc: ${{ steps.filter.outputs.doc }}
@@ -43,18 +43,18 @@ jobs:
               - '**/!(*.md)'
   linter:
     runs-on: ubuntu-latest
-    if: github.event.action != 'closed'
+    if: ${{ github.event.action }} != 'closed'
     steps:
       - uses: actions/checkout@v2
       - name: Super-Linter
-        uses: github/super-linter@v3
+        uses: github/super-linter@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_TERRAGRUNT: false
 
   enforce-changelog:
     runs-on: ubuntu-latest
-    if: github.event.action != 'closed' && github.event_name == 'pull_request'
+    if: ${{ github.event.action }} != 'closed' && ${{ github.event_name }} == 'pull_request'
     steps:
       - uses: actions/checkout@v1
       - uses: dangoslen/changelog-enforcer@v1.1.1
@@ -69,17 +69,17 @@ jobs:
     runs-on: macos-latest # Macos includes virtualbox and vagrant.
     if: |
       (
-        ( github.event.action == 'closed' &&
-          github.event.pull_request.merged == true
+        (  ${{ github.event.action }} == 'closed' &&
+           ${{ github.event.pull_request.merged }} == true
         )
         && (
-          contains(github.event.pull_request.labels.*.name, 'major') ||
-          contains(github.event.pull_request.labels.*.name, 'minor') ||
-          contains(github.event.pull_request.labels.*.name, 'patch')
+          contains(${{ github.event.pull_request.labels.*.name }}, 'major') ||
+          contains(${{ github.event.pull_request.labels.*.name }}, 'minor') ||
+          contains(${{ github.event.pull_request.labels.*.name }}, 'patch')
         )
         || (
-          github.event.action != 'closed' &&
-          needs.changes.outputs.not-doc == 'true'
+          ${{ github.event.action }} != 'closed' &&
+          ${{ needs.changes.outputs.not-doc }} == 'true'
         )
       )
     steps:
@@ -118,11 +118,12 @@ jobs:
       - name: set consul acl (enabled/disabled)
         id: consul_acl
         run: |
+          declare test_consul_acl
           if [ "$test_consul_acl" == 'consul_acl_enabled' ]
           then
-              echo "ENVKEY_consul_acl=true" >> $GITHUB_ENV
+              echo "ENVKEY_consul_acl=true" >> "$GITHUB_ENV"
           else
-              echo "ENVKEY_consul_acl=false" >> $GITHUB_ENV
+              echo "ENVKEY_consul_acl=false" >> "$GITHUB_ENV"
           fi
         env:
           test_consul_acl: ${{ matrix.consul_acl }}
@@ -130,11 +131,12 @@ jobs:
       - name: set consul acl default policy (allow/deny)
         id: consul_acl_default_policy
         run: |
+          declare test_consul_acl_default_policy
           if [ "$test_consul_acl_default_policy" == 'consul_acl_allow' ]
           then
-              echo "ENVKEY_consul_acl_default_policy=allow" >> $GITHUB_ENV
+              echo "ENVKEY_consul_acl_default_policy=allow" >> "$GITHUB_ENV"
           else
-              echo "ENVKEY_consul_acl_default_policy=deny" >> $GITHUB_ENV
+              echo "ENVKEY_consul_acl_default_policy=deny" >> "$GITHUB_ENV"
           fi
         env:
           test_consul_acl_default_policy: ${{ matrix.consul_acl_default_policy }}
@@ -142,11 +144,12 @@ jobs:
       - name: set nomad acl (enabled/disabled)
         id: nomad_acl
         run: |
+          declare test_nomad_acl
           if [ "$test_nomad_acl" == 'nomad_acl_enabled' ]
           then
-              echo "ENVKEY_nomad_acl=true" >> $GITHUB_ENV
+              echo "ENVKEY_nomad_acl=true" >> "$GITHUB_ENV"
           else
-              echo "ENVKEY_nomad_acl=false" >> $GITHUB_ENV
+              echo "ENVKEY_nomad_acl=false" >> "$GITHUB_ENV"
           fi
         env:
           test_nomad_acl: ${{ matrix.nomad_acl }}
@@ -154,15 +157,12 @@ jobs:
       - name: set hashicorp binary (oss/enterprise)
         id: hashicorp_binary
         run: |
+          declare test_hashicorp_binary
           if [ "$test_hashicorp_binary" == 'hashicorp_oss' ]
           then
-              echo "ENVKEY_consul_enterprise=false" >> $GITHUB_ENV
-              echo "ENVKEY_nomad_enterprise=false" >> $GITHUB_ENV
-              echo "ENVKEY_vault_enterprise=false" >> $GITHUB_ENV
+              printf "ENVKEY_consul_enterprise=false\nENVKEY_nomad_enterprise=false\nENVKEY_vault_enterprise=false\n" >> "$GITHUB_ENV"
           else
-              echo "ENVKEY_consul_enterprise=true" >> $GITHUB_ENV
-              echo "ENVKEY_nomad_enterprise=true" >> $GITHUB_ENV
-              echo "ENVKEY_vault_enterprise=true" >> $GITHUB_ENV
+              printf "ENVKEY_consul_enterprise=true\nENVKEY_nomad_enterprise=true\nENVKEY_vault_enterprise=true\n" >> "$GITHUB_ENV"
           fi
         env:
           test_hashicorp_binary: ${{ matrix.hashicorp_binary }}
@@ -170,9 +170,7 @@ jobs:
       - name: set master token (random)
         id: master_token
         run: |
-            echo "ENVKEY_nomad_master_token=random" >> $GITHUB_ENV
-            echo "ENVKEY_consul_master_token=random" >> $GITHUB_ENV
-            echo "ENVKEY_vault_master_token=random" >> $GITHUB_ENV
+          printf "ENVKEY_nomad_master_token=random\nENVKEY_consul_master_token=random\nENVKEY_vault_master_token=random\n" >> "$GITHUB_ENV"
         env:
           test_master_token: ${{ matrix.master_token }}
 
@@ -197,9 +195,9 @@ jobs:
 
   release-prerequisites:
     if: |
-      contains(github.event.pull_request.labels.*.name, 'major') ||
-      contains(github.event.pull_request.labels.*.name, 'minor') ||
-      contains(github.event.pull_request.labels.*.name, 'patch')
+      contains(${{ github.event.pull_request.labels.*.name }}, 'major') ||
+      contains(${{ github.event.pull_request.labels.*.name }}, 'minor') ||
+      contains(${{ github.event.pull_request.labels.*.name }}, 'patch')
     runs-on: macos-latest
     outputs:
       bump: ${{ steps.bump.outputs.match }}
@@ -243,7 +241,7 @@ jobs:
 
 
   release:
-    if: github.event.action == 'closed' && github.event.pull_request.merged == true
+    if:  ${{ github.event.action }} == 'closed' && ${{ github.event.pull_request.merged }} == true
     needs:
       - release-prerequisites
       - test
@@ -265,7 +263,7 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description ' ${{ needs.release-prerequisites.outputs.changes }}'
+          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description ' ${{ needs.release-prerequisites.outputs.log_entry }}'
 
       - name: Create Release on github
         id: create_release

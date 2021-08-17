@@ -3,9 +3,16 @@
 ## [0.10.2 UNRELEASED]
 
 ### Changed
-- Added files to .gitignore to reduce dev clutter
+- Added files to .gitignore to reduce dev clutter.
 - Use versioned linter in both github actions and makefile.
 - Refactor ansible code - task -> tasks & test -> tests
+- Pinned template commit to v0.1.1
+- `make lint` will update superlinter to latest release of version 4.
+
+### Fixed
+- Ansible - Fixed errors and warnings surfaced by linter.
+- GithubActions - Fixed errors and warnings surfaced by linter.
+- Python - Fixed errors and warnings surfaced by linter.
 
 ## [0.10.1]
 
