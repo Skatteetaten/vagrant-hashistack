@@ -13,6 +13,7 @@
 - Ansible - Fixed errors and warnings surfaced by linter.
 - GithubActions - Fixed errors and warnings surfaced by linter.
 - Python - Fixed errors and warnings surfaced by linter.
+- Update hashistack checksum verification #484
 
 ## [0.10.1]
 

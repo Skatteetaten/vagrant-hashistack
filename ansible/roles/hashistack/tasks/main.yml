@@ -24,7 +24,7 @@
 
 - name: "{{ software }} : {{ version }} - Download checksum signature"
   get_url:
-    url: "https://releases.hashicorp.com/{{ software }}/{{ version }}/{{ software }}_{{ version }}_SHA256SUMS.sig"
+    url: "https://releases.hashicorp.com/{{ software }}/{{ version }}/{{ software }}_{{ version }}_SHA256SUMS.72D7468F.sig"
     dest: "/tmp/hashicorp/{{ software }}_{{ version }}_SHA256SUMS.sig"
 
 - name: "{{ software }} : {{ version }} - Verify checksum and signature"
