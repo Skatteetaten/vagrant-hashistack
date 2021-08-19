@@ -4,9 +4,13 @@ on:
       branches: [ master ]
   pull_request:
     branches: [ master ]
-    types: [opened, synchronize, reopened, edited, closed, labeled, unlabeled]
+    types: [opened, synchronize, reopened, closed, labeled, unlabeled]
   schedule:
       - cron:  '0 0 * * *'
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   docker-auth:
@@ -17,15 +21,8 @@ jobs:
           name: docker-auth
           path: ~/.docker/config.json
 
-  cancel-redundant-jobs:
-    runs-on: ubuntu-latest
-    steps:
-      # Use this GitHub Actions at least once in this workflow as soon as possible.
-      - uses: technote-space/auto-cancel-redundant-job@v1
-
   changes:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name }} != 'schedule'
     # Set job outputs to values from filter step
     outputs:
       doc: ${{ steps.filter.outputs.doc }}
@@ -41,9 +38,10 @@ jobs:
               - '**/*.md'
             not-doc:
               - '**/!(*.md)'
+
   linter:
     runs-on: ubuntu-latest
-    if: ${{ github.event.action }} != 'closed'
+    if: github.event.action != 'closed'
     steps:
       - uses: actions/checkout@v2
       - name: Super-Linter
@@ -52,15 +50,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_TERRAGRUNT: false
 
+
   enforce-changelog:
     runs-on: ubuntu-latest
-    if: ${{ github.event.action }} != 'closed' && ${{ github.event_name }} == 'pull_request'
+    if: github.event.action != 'closed' && github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: dangoslen/changelog-enforcer@v1.1.1
         with:
           changeLogPath: 'CHANGELOG.md'
-          skipLabel: 'skip-changelog'
+          skipLabel: 'ci/skip-changelog'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -69,17 +68,20 @@ jobs:
     runs-on: macos-latest # Macos includes virtualbox and vagrant.
     if: |
       (
-        (  ${{ github.event.action }} == 'closed' &&
-           ${{ github.event.pull_request.merged }} == true
+        ( github.event.action == 'closed' &&
+          github.event.pull_request.merged == true
         )
         && (
-          contains(${{ github.event.pull_request.labels.*.name }}, 'major') ||
-          contains(${{ github.event.pull_request.labels.*.name }}, 'minor') ||
-          contains(${{ github.event.pull_request.labels.*.name }}, 'patch')
+          contains( github.event.pull_request.labels.*.name, 'major') ||
+          contains( github.event.pull_request.labels.*.name, 'minor') ||
+          contains( github.event.pull_request.labels.*.name, 'patch')
         )
         || (
-          ${{ github.event.action }} != 'closed' &&
-          ${{ needs.changes.outputs.not-doc }} == 'true'
+          github.event.action != 'closed' &&
+          needs.changes.outputs.not-doc == 'true'
+        )
+        || (
+          github.event_name == 'schedule'
         )
       )
     steps:
@@ -194,10 +196,6 @@ jobs:
         run: make test
 
   release-prerequisites:
-    if: |
-      contains(${{ github.event.pull_request.labels.*.name }}, 'major') ||
-      contains(${{ github.event.pull_request.labels.*.name }}, 'minor') ||
-      contains(${{ github.event.pull_request.labels.*.name }}, 'patch')
     runs-on: macos-latest
     outputs:
       bump: ${{ steps.bump.outputs.match }}
@@ -207,7 +205,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: current_version
-        uses: satak/webrequest-action@v1.2.3
+        uses: satak/webrequest-action@v1.2.4
         with:
           url: https://app.vagrantup.com/api/v1/box/fredrikhgrelland/hashistack
           method: GET
@@ -241,7 +239,10 @@ jobs:
 
 
   release:
-    if:  ${{ github.event.action }} == 'closed' && ${{ github.event.pull_request.merged }} == true
+    if: >-
+      github.event.action == 'closed'
+      && github.event.pull_request.merged == true
+      && contains( github.event.pull_request.labels.*.name , 'ci/release')
     needs:
       - release-prerequisites
       - test

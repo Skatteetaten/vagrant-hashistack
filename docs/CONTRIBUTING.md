@@ -15,11 +15,27 @@ PRs are welcome if they are properly documented, including tests,
 ## Where are versions for the different tools declared?  
 
 You may change the version of tools in this [file](../ansible/group_vars/all/variables.yml).
- Remember to update the [changelog](../CHANGELOG.md) and label the PR as a release (major/minor/patch).
 
 ## Release process
 
-PRs labeled with minor, major, or patch will be built and tested as a release candidate.
+Local verification checklist:
+- `make lint` will run our superlinter configuration locally. No linter errors are allowed.
+- `make build` verifies the build locally
+- `make clean test` runs the default tests locally
+- Update the [changelog](../CHANGELOG.md) according to [semver](https://semver.org)
+- Rebase your code to logical commit units - with a meaningful message.
+
+The CI process will do an automated in-depth check of all changes needed for a release.
+
+Pull request checklist:
+- Use a meaningful PR name
+- Write a description and/or surface your changelog to the PR description.
+- Link in GH issues
+- Label the PR with corresponding change type - `change/patch` `change/minor` `change/major`.
+
+If the PR is a final release candidate:
+- Label `ci/release` to trigger the `release` job on PR merge.
+
 On successful merge, the build process will run again, now including a release job.
 The release job creates a suitable version based on the PR label, tags the repository and publishes the vagrant box on
 vagrant cloud. More information in subsequent CI chapter.
@@ -44,14 +60,17 @@ This repository will run Github actions on all pull requests against `master`. F
 
 ### These steps will _always_ run
 
+- **docker-auth:** Transplant docker hub auth to macos runner and ubuntu vm.
 - **linter:** Runs [super-linter](https://github.com/github/super-linter), ensuring code style checks ensuring consistency and code quality.
-- **build:** Builds the vagrant box using packer
-- **test:** Will run the newly built box with `make test`
+- **changes:** Evaluate if _code_ changed by filtering out documentation
+- **changes -> build:** Builds the vagrant box using packer if there are _code_ changes
+- **build - > test:** Will run the newly built box with `make test`
+- **enforce-changelog:** Make sure we have an entry/change in the CHANGELOG.md. Override by using label `ci/skip-changelog`
+- **release-prerequisites:** If PR passes build- and test stages and is designated for release, this step sets up variables for `release`-stage
 
 ### Additional steps will run when building _a release_
 
-- **release-prerequisites:** If PR passes build- and test stages and is designated for release, this step sets up variables for `release`-stage
-- **release:** Upload vagrant box to vagrant-cloud, release a version and tag release on github.
+- **release-prerequisites -> release:** Upload vagrant box to vagrant-cloud, release a version and tag release on github.
 
 ### Linters
 All PRs will run [super-linter](https://github.com/github/super-linter). Run `make lint` to check your code locally before creating a PR.
