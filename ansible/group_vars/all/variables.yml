@@ -14,6 +14,6 @@ hashicorp:
     packer: 1.7.4
   tools_enterprise:
     consul: 1.9.8+ent
-    nomad: 1.1.3+ent
+    nomad: 1.0.6+ent
     vault: 1.7.3+ent
 nomad_cni: 0.9.0
