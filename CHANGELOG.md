@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.10.2]
+## [0.11.0]
 
 ### Changed
 - Added files to .gitignore to reduce dev clutter.
@@ -8,12 +8,31 @@
 - Refactor ansible code - task -> tasks & test -> tests
 - Pinned template commit to v0.1.1
 - `make lint` will update superlinter to latest release of version 4.
+- PRs require `change/patch`/`change/minor`/`change/major` labels #305
+- Release process will only run with label `ci/release` #305
+- Updated `docs/CONTRIBUTING.md` to reflect current state and demystify release process #332
+- `skip-changelog` -> `ci/skip-changelog`
+- Bumped `satak/webrequest-action`
+- Redundant jobs deprecated - use concurrency #483
+- Bump: terraform 0.14.4 ~> 1.0.5 #479
+- Bump: consul-template 0.25.1 ~> 0.27.0 #479
+- Bump: consul 1.9.1 ~> 1.10.1 #479
+- Bump: vault 1.6.1 ~> 1.8.1 #479
+- Bump: nomad 1.0.2 ~> 1.1.3 #479
+- Bump: packer 1.6.6 ~> 1.7.4 #479
+- Bump: vagrant 2.2.14 ~> 2.2.18 #479
+- Bump: virtualbox 6.1.12 ~> 6.1.26 #479
+- Bump: fredrikhgrelland/bionic64-ansible-docker 0.2.0 ~> 0.3.0 #479
+- Remove "project" from checklist #486
 
 ### Fixed
 - Ansible - Fixed errors and warnings surfaced by linter.
 - GithubActions - Fixed errors and warnings surfaced by linter.
 - Python - Fixed errors and warnings surfaced by linter.
 - Update hashistack checksum verification #484
+- `make install` will upgrade packages on macos
+- Vault enterprise timeout is longer #476
+- GithubActions - run on schedule #466
 
 ## [0.10.1]
 
