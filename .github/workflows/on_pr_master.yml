@@ -216,11 +216,17 @@ jobs:
         with:
           allowed: change/major,change/minor,change/patch
 
+      - uses: jungwinter/split@v2
+        id: split
+        with:
+          msg: ${{ steps.bump.outputs.match }}
+          separator: '/'
+
       - id: next_version
         uses: zwaldowski/semver-release-action@v2
         with:
           dry_run: true
-          bump: ${{ steps.bump.outputs.match }}
+          bump: ${{ steps.split.outputs._1 }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Find and replace
