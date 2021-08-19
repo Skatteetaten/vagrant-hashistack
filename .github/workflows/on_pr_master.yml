@@ -56,7 +56,7 @@ jobs:
     if: github.event.action != 'closed' && github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v2
-      - uses: dangoslen/changelog-enforcer@v1.1.1
+      - uses: dangoslen/changelog-enforcer@v2.3.1
         with:
           changeLogPath: 'CHANGELOG.md'
           skipLabel: 'ci/skip-changelog'

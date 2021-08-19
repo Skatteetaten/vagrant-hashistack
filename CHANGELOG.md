@@ -24,6 +24,7 @@
 - Bump: virtualbox 6.1.12 ~> 6.1.26 #479
 - Bump: fredrikhgrelland/bionic64-ansible-docker 0.2.0 ~> 0.3.0 #479
 - Remove "project" from checklist #486
+- Update changelog-enforcer
 
 ### Fixed
 - Ansible - Fixed errors and warnings surfaced by linter.
