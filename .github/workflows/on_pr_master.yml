@@ -201,7 +201,7 @@ jobs:
       bump: ${{ steps.bump.outputs.match }}
       next_version: ${{ steps.next_version.outputs.version }}
       current_version: ${{ fromJson(steps.current_version.outputs.output).data.current_version.version }}
-      log_entry: ${{ steps.changelog_reader.outputs.log_entry }}
+      log_entry: ${{ steps.changelog_reader.outputs.changes }}
     steps:
       - uses: actions/checkout@v2
       - id: current_version
@@ -214,7 +214,7 @@ jobs:
         id: bump
         uses: zwaldowski/match-label-action@v2
         with:
-          allowed: major,minor,patch
+          allowed: change/major,change/minor,change/patch
 
       - id: next_version
         uses: zwaldowski/semver-release-action@v2
