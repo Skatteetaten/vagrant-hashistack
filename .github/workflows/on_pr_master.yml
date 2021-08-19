@@ -196,7 +196,7 @@ jobs:
         run: make test
 
   release-prerequisites:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     outputs:
       bump: ${{ steps.bump.outputs.match }}
       next_version: ${{ steps.next_version.outputs.version }}
@@ -216,11 +216,11 @@ jobs:
         with:
           allowed: change/major,change/minor,change/patch
 
-      - uses: jungwinter/split@v2
+      - uses: rishabhgupta/split-by@v1
         id: split
         with:
-          msg: ${{ steps.bump.outputs.match }}
-          separator: '/'
+          string: ${{ steps.bump.outputs.match }}
+          split-by: '/'
 
       - id: next_version
         uses: zwaldowski/semver-release-action@v2
