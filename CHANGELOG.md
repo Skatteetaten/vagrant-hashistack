@@ -17,7 +17,7 @@
 - Bump: terraform 0.14.4 ~> 1.0.5 #479
 - Bump: consul-template 0.25.1 ~> 0.27.0 #479
 - Bump: consul 1.9.1 ~> 1.10.1 #479
-- Bump: vault 1.6.1 ~> 1.8.1 #479
+- Bump: vault 1.6.1 ~> 1.7.3 #479
 - Bump: nomad 1.0.2 ~> 1.1.3 #479
 - Bump: packer 1.6.6 ~> 1.7.4 #479
 - Bump: vagrant 2.2.14 ~> 2.2.18 #479
