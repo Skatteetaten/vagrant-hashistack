@@ -11,5 +11,4 @@ labels: type/general-report
 
 ## Checklist (after created issue)
 - [ ] Added label(s)
-- [ ] Added to project
 - [ ] Added to milestone
