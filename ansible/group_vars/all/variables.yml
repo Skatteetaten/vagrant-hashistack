@@ -8,12 +8,12 @@ hashicorp:
   tools:
     terraform: 1.0.5
     consul-template: 0.27.0
-    consul: 1.10.1
+    consul: 1.9.7
     vault: 1.7.3
     nomad: 1.1.3
     packer: 1.7.4
   tools_enterprise:
-    consul: 1.10.1+ent
+    consul: 1.9.7+ent
     nomad: 1.1.3+ent
     vault: 1.7.3+ent
 nomad_cni: 0.9.0
