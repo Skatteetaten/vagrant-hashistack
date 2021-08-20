@@ -5,7 +5,7 @@ install:
 	$(MAKE) -C install
 
 build: remove-tmp remove-built-box
-	@(cd packer; packer build -force .) || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy.\nMore info https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/README.md#proxy\n\n' && exit 2)
+	@(cd packer; packer build -force .) || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy.\nMore info https://github.com/Skatteetaten/vagrant-hashistack/blob/master/README.md#proxy\n\n' && exit 2)
 
 lint:
 	@(docker pull ghcr.io/github/super-linter:v4)

@@ -69,7 +69,7 @@
       failed_when: map_producer_role.stdout is not search("Success!")
 
     # todo remove later: template depends on write role (write role associated with produce role)
-    # https://github.com/fredrikhgrelland/vagrant-hashistack-template/issues/58
+    # https://github.com/Skatteetaten/vagrant-hashistack-template/issues/58
     - name: "{{ service }} - post/vault-integration - map role write with nomad's {{ nomad.policy.producer }}"
       command: vault write nomad/role/write policies={{ nomad.policy.producer }}
       register: map_write_role

@@ -204,16 +204,8 @@ jobs:
     outputs:
       bump: ${{ steps.bump.outputs.match }}
       next_version: ${{ steps.next_version.outputs.version }}
-      current_version: ${{ fromJson(steps.current_version.outputs.output).data.current_version.version }}
       log_entry: ${{ steps.changelog_reader.outputs.changes }}
     steps:
-      - uses: actions/checkout@v2
-      - id: current_version
-        uses: satak/webrequest-action@v1.2.4
-        with:
-          url: https://app.vagrantup.com/api/v1/box/fredrikhgrelland/hashistack
-          method: GET
-
       - name: Require PR label (major/minor/patch)
         id: bump
         uses: zwaldowski/match-label-action@v2
@@ -274,7 +266,7 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: vagrant cloud publish --release --force fredrikhgrelland/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description ' ${{ needs.release-prerequisites.outputs.log_entry }}'
+          command: vagrant cloud publish --release --force Skatteetaten/hashistack ${{ needs.release-prerequisites.outputs.next_version }} virtualbox packer/output-hashistack/package.box --version-description ' ${{ needs.release-prerequisites.outputs.log_entry }}'
 
       - name: Create Release on github
         id: create_release

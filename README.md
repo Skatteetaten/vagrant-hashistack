@@ -4,22 +4,22 @@
  <p>Hashistack in one click for development & testing</p>
 </div>
 <div style="text-align: center">
-    <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/actions?query=workflow%3ACI%2FCD+branch%3Amaster">
-      <img alt="Build" src="https://img.shields.io/github/workflow/status/fredrikhgrelland/vagrant-hashistack/CI-CD/master" />
+    <a href="https://github.com/Skatteetaten/vagrant-hashistack/actions?query=workflow%3ACI%2FCD+branch%3Amaster">
+      <img alt="Build" src="https://img.shields.io/github/workflow/status/Skatteetaten/vagrant-hashistack/CI-CD/master" />
     </a>
-    <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/releases">
-      <img alt="Releases" src="https://img.shields.io/badge/dynamic/json?label=latest%20version&query=%24.current_version.version&url=https%3A%2F%2Fapp.vagrantup.com%2Fapi%2Fv1%2Fbox%2Ffredrikhgrelland%2Fhashistack" />
+    <a href="https://github.com/Skatteetaten/vagrant-hashistack/releases">
+      <img alt="Releases" src="https://img.shields.io/badge/dynamic/json?label=latest%20version&query=%24.current_version.version&url=https%3A%2F%2Fapp.vagrantup.com%2Fapi%2Fv1%2Fbox%2FSkatteetaten%2Fhashistack" />
     </a>
-    <a href="https://github.com/fredrikhgrelland/vagrant-hashistack/commits">
-      <img alt="Updated" src="https://img.shields.io/badge/dynamic/json?label=updated&query=%24.current_version.updated_at&url=https%3A%2F%2Fapp.vagrantup.com%2Fapi%2Fv1%2Fbox%2Ffredrikhgrelland%2Fhashistack" />
+    <a href="https://github.com/Skatteetaten/vagrant-hashistack/commits">
+      <img alt="Updated" src="https://img.shields.io/badge/dynamic/json?label=updated&query=%24.current_version.updated_at&url=https%3A%2F%2Fapp.vagrantup.com%2Fapi%2Fv1%2Fbox%2FSkatteetaten%2Fhashistack" />
     </a>
     <br />
     <br />
     <p>
-      <a href="https://app.vagrantup.com/fredrikhgrelland/boxes/hashistack">
+      <a href="https://app.vagrantup.com/Skatteetaten/boxes/hashistack">
          <img alt="Download og Vagrant Cloud" src="https://img.shields.io/badge/Download%20on-Vagrant%20Cloud-orange?style=for-the-badge&logo=vagrant" />
       </a>
-      <a href="https://github.com/fredrikhgrelland/vagrant-hashistack-template/generate">
+      <a href="https://github.com/Skatteetaten/vagrant-hashistack-template/generate">
          <img alt="Clone Template" src="https://img.shields.io/badge/Github-Clone%20template-blue?style=for-the-badge&logo=github" />
       </a>
     </p>
@@ -76,7 +76,7 @@ This vagrant box aims to make it dead simple to start a hashistack and emulate h
 
 ## Description - what & why
 
-This repository will build a [base-box](https://app.vagrantup.com/fredrikhgrelland/boxes/hashistack) for different projects to extend on.
+This repository will build a [base-box](https://app.vagrantup.com/Skatteetaten/boxes/hashistack) for different projects to extend on.
 The base-box contains components, and a setup that makes it ideal for working with the hashistack.
 
 **Hashistack**, in current repository context, is a set of software products by [HashiCorp](https://www.hashicorp.com/).
@@ -84,7 +84,7 @@ The base-box contains components, and a setup that makes it ideal for working wi
 ### Submodules
 
 Current repository contains [submodules](./.gitmodules)
-- [vagrant-hashistack-template](https://github.com/fredrikhgrelland/vagrant-hashistack-template)
+- [vagrant-hashistack-template](https://github.com/Skatteetaten/vagrant-hashistack-template)
 
 Check [Using submodules in Git - Tutorial](https://www.vogella.com/tutorials/GitSubmodules/article.html)
 
@@ -199,7 +199,7 @@ This will permanently export paths to your shell expected by tools used in this 
 
 ### Linux requirements
 
-- Virtualization must be enabled. [Error if it is not.](https://github.com/fredrikhgrelland/vagrant-hashistack/issues/136)
+- Virtualization must be enabled. [Error if it is not.](https://github.com/Skatteetaten/vagrant-hashistack/issues/136)
 - Packages `gpg` and `apt` must be installed.
 
 ### MacOS requirements
@@ -303,7 +303,7 @@ To override the default configuration you have several options:
 
 #### Option 1 - Change environment variables
 When the vagrant box is provisioned, it reads the data from the following environment file `/home/vagrant/.env_default` in order to set up the system.
-If you wish to override any of the default values then you can do so by adding that variable name and value in [.env](https://github.com/fredrikhgrelland/vagrant-hashistack-template/blob/master/dev/.env) file.
+If you wish to override any of the default values then you can do so by adding that variable name and value in [.env](https://github.com/Skatteetaten/vagrant-hashistack-template/blob/master/dev/.env) file.
 The property values in the `.env` file override the property values present in the `.env_default` file and thus makes it simple to provision systems that suffice the relevant development needs.
 
 Say you want to do some tweaks and use Consul Enterprise, an open-source Nomad and Vault Enterprise. Then you would need to override the following variables:
@@ -323,10 +323,10 @@ vault_enterprise=true
 ```
 
 #### Option 2 - Add/Override the configuration files
-It is possible to add and/or override the hashistack components configuration files. See documentation [here](https://github.com/fredrikhgrelland/vagrant-hashistack-template/tree/master/dev/vagrant/conf#add-or-override-hashistack-configurations)
+It is possible to add and/or override the hashistack components configuration files. See documentation [here](https://github.com/Skatteetaten/vagrant-hashistack-template/tree/master/dev/vagrant/conf#add-or-override-hashistack-configurations)
 
 #### Option 3 - Add/Override the -pre and -post tasks
-It is possible to add and/or override the hashistack components -pre and -post tasks. See documentation [here](https://github.com/fredrikhgrelland/vagrant-hashistack-template/tree/master/dev/vagrant/conf#add-pre-and-post-bootstrap-tasks)
+It is possible to add and/or override the hashistack components -pre and -post tasks. See documentation [here](https://github.com/Skatteetaten/vagrant-hashistack-template/tree/master/dev/vagrant/conf#add-pre-and-post-bootstrap-tasks)
 
 ## Usage
 
@@ -341,7 +341,7 @@ Vagrant-hashistack provides these features:
 To get a running VM using the latest release of this box run
 
 ```text
-vagrant init fredrikhgrelland/hashistack
+vagrant init Skatteetaten/hashistack
 vagrant up --provision
 ```
 
@@ -388,7 +388,7 @@ This will enable the autocorrect-feature on the ports used by consul, nomad, and
 
 ### Option-2 Starting a new project based on the template
 
-To see a full example of how to start a new project based on this box go to [template-repo](https://github.com/fredrikhgrelland/vagrant-hashistack-template).
+To see a full example of how to start a new project based on this box go to [template-repo](https://github.com/Skatteetaten/vagrant-hashistack-template).
 
 `NB` **If you are behind a transparent proxy, follow [proxy documentation](#proxy)**
 
@@ -456,7 +456,7 @@ We utilize the **matrix testing strategy** to cover all the possible and logical
 The `.env_override` file is used by the tests to override the values that are available in the `.env_default` file, as well as the user configurable `.env` file.
 
 Pay attention that we pass [extra-vars](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#id35) `ci_test=true` to the ansible provisioner.
-[Full example](https://github.com/fredrikhgrelland/vagrant-hashistack-template/blob/master/Makefile#L39)
+[Full example](https://github.com/Skatteetaten/vagrant-hashistack-template/blob/master/Makefile#L39)
 
 #### CI test configuration
 
@@ -473,7 +473,7 @@ As of today, the following tests are executed whenever a `Pull request` is creat
 |    test (consul_acl_disabled, consul_acl_deny, nomad_acl_disabled, hashicorp_oss)          |  false      |  deny               |  false        | Open source     |
 |    test (consul_acl_disabled, consul_acl_deny, nomad_acl_disabled, hashicorp_enterprise)   |  false      |  deny               |  false        | enterprise      |
 
-The latest test results can be looked up under the Actions tab [Actions](https://github.com/fredrikhgrelland/vagrant-hashistack/actions)
+The latest test results can be looked up under the Actions tab [Actions](https://github.com/Skatteetaten/vagrant-hashistack/actions)
 
 ## Diagram
 

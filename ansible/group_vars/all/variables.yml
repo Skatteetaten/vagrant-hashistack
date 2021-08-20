@@ -1,5 +1,5 @@
 # Remember to create a separate release for vagrant-hashistack when this file gets modified
-# For more information follow this link https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/docs/CONTRIBUTING.md#bumping-version-of-hashistack
+# For more information follow this link https://github.com/Skatteetaten/vagrant-hashistack/blob/master/docs/CONTRIBUTING.md#bumping-version-of-hashistack
 hashicorp:
   daemons:
     - vault
