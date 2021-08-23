@@ -32,7 +32,7 @@
 - Fixed links to reflect new repo owner #475
 - eth0 -> enp0s3 and eth1 -> enp0s8
 - master push github action process is removed
-- Release process is simplified
+- Release process is simplified.
 
 ### Fixed
 - Ansible - Fixed errors and warnings surfaced by linter.
