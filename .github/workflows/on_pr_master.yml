@@ -245,7 +245,8 @@ jobs:
 
   release:
     if: >-
-      github.event.action == 'closed'
+      always()
+      && github.event.action == 'closed'
       && github.event.pull_request.merged == true
       && contains( github.event.pull_request.labels.*.name , 'ci/release')
     needs:
