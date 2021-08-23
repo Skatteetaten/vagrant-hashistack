@@ -70,9 +70,9 @@ jobs:
           github.event.pull_request.merged == true
         )
         && (
-          contains( github.event.pull_request.labels.*.name, 'major') ||
-          contains( github.event.pull_request.labels.*.name, 'minor') ||
-          contains( github.event.pull_request.labels.*.name, 'patch')
+          contains( github.event.pull_request.labels.*.name, 'change/major') ||
+          contains( github.event.pull_request.labels.*.name, 'change/minor') ||
+          contains( github.event.pull_request.labels.*.name, 'change/patch')
         )
         || (
           github.event.action != 'closed' &&
