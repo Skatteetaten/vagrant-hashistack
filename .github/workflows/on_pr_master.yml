@@ -1,7 +1,5 @@
 name: CI-CD
 on:
-  push:
-      branches: [ master ]
   pull_request:
     branches: [ master ]
     types: [opened, synchronize, reopened, closed, labeled, unlabeled]
@@ -199,11 +197,11 @@ jobs:
         run: make test
 
   release-prerequisites:
-    if: always()
+    if: needs.enforce-changelog.result == 'skipped' || needs.enforce-changelog.result == 'success'
     needs:
       - enforce-changelog
       - linter
-      - changes
+
     runs-on: ubuntu-latest
     outputs:
       bump: ${{ steps.bump.outputs.match }}
@@ -252,6 +250,7 @@ jobs:
       && contains( github.event.pull_request.labels.*.name , 'ci/release')
     needs:
       - release-prerequisites
+      - build
 
     runs-on: macos-latest
     steps:
