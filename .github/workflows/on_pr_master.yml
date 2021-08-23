@@ -99,6 +99,9 @@ jobs:
           path: packer/output-hashistack/package.box
 
   test:
+    if: >-
+      github.event.action != 'closed'
+      && github.event.pull_request.merged != true
     needs:
       - build
       - docker-auth
@@ -196,6 +199,7 @@ jobs:
         run: make test
 
   release-prerequisites:
+    if: always()
     needs:
       - enforce-changelog
       - linter
@@ -248,7 +252,6 @@ jobs:
       && contains( github.event.pull_request.labels.*.name , 'ci/release')
     needs:
       - release-prerequisites
-      - test
 
     runs-on: macos-latest
     steps:
