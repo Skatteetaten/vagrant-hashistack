@@ -9,8 +9,10 @@
   when: (lookup('env', 'consul_acl') | bool) and ansible_local.consul.vault_integration.completed is not defined
 
 - name: "{{ service }} - pre/vault-integration - enable vault's consul secrets engine"
-  shell:
-    cmd: vault secrets enable consul
+  command: vault secrets enable consul
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
-  when: (ansible_local.vault.bootstrap.completed | bool) and (lookup('env', 'consul_acl') | bool) and ansible_local.consul.vault_integration.completed is not defined
+  when: >-
+    (ansible_local.vault.bootstrap.completed | bool)
+    and (lookup('env', 'consul_acl') | bool)
+    and ansible_local.consul.vault_integration.completed is not defined

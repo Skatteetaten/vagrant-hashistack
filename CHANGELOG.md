@@ -1,5 +1,46 @@
 # Changelog
 
+## [0.11.0]
+
+### Added
+- Building from new vagrant basebox - reducing steps and removing dependency on fredrikhgrelland/bionic64-ansible-docker #
+
+### Changed
+- Added files to .gitignore to reduce dev clutter.
+- Use versioned linter in both github actions and makefile.
+- Refactor ansible code - task -> tasks & test -> tests
+- Pinned template commit to v0.1.1
+- `make lint` will update superlinter to latest release of version 4.
+- PRs require `change/patch`/`change/minor`/`change/major` labels #305
+- Release process will only run with label `ci/release` #305
+- Updated `docs/CONTRIBUTING.md` to reflect current state and demystify release process #332
+- `skip-changelog` -> `ci/skip-changelog`
+- Bumped `satak/webrequest-action`
+- Redundant jobs deprecated - use concurrency #483
+- Bump: terraform 0.14.4 ~> 1.0.5 #479
+- Bump: consul-template 0.25.1 ~> 0.27.0 #479
+- Bump: consul 1.9.1 ~> 1.9.8 #479
+- Bump: vault 1.6.1 ~> 1.7.3 #479
+- Bump: nomad 1.0.2 ~> 1.1.3 #479
+- Bump: packer 1.6.6 ~> 1.7.4 #479
+- Bump: vagrant 2.2.14 ~> 2.2.18 #479
+- Bump: virtualbox 6.1.12 ~> 6.1.26 #479
+- Remove "project" from checklist #486
+- Update changelog-enforcer
+- Chain jobs in GithubActions
+- Removed current_version pulling from vagrantcloud (not used)
+- Fixed links to reflect new repo owner #475
+- eth0 -> enp0s3 and eth1 -> enp0s8
+
+### Fixed
+- Ansible - Fixed errors and warnings surfaced by linter.
+- GithubActions - Fixed errors and warnings surfaced by linter.
+- Python - Fixed errors and warnings surfaced by linter.
+- Update hashistack checksum verification #484
+- `make install` will upgrade packages on macos
+- Vault enterprise timeout is longer #476
+- GithubActions - run on schedule #466
+
 ## [0.10.1]
 
 ### Fixed
@@ -148,7 +189,7 @@
 - Added CHEATSHEET.md to docs, a list of commands for the CLIs #268
 - Section `Port collisions` to both template and root readme #289 #274
 - Added CHANGELOG.md in template #277
-- Section about linters and terraform formatting to [CONTRIBUTING.md](https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/docs/CONTRIBUTING.md) and [template/README.md](https://github.com/fredrikhgrelland/vagrant-hashistack-template/blob/master/README.md)
+- Section about linters and terraform formatting to [CONTRIBUTING.md](https://github.com/Skatteetaten/vagrant-hashistack/blob/master/docs/CONTRIBUTING.md) and [template/README.md](https://github.com/Skatteetaten/vagrant-hashistack-template/blob/master/README.md)
 
 ### Fixed
 - Escape single quotes in CHANGELOG.md file #296
@@ -221,7 +262,7 @@
 - consul-template: 0.25.0 -> 0.25.1
 - packer: 1.6.0 -> 1.6.1
 - terraform: 0.12.26 -> 1.13.0
-- nomad ACLs: the toggle is now done on the basis of nomad_acl from  [env.yml](https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/ansible/templates/.env_default.j2)
+- nomad ACLs: the toggle is now done on the basis of nomad_acl from  [env.yml](https://github.com/Skatteetaten/vagrant-hashistack/blob/master/ansible/templates/.env_default.j2)
 - moved installation of unzip from [install.yml](https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/ansible/install.yml) to bootstrap.sh
 - cleanup and zero out disk before box output in order to reduce time and space consumption.
 - box features can now be controlled by environment variables in `.env`

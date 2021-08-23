@@ -4,7 +4,11 @@
   set_fact:
     post_bootstrap_files: "{{ post_bootstrap_files | default({}) | combine( { (outer_item | basename): outer_item } ) }}"
   # lookup files in both box and user provided paths
-  loop: "{{ query('fileglob', 'files/bootstrap/{{ item }}/post/*.yml') + query('fileglob', '/vagrant/dev/vagrant/bootstrap/{{ item }}/post/*.yml') }}"
+  loop: >-
+    {{
+    query('fileglob', 'files/bootstrap/{{ item }}/post/*.yml')
+    + query('fileglob', '/vagrant/dev/vagrant/bootstrap/{{ item }}/post/*.yml')
+    }}
   loop_control:
     loop_var: outer_item
 

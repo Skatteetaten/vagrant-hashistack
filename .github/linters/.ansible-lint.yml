@@ -1,0 +1,3 @@
+kinds:
+  - tasks: "**/files/**/*.yml"
+  - tasks: "**/tests/**/*.yml"

@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  become: yes
+  become: true
   tasks:
     - name: Check if .env_override is provided when tests are in CI
       debug:

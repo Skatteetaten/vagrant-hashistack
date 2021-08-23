@@ -6,3 +6,4 @@
   until: result.status == 200
   retries: 60
   delay: 1
+  changed_when: result.status != 200

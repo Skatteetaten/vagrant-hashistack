@@ -1,19 +1,19 @@
 # Remember to create a separate release for vagrant-hashistack when this file gets modified
-# For more information follow this link https://github.com/fredrikhgrelland/vagrant-hashistack/blob/master/docs/CONTRIBUTING.md#bumping-version-of-hashistack
+# For more information follow this link https://github.com/Skatteetaten/vagrant-hashistack/blob/master/docs/CONTRIBUTING.md#bumping-version-of-hashistack
 hashicorp:
   daemons:
     - vault
     - consul
     - nomad
   tools:
-    terraform: 0.14.4
-    consul-template: 0.25.1
-    consul: 1.9.1
-    vault: 1.6.1
-    nomad: 1.0.2
-    packer: 1.6.6
+    terraform: 1.0.5
+    consul-template: 0.27.0
+    consul: 1.9.8
+    vault: 1.7.3
+    nomad: 1.1.3
+    packer: 1.7.4
   tools_enterprise:
-    consul: 1.9.1+ent
-    nomad: 1.0.2+ent
-    vault: 1.6.1+ent
+    consul: 1.9.8+ent
+    nomad: 1.0.6+ent
+    vault: 1.7.3+ent
 nomad_cni: 0.9.0

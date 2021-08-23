@@ -1,3 +1,4 @@
+#! /usr/bin/env python2
 import os
 
 filepath = os.path.join(
@@ -5,7 +6,9 @@ filepath = os.path.join(
 )
 
 with open(filepath) as f:
-    newText = f.read().replace(os.environ.get("FIND"), os.environ.get("REPLACE"))
+    newText = f.read().replace(
+        str(os.environ.get("FIND")), str(os.environ.get("REPLACE"))
+    )
 
 with open(filepath, "w") as f:
     f.write(newText)

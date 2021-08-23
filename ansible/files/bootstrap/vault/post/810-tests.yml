@@ -1,7 +1,7 @@
 # vault namespaces feature active when:
 # - vault_enterprise=true
-- name: "{{ service }} - post/test/ent/namespace"
-  include_tasks: test/ent/namespace.yml
+- name: "{{ service }} - post/tests/ent/namespace"
+  include_tasks: tests/ent/namespace.yml
   when: lookup('env', '{{ service }}_enterprise') | bool
   tags: test
 
@@ -9,7 +9,7 @@
   uri:
       url: http://127.0.0.1:8200/v1/pki/config/urls
       method: GET
-      return_content: yes
+      return_content: true
       headers:
           X-Vault-Token: "{{ lookup('env', 'vault_master_token') }}"
       status_code: 200

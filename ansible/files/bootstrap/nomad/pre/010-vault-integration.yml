@@ -9,10 +9,9 @@
   when: (lookup('env', 'nomad_acl') | bool) and ansible_local.nomad.vault_integration.completed is not defined
 
 - name: "{{ service }} - pre/vault-integration - enable vault's nomad secrets engine"
-  shell:
-    cmd: vault secrets enable nomad
+  command: vault secrets enable nomad
+  register: enable_nomad_backend
   environment:
     VAULT_TOKEN: "{{ lookup('env', 'vault_master_token') }}"
-
-- name: "{{ service }} - pre/vault-integration - setup nomad configuration"
-  include_tasks: task/configure-nomad.yml
+  changed_when: enable_nomad_backend.stdout is search("Success")
+  failed_when: enable_nomad_backend.rc == 2 and enable_nomad_backend.stdout is search("path is already in use at nomad")

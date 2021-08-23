@@ -36,14 +36,8 @@ dpkg --list \
 # Delete X11 libraries
 apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
 
-# Delete obsolete networking
-apt-get -y purge ppp pppconfig pppoeconf;
-
 # Delete oddities
-apt-get -y purge popularity-contest installation-report command-not-found friendly-recovery bash-completion fonts-ubuntu-font-family-console laptop-detect;
-
-# 19.10+ don't have this package so fail gracefully
-apt-get -y purge command-not-found-data || true;
+apt-get -y purge popularity-contest command-not-found friendly-recovery bash-completion fonts-ubuntu-font-family-console laptop-detect;
 
 # Exlude the files we don't need w/o uninstalling linux-firmware
 echo "==> Setup dpkg excludes for linux-firmware"
@@ -58,7 +52,7 @@ _EOF_
 rm -rf /lib/firmware/*
 rm -rf /usr/share/doc/linux-firmware/*
 
-apt-get -y autoremove;
+apt-get -y autoremove --purge;
 apt-get -y clean;
 
 # Remove docs
