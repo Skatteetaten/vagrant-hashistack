@@ -197,7 +197,7 @@ jobs:
         run: make test
 
   release-prerequisites:
-    if: needs.enforce-changelog.result == 'skipped' || needs.enforce-changelog.result == 'success'
+    if: always()
     needs:
       - enforce-changelog
       - linter
