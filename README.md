@@ -136,6 +136,7 @@ In order to build cloud native, security minded and dependable services, there e
 ### Versions
 | vagrant-hashistack | terraform | consul | nomad  | vault  | packer  | consul-template | remarks                  |
 | ------------------ | :-------- |:-------|:-------|:-------| :------ |:----------------|:-------------------------|
+| 0.11.0             |  1.0.5    | 1.9.8  | 1.1.3  | 1.7.3  | 1.7.4   | 0.27.0          |                          |
 | 0.10.0             |  0.14.1   | 1.9.1  | 1.0.2  | 1.6.1  | 1.6.6   | 0.25.1          |                          |
 | 0.9.0              |  0.13.5   | 1.8.5  | 0.12.8 | 1.6.0  | 1.6.5   | 0.25.1          |                          |
 | 0.7.1              |  0.13.4   | 1.8.4  | 0.12.5 | 1.5.4  | 1.6.4   | 0.25.1          |                          |
@@ -232,7 +233,7 @@ make install
 
 ## Build the vagrant box
 
-Make build will build a vagrant box based on [fredrikhgrelland/bionic64-ansible-docker](https://app.vagrantup.com/fredrikhgrelland/boxes/bionic64-ansible-docker). The packaged box will be locally available at ´packer/output-hashistack/package.box´:
+Make build will build a vagrant box based on [ubuntu/hirsute64](https://app.vagrantup.com/ubuntu/boxes/hirsute64). The packaged box will be locally available at ´packer/output-hashistack/package.box´:
 ```text
 make build
 ```

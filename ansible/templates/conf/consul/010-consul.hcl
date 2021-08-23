@@ -9,7 +9,7 @@ ports = {
 }
 
 addresses {
-  dns = "127.0.0.1 {{ GetInterfaceIP \"docker0\" }} {{ GetInterfaceIP \"eth0\" }} {{ GetInterfaceIP \"eth1\" }}"
-  grpc = "127.0.0.1 {{ GetInterfaceIP \"docker0\" }} {{ GetInterfaceIP \"eth0\" }} {{ GetInterfaceIP \"eth1\" }}"
-  http = "127.0.0.1 {{ GetInterfaceIP \"docker0\" }} {{ GetInterfaceIP \"eth0\" }} {{ GetInterfaceIP \"eth1\" }}"
+  dns = "127.0.0.1 {{ GetInterfaceIP \"docker0\" }} {{ GetInterfaceIP \"enp0s3\" }} {{ GetInterfaceIP \"enp0s8\" }}"
+  grpc = "127.0.0.1 {{ GetInterfaceIP \"docker0\" }} {{ GetInterfaceIP \"enp0s3\" }} {{ GetInterfaceIP \"enp0s8\" }}"
+  http = "127.0.0.1 {{ GetInterfaceIP \"docker0\" }} {{ GetInterfaceIP \"enp0s3\" }} {{ GetInterfaceIP \"enp0s8\" }}"
 }

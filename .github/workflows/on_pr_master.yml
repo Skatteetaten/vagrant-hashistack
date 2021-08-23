@@ -206,6 +206,7 @@ jobs:
       next_version: ${{ steps.next_version.outputs.version }}
       log_entry: ${{ steps.changelog_reader.outputs.changes }}
     steps:
+      - uses: actions/checkout@v2
       - name: Require PR label (major/minor/patch)
         id: bump
         uses: zwaldowski/match-label-action@v2

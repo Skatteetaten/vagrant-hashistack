@@ -4,7 +4,6 @@
 
 ### Added
 - Building from new vagrant basebox - reducing steps and removing dependency on fredrikhgrelland/bionic64-ansible-docker #
-- - Bump: fredrikhgrelland/bionic64-ansible-docker 0.2.0 ~> 0.3.0 #479
 
 ### Changed
 - Added files to .gitignore to reduce dev clutter.
@@ -31,6 +30,7 @@
 - Chain jobs in GithubActions
 - Removed current_version pulling from vagrantcloud (not used)
 - Fixed links to reflect new repo owner #475
+- eth0 -> enp0s3 and eth1 -> enp0s8
 
 ### Fixed
 - Ansible - Fixed errors and warnings surfaced by linter.
