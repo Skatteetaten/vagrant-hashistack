@@ -4,7 +4,8 @@ on:
     branches: [ master ]
     types: [opened, synchronize, reopened, closed, labeled, unlabeled]
   schedule:
-      - cron:  '0 0 * * *'
+      #- cron:  '30 5 * * *' #Daily at 05:30
+      - cron:  '*/15 * * * *' #At every 15th minute.
 
 concurrency:
   group: ${{ github.ref }}
@@ -20,14 +21,13 @@ jobs:
           path: ~/.docker/config.json
 
   changes:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     # Set job outputs to values from filter step
     outputs:
       doc: ${{ steps.filter.outputs.doc }}
       not-doc: ${{ steps.filter.outputs.not-doc }}
     steps:
-      # For pull requests it's not necessary to checkout the code
-      - uses: actions/checkout@v2
       - uses: dorny/paths-filter@v2.2.1
         id: filter
         with:
@@ -200,7 +200,7 @@ jobs:
         run: make test
 
   release-prerequisites:
-    if: always()
+    if: always() && github.event_name == 'pull_request'
     needs:
       - enforce-changelog
       - linter

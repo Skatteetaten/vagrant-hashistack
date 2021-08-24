@@ -10,5 +10,4 @@
 - [ ] Added reviewers
 - [ ] Added assignee(s)
 - [ ] Added label(s)
-- [ ] Added to project
 - [ ] Added to milestone
