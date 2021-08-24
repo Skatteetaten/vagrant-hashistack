@@ -4,8 +4,8 @@ on:
     branches: [ master ]
     types: [opened, synchronize, reopened, closed, labeled, unlabeled]
   schedule:
-      #- cron:  '30 5 * * *' #Daily at 05:30
-      - cron:  '*/15 * * * *' #At every 15th minute.
+      - cron:  '30 5 * * *' #Daily at 05:30
+      #- cron:  '*/15 * * * *' #At every 15th minute.
 
 concurrency:
   group: ${{ github.ref }}
