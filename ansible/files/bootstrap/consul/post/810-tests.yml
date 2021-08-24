@@ -1,10 +1,10 @@
 - name: "{{ service }} - post/tests/acl"
-  include_tasks: files/bootstrap/consul/post/tests/acl.yml
+  include_tasks: {{ playbook_dir }}/files/bootstrap/{{ service }}/post/tests/acl.yml
   when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
   tags: test
 
 - name: "{{ service }} - post/tests/vault-integration.yml"
-  include_tasks: files/bootstrap/consul/post/tests/vault-integration.yml
+  include_tasks: {{ playbook_dir }}/files/bootstrap/{{ service }}/post/tests/vault-integration.yml
   when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny'
   tags: test
 
@@ -13,6 +13,6 @@
 # - consul_enterprise=true
 # - consul_acl_default_policy=deny
 - name: "{{ service }} - post/tests/ent/namespace"
-  include_tasks: files/bootstrap/consul/post/tests/ent/namespace.yml
+  include_tasks: {{ playbook_dir }}/files/bootstrap/{{ service }}/post/tests/ent/namespace.yml
   when: lookup('env', 'consul_acl') | bool and lookup('env', 'consul_acl_default_policy') == 'deny' and lookup('env', "consul_enterprise") | bool
   tags: test
