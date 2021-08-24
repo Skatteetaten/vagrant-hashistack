@@ -1,18 +1,41 @@
 ### pre bootstrap tasks
-- name: "{{ service }} - collate and sort pre start tasks"
+- name: "{{ service }} - Stat packaged pre bootstrap tasks dir"
+  stat:
+    path: "files/bootstrap/{{ item }}/pre/"
+  register: box_dir
+
+- name: "{{ service }} - Stat user defined pre bootstrap tasks dir"
+  stat:
+    path: "/vagrant/dev/vagrant/bootstrap/{{ item }}/pre/"
+  register: usr_dir
+
+- name: "{{ service }} - Locate pre bootstrap tasks"
+  # lookup files in both box and user provided paths
+  ansible.builtin.find:
+    # lookup files in both box and user provided paths
+    # This filter is "crazy" - but necessary in order to not throw warnings when paths are missing
+    # We create a list of valid paths and use select() in order to reject empty paths
+    paths: >-
+      {{
+         ([
+              (box_dir.stat.isdir is defined and box_dir.stat.isdir | ternary(box_dir.stat.path,''))
+            , (usr_dir.stat.isdir is defined and usr_dir.stat.isdir | ternary(usr_dir.stat.path,''))
+         ])
+         | select()
+      }}
+    patterns:
+      - "*.yml"
+  register: task_yml
+
+- name: "{{ service }} - collate pre start tasks"
   # set_fact will create a dictionary with filename as key and full path as value
   set_fact:
-    pre_bootstrap_files: "{{ pre_bootstrap_files | default({}) | combine( { (outer_item | basename): outer_item } ) }}"
-  # lookup files in both box and user provided paths
-  loop: >-
-    {{
-    query('fileglob','files/bootstrap/{{ item }}/pre/*.yml', errors='ignore')
-    | default([]) + query('fileglob', '/vagrant/dev/vagrant/bootstrap/{{ item }}/pre/*.yml', errors='ignore')
-    }}
+    pre_bootstrap_files: "{{ pre_bootstrap_files | default({}) | combine( { (outer_item.path | basename): outer_item.path } ) }}"
+  loop: "{{ task_yml.files }}"
   loop_control:
     loop_var: outer_item
 
-- name: "{{ service }} - pre start"
+- name: "{{ service }} - sort and include pre start"
   # dictsort provides a list of tuples the second one is the full path of the file thus outer_item[1]
   include_tasks: "{{ outer_item[1] }}"
   # sort the files in lexical order

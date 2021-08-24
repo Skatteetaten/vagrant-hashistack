@@ -10,7 +10,7 @@
 - name: "{{ service }} - test - Verify enterprise binary"
   shell: "{{ service }} --version | grep +ent"
   register: ent_version_result
-  when: lookup('env', '{{ service }}_enterprise') | bool
+  when: lookup('env', service ~ '_enterprise') | bool
   tags:
     - skip_ansible_lint
 

@@ -9,6 +9,7 @@
 
 ### Fixed
 - Scheduled run should not run steps only working with Pull Requests #493
+- Ansible no longer throws warnings on missing paths #497
 
 ## [0.11.0]
 

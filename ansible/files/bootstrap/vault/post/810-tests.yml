@@ -2,7 +2,7 @@
 # - vault_enterprise=true
 - name: "{{ service }} - post/tests/ent/namespace"
   include_tasks: tests/ent/namespace.yml
-  when: lookup('env', '{{ service }}_enterprise') | bool
+  when: lookup('env', service ~ '_enterprise') | bool
   tags: test
 
 - name: "Test Vault PKI endpoint OK - read pki config urls"
