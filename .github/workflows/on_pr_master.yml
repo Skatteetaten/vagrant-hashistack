@@ -68,6 +68,7 @@ jobs:
     needs: changes
     runs-on: macos-latest # Macos includes virtualbox and vagrant.
     if: |
+      always() &&
       (
         ( github.event.action == 'closed' &&
           github.event.pull_request.merged == true
