@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.11.1]
+
+### Changes
+- Lint only changed files on Pull Requests #494
+
 ## [0.11.0]
 
 ### Added
