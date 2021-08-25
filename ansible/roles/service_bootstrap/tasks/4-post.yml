@@ -1,18 +1,40 @@
 ### post bootstrap tasks
-- name: "{{ service }} - collate and sort post bootstrap tasks"
+- name: "{{ service }} - Stat packaged post bootstrap tasks dir"
+  stat:
+    path: "files/bootstrap/{{ item }}/post/"
+  register: box_dir
+
+- name: "{{ service }} - Stat user defined post bootstrap tasks dir"
+  stat:
+    path: "/vagrant/dev/vagrant/bootstrap/{{ item }}/post/"
+  register: usr_dir
+
+- name: "{{ service }} - Locate post bootstrap tasks"
+  ansible.builtin.find:
+    # lookup files in both box and user provided paths
+    # This filter is "crazy" - but necessary in order to not throw warnings when paths are missing
+    # We create a list of valid paths and use select() in order to reject empty paths
+    paths: >-
+      {{
+         ([
+              (box_dir.stat.isdir is defined and box_dir.stat.isdir | ternary(box_dir.stat.path,''))
+            , (usr_dir.stat.isdir is defined and usr_dir.stat.isdir | ternary(usr_dir.stat.path,''))
+         ])
+         | select()
+      }}
+    patterns:
+      - "*.yml"
+  register: task_yml
+
+- name: "{{ service }} - collate post bootstrap tasks"
   # set_fact will create a dictionary with filename as key and full path as value
   set_fact:
-    post_bootstrap_files: "{{ post_bootstrap_files | default({}) | combine( { (outer_item | basename): outer_item } ) }}"
-  # lookup files in both box and user provided paths
-  loop: >-
-    {{
-    query('fileglob', 'files/bootstrap/{{ item }}/post/*.yml')
-    + query('fileglob', '/vagrant/dev/vagrant/bootstrap/{{ item }}/post/*.yml')
-    }}
+    post_bootstrap_files: "{{ post_bootstrap_files | default({}) | combine( { (outer_item.path | basename): outer_item.path } ) }}"
+  loop: "{{ task_yml.files }}"
   loop_control:
     loop_var: outer_item
 
-- name: "{{ service }} - post start"
+- name: "{{ service }} - sort and include post start"
   # dictsort provides a list of tuples the second one is the full path of the file thus outer_item[1]
   # outer_item is the "normal" loop variable "item" but since we already have service as item, we set outer_item.
   include_tasks: "{{ outer_item[1] }}"
