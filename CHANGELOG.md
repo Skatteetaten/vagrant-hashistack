@@ -2,6 +2,9 @@
 
 ## [0.11.1]
 
+### Added
+- `make destroy-all-running-boxes` added as a fix-all-my-virtualbox-vagrant-problems-now
+
 ### Changes
 - Lint only changed files on Pull Requests #494
 - Schedule CI/CD Daily at 05:30 #493

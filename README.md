@@ -253,6 +253,12 @@ Make clean will destroy and take down your box if there is any:
 make clean
 ```
 
+If you are running out of space or having trouble with virtualbox or vagrant. You may run the "get out of jail" command 
+`destroy-all-running-boxes`. It will stop ALL virtualbox vms and delete them. NB! THIS IS DESTRUCTIVE
+```text
+make destroy-all-running-boxes
+```
+
 > :bulb: You can refer to the [configuration](#configuration) section in order to get a comprehensive overview of the default configurations with which the system is set up.
 The section also provides information about steps for overriding the default system configuration.
 

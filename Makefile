@@ -1,4 +1,4 @@
-.ONESHELL .PHONY: install build test dev lint
+.ONESHELL .PHONY: install build test dev lint destroy-all-running-boxes
 .DEFAULT_GOAL := build
 
 install:
@@ -27,6 +27,9 @@ ssh:
 	(cd template; vagrant ssh)
 
 clean: remove-tmp destroy-box
+
+destroy-all-running-boxes:
+	(. ./dev/clean_all_vbox.sh)
 
 destroy-box:
 	(cd template; vagrant destroy -f)
