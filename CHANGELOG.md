@@ -6,6 +6,7 @@
 - Lint only changed files on Pull Requests #494
 - Schedule CI/CD Daily at 05:30 #493
 - Removed project from PR template
+- Update README.md with new versions
 
 ### Fixed
 - Scheduled run should not run steps only working with Pull Requests #493
