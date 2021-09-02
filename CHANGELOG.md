@@ -4,6 +4,7 @@
 
 ### Changes
 - Improve cleaning of temporary files from build/test procedures
+- Testing workflow will not fail fast when a job in the matrix fails
 
 ## [0.11.1]
 

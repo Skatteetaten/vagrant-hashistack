@@ -114,6 +114,7 @@ jobs:
     runs-on: macos-latest
 
     strategy:
+      fail-fast: false
       matrix:
         consul_acl: ["consul_acl_enabled", "consul_acl_disabled"]
         consul_acl_default_policy: ["consul_acl_deny"]
