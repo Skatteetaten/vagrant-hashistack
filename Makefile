@@ -27,12 +27,15 @@ ssh:
 	(cd template; vagrant ssh)
 
 clean: remove-tmp destroy-box
+	$(MAKE) -C template clean
 
 destroy-box:
 	(cd template; vagrant destroy -f)
 
 remove-tmp:
 	rm -fr ansible/facts.d
+	rm -rf test/.vagrant
+	rm -f super-linter.log
 
 remove-built-box:
 	cd packer

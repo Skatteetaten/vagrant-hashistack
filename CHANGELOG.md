@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.11.2]
+
+### Changes
+- Improve cleaning of temporary files from build/test procedures
+
 ## [0.11.1]
 
 ### Changes
