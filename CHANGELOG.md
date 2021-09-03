@@ -1,10 +1,18 @@
 # Changelog
 
-## [0.11.2]
+## [0.12.0]
+
+### Added
+- Box provided minio console and api exported to localhost on ports 9000 and 9001
 
 ### Changes
 - Improve cleaning of temporary files from build/test procedures
 - Testing workflow will not fail fast when a job in the matrix fails
+- Minio changes has been implemented.
+- Use slim linter
+
+### Fixed
+- Firewall opening on 10.0.3.10 range 
 
 ## [0.11.1]
 

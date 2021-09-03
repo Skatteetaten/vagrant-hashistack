@@ -8,8 +8,8 @@ build: remove-tmp remove-built-box
 	@(cd packer; packer build -force .) || (echo '\n\nIf you get an SSL error you might be behind a transparent proxy.\nMore info https://github.com/Skatteetaten/vagrant-hashistack/blob/master/README.md#proxy\n\n' && exit 2)
 
 lint:
-	@(docker pull ghcr.io/github/super-linter:v4)
-	@(docker run -v $$PWD:/tmp/lint --env RUN_LOCAL=true --env FILTER_REGEX_EXCLUDE="(packer/output-hashistack|.vagrant|template)/*" --env VALIDATE_TERRAGRUNT=false --rm ghcr.io/github/super-linter:v4)
+	@(docker pull ghcr.io/github/super-linter:slim-v4)
+	@(docker run -v $$PWD:/tmp/lint --env RUN_LOCAL=true --env FILTER_REGEX_EXCLUDE="(packer/output-hashistack|.vagrant|template)/*" --env VALIDATE_TERRAGRUNT=false --rm ghcr.io/github/super-linter:slim-v4)
 
 test:
 ifeq (,$(wildcard ./packer/output-hashistack/package.box))

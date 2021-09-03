@@ -10,8 +10,12 @@ WorkingDirectory=/usr/local/
 
 User=vagrant
 Group=vagrant
+ProtectProc=invisible
 
-ExecStart=/usr/local/bin/minio server /vagrant
+Environment=MINIO_ROOT_USER=minioadmin
+Environment=MINIO_ROOT_PASSWORD=minioadmin
+ExecStart=/usr/local/bin/minio server /vagrant --console-address :9001
+
 
 # Let systemd restart this service always
 Restart=always

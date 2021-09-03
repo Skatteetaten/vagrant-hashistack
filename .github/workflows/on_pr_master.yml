@@ -46,7 +46,7 @@ jobs:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
       - name: Super-Linter
-        uses: github/super-linter@v4
+        uses: docker://ghcr.io/github/super-linter:slim-v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_TERRAGRUNT: false
